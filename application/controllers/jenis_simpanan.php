@@ -7,9 +7,11 @@ class Jenis_simpanan extends AdminController {
 	}	
 	
 	public function index() {
+
 		$this->data['judul_browser'] = 'Setting';
 		$this->data['judul_utama'] = 'Setting';
 		$this->data['judul_sub'] = 'Jenis Simpanan';
+		$this->data['script'] = $this->load->view('jenis_simpanan', $this->data, TRUE);
 
 		$this->output->set_template('gc');
 
@@ -38,6 +40,8 @@ class Jenis_simpanan extends AdminController {
 		$this->load->section('judul_sub', 'default_v', $out);
 		$out['output'] = $this->data['u_name'];
 		$this->load->section('u_name', 'default_v', $out);
+		$out['output'] = $this->data['script'];
+		$this->load->section('script', 'default_v', $out);
 
 		$this->load->view('default_v', $output);
 		

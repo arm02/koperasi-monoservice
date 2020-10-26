@@ -131,6 +131,6 @@ ob_end_flush();
 	<script src="<?php echo base_url(); ?>assets/theme_admin/js/bootstrap.min.js" type="text/javascript"></script>
 	<!-- AdminLTE App -->
 	<script src="<?php echo base_url(); ?>assets/theme_admin/js/AdminLTE/app.js" type="text/javascript"></script>
-
+	<?php echo $this->load->get_section('script');?>
 </body>
 </html>
