@@ -2124,7 +2124,8 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	 **/
 	protected function load_js_fancybox()
 	{
-		$this->set_css($this->default_css_path.'/jquery_plugins/fancybox/jquery.fancybox.css');
+		// $this->set_css($this->default_css_path.'/jquery_plugins/fancybox/jquery.fancybox.css');
+
 
 		$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/jquery.fancybox-1.3.4.js');
 		$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/jquery.easing-1.3.pack.js');
@@ -2140,6 +2141,13 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	{
 		$this->set_css($this->default_css_path.'/ui/simple/'.grocery_CRUD::JQUERY_UI_CSS);
 		$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/ui/'.grocery_CRUD::JQUERY_UI_JS);
+	}
+
+	protected function load_js_easyui()
+	{
+		$this->set_css('assets/easyui/themes/default/easyui.css');
+		$this->set_css('assets/easyui/themes/icon.css');
+		$this->set_js_lib('assets/easyui/jquery.easyui.min.js');
 	}
 
 	protected function load_js_uploader()
