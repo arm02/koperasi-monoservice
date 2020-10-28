@@ -22,7 +22,7 @@ class Simpanan_m extends CI_Model {
 		}
 	}
 
-	//panggil data simpanan untuk laporan 
+	//panggil data simpanan untuk laporan
 	function lap_data_simpanan() {
 		$kode_transaksi = isset($_REQUEST['kode_transaksi']) ? $_REQUEST['kode_transaksi'] : '';
 		$cari_simpanan = isset($_REQUEST['cari_simpanan']) ? $_REQUEST['cari_simpanan'] : '';
@@ -30,9 +30,9 @@ class Simpanan_m extends CI_Model {
 		$tgl_sampai = isset($_REQUEST['tgl_sampai']) ? $_REQUEST['tgl_sampai'] : '';
 		$sql = '';
 		$sql = " SELECT * FROM tbl_trans_sp WHERE dk='D' ";
-		$q = array('kode_transaksi' => $kode_transaksi, 
-			'cari_simpanan' => $cari_simpanan, 
-			'tgl_dari' => $tgl_dari, 
+		$q = array('kode_transaksi' => $kode_transaksi,
+			'cari_simpanan' => $cari_simpanan,
+			'tgl_dari' => $tgl_dari,
 			'tgl_sampai' => $tgl_sampai);
 		if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
@@ -110,7 +110,7 @@ class Simpanan_m extends CI_Model {
 				if($q['cari_nama'] != '') {
 					$where .=" AND tbl_anggota.nama LIKE '%".$q['cari_nama']."%' ";
 					$sql .= " LEFT JOIN tbl_anggota ON (tbl_anggota.id = tbl_trans_sp.anggota_id) ";
-				}	
+				}
 
 				if($q['cari_simpanan'] != '') {
 					$where .=" AND tbl_trans_sp.jenis_id = '".$q['cari_simpanan']."%' ";
@@ -133,8 +133,8 @@ class Simpanan_m extends CI_Model {
 	public function create() {
 		if(str_replace(',', '', $this->input->post('jumlah')) <= 0) {
 			return FALSE;
-		}		
-		$data = array(			
+		}
+		$data = array(
 			'tgl_transaksi'		=>	$this->input->post('tgl_transaksi'),
 			'anggota_id'			=>	$this->input->post('anggota_id'),
 			'jenis_id'				=>	$this->input->post('jenis_id'),
@@ -173,6 +173,6 @@ class Simpanan_m extends CI_Model {
 	}
 
 	public function delete($id) {
-		return $this->db->delete('tbl_trans_sp', array('id' => $id)); 
+		return $this->db->delete('tbl_trans_sp', array('id' => $id));
 	}
 }

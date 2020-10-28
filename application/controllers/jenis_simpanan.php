@@ -3,9 +3,9 @@
 class Jenis_simpanan extends AdminController {
 
 	public function __construct() {
-		parent::__construct();	
-	}	
-	
+		parent::__construct();
+	}
+
 	public function index() {
 		$this->data['judul_browser'] = 'Setting';
 		$this->data['judul_utama'] = 'Setting';
@@ -17,14 +17,14 @@ class Jenis_simpanan extends AdminController {
 		$crud = new grocery_CRUD();
 		$crud->set_table('jns_simpan');
 		$crud->set_subject('Jenis Simpanan');
-	
-		
+
+
 		$crud->display_as('jns_simpan','Jenis Simpanan');
 		$crud->fields('jumlah','tampil');
 
 		$crud->required_fields('jns_simpan');
 
-		
+
 		$crud->unset_read();
 		$crud->unset_add();
 		$crud->unset_delete();
@@ -40,8 +40,10 @@ class Jenis_simpanan extends AdminController {
 		$this->load->section('u_name', 'default_v', $out);
 
 		$this->load->view('default_v', $output);
-		
+
 
 	}
+
+	
 
 }
