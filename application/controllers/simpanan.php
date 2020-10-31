@@ -2,11 +2,11 @@
 
 class Simpanan extends OperatorController {
 	public function __construct() {
-		parent::__construct();	
+		parent::__construct();
 		$this->load->helper('fungsi');
 		$this->load->model('simpanan_m');
 		$this->load->model('general_m');
-	}	
+	}
 
 	public function index() {
 		$this->data['judul_browser'] = 'Transaksi';
@@ -40,7 +40,7 @@ class Simpanan extends OperatorController {
 		$q = isset($_POST['q']) ? $_POST['q'] : '';
 		$data   = $this->general_m->get_data_anggota_ajax($q);
 		$i	= 0;
-		$rows   = array(); 
+		$rows   = array();
 		foreach ($data['data'] as $r) {
 			if($r->file_pic == '') {
 				$rows[$i]['photo'] = '<img src="'.base_url().'assets/theme_admin/img/photo.jpg" alt="default" width="30" height="40" />';
@@ -50,7 +50,7 @@ class Simpanan extends OperatorController {
 			$rows[$i]['id'] = $r->id;
 			$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r->id) . '<br>' . $r->identitas;
 			$rows[$i]['nama'] = $r->nama;
-			$rows[$i]['kota'] = $r->kota. '<br>' . $r->departement;		
+			$rows[$i]['kota'] = $r->kota. '<br>' . $r->departement;
 			$i++;
 		}
 		//keys total & rows wajib bagi jEasyUI
@@ -86,24 +86,24 @@ class Simpanan extends OperatorController {
 		$cari_nama = isset($_POST['cari_nama']) ? $_POST['cari_nama'] : '';
 		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
 		$tgl_sampai = isset($_POST['tgl_sampai']) ? $_POST['tgl_sampai'] : '';
-		$search = array('kode_transaksi' => $kode_transaksi, 
+		$search = array('kode_transaksi' => $kode_transaksi,
 			'cari_simpanan' => $cari_simpanan,
 			'cari_nama' => $cari_nama,
-			'tgl_dari' => $tgl_dari, 
+			'tgl_dari' => $tgl_dari,
 			'tgl_sampai' => $tgl_sampai);
 		$offset = ($offset-1)*$limit;
 		$data   = $this->simpanan_m->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
 		$i	= 0;
-		$rows   = array(); 
+		$rows   = array();
 
 		foreach ($data['data'] as $r) {
 			$tgl_bayar = explode(' ', $r->tgl_transaksi);
 			$txt_tanggal = jin_date_ina($tgl_bayar[0]);
-			$txt_tanggal .= ' - ' . substr($tgl_bayar[1], 0, 5);		
+			$txt_tanggal .= ' - ' . substr($tgl_bayar[1], 0, 5);
 
 			//array keys ini = attribute 'field' di view nya
-			$anggota = $this->general_m->get_data_anggota($r->anggota_id);  
-			$nama_simpanan = $this->general_m->get_jns_simpanan($r->jenis_id);  
+			$anggota = $this->general_m->get_data_anggota($r->anggota_id);
+			$nama_simpanan = $this->general_m->get_jns_simpanan($r->jenis_id);
 
 			$rows[$i]['id'] = $r->id;
 			$rows[$i]['id_txt'] ='TRD' . sprintf('%05d', $r->id) . '';
@@ -189,8 +189,8 @@ class Simpanan extends OperatorController {
 			exit();
 		}
 
-		$tgl_dari = $_REQUEST['tgl_dari']; 
-		$tgl_sampai = $_REQUEST['tgl_sampai']; 
+		$tgl_dari = $_REQUEST['tgl_dari'];
+		$tgl_sampai = $_REQUEST['tgl_sampai'];
 
 		$this->load->library('Pdf');
 		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
@@ -252,5 +252,5 @@ class Simpanan extends OperatorController {
 		</table>';
 		$pdf->nsi_html($html);
 		$pdf->Output('trans_sp'.date('Ymd_His') . '.pdf', 'I');
-	} 
+	}
 }

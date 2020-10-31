@@ -38,22 +38,22 @@ class Pengeluaran_m extends CI_Model {
 		}
 	}
 
-	//panggil data simpanan untuk laporan 
+	//panggil data simpanan untuk laporan
 	function lap_data_pengeluaran() {
 		$kode_transaksi = isset($_REQUEST['kode_transaksi']) ? $_REQUEST['kode_transaksi'] : '';
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_sampai']) ? $_REQUEST['tgl_sampai'] : '';
 		$sql = '';
 		$sql = " SELECT * FROM tbl_trans_kas WHERE akun='Pengeluaran' ";
-		$q = array('kode_transaksi' => $kode_transaksi, 
-			'tgl_dari' => $tgl_dari, 
+		$q = array('kode_transaksi' => $kode_transaksi,
+			'tgl_dari' => $tgl_dari,
 			'tgl_sampai' => $tgl_sampai);
 		if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
 				$q['kode_transaksi'] = str_replace('TKK', '', $q['kode_transaksi']);
 				$q['kode_transaksi'] = $q['kode_transaksi'] * 1;
 				$sql .=" AND id LIKE '".$q['kode_transaksi']."' ";
-			} else {			
+			} else {
 				if($q['tgl_dari'] != '' && $q['tgl_sampai'] != '') {
 					$sql .=" AND DATE(tgl_catat) >= '".$q['tgl_dari']."' ";
 					$sql .=" AND DATE(tgl_catat) <= '".$q['tgl_sampai']."' ";
@@ -69,7 +69,7 @@ class Pengeluaran_m extends CI_Model {
 		}
 	}
 
-	//hitung jumlah total 
+	//hitung jumlah total
 	function get_jml_pengeluaran() {
 		$this->db->select('SUM(jumlah) AS jml_total');
 		$this->db->from('tbl_trans_kas');
@@ -103,8 +103,8 @@ class Pengeluaran_m extends CI_Model {
 	public function create() {
 		if(str_replace(',', '', $this->input->post('jumlah')) <= 0) {
 			return FALSE;
-		}		
-		$data = array(			
+		}
+		$data = array(
 			'tgl_catat'				=>	$this->input->post('tgl_transaksi'),
 			'jumlah'					=>	str_replace(',', '', $this->input->post('jumlah')),
 			'keterangan'			=>	$this->input->post('ket'),
@@ -136,6 +136,6 @@ class Pengeluaran_m extends CI_Model {
 	}
 
 	public function delete($id){
-		return $this->db->delete('tbl_trans_kas', array('id' => $id)); 
+		return $this->db->delete('tbl_trans_kas', array('id' => $id));
 	}
 }
