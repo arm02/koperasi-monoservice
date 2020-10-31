@@ -87,6 +87,19 @@ class Simpanan_m extends CI_Model {
 		}
 	}
 
+	function get_all_jenis_simpan() {
+		$this->db->select('*');
+		$this->db->from('jns_simpan');
+		$this->db->order_by('id', 'ASC');
+		$query = $this->db->get();
+		if($query->num_rows()>0){
+			$out = $query->result();
+			return $out;
+		} else {
+			return FALSE;
+		}
+	}
+
 	function get_data_jenis_simpan($limit, $start) {
 		$this->db->select('*');
 		$this->db->from('jns_simpan');

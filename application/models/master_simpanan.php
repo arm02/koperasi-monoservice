@@ -8,18 +8,17 @@ class Master_simpanan extends CI_Model {
 
 	//panggil data simpanan untuk laporan
 	function lap_data_simpanan() {
-		$jenis_simpanan = isset($_REQUEST['jenis_simpanan']) ? $_REQUEST['jenis_simpanan'] : '';
+		$jns_simpan = isset($_REQUEST['jns_simpan']) ? $_REQUEST['jns_simpan'] : '';
 		$tampil = isset($_REQUEST['tampil']) ? $_REQUEST['tampil'] : '';
-		$sql = '';
-		$sql = " SELECT * FROM jns_simpan WHERE ";
-		$q = array('jenis_simpanan' => $jenis_simpanan,
+		$sql = " SELECT * FROM jns_simpan";
+		$q = array('jns_simpan' => $jns_simpan,
 			'tampil' => $tampil);
 		if(is_array($q)) {
-			if($q['jenis_simpanan'] != '') {
-				$sql .=" jns_simpan = '".$q['jenis_simpanan']."%' ";
+			if($q['jns_simpan'] != '') {
+				$sql .=" WHERE jns_simpan = '".$q['jns_simpan']."'";
 			} else {
 				if($q['tampil'] != '') {
-					$sql .=" tampil = '".$q['tampil']."%' ";
+					$sql .=" WHERE tampil = '".$q['tampil']."'";
 				}
 			}
 		}
@@ -35,7 +34,7 @@ class Master_simpanan extends CI_Model {
 	//panggil data simpanan untuk esyui
 	function get_data_transaksi_ajax($offset, $limit, $q='', $sort, $order) {
 		$sql = "SELECT jns_simpan.* FROM jns_simpan ";
-		$where = " WHERE ";
+		$where = " ";
 		if(is_array($q)) {
 			if($q['jenis_simpanan'] != '') {
 				$where .=" jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
@@ -58,7 +57,7 @@ class Master_simpanan extends CI_Model {
 			return FALSE;
 		}
 		$data = array(
-			'jns_simpan'		=>	$this->input->post('jenis_simpan'),
+			'jns_simpan'		=>	$this->input->post('jns_simpan'),
 			'tampil'				=>	$this->input->post('tampil'),
 			'jumlah'				=>	str_replace(',', '', $this->input->post('jumlah'))
 			);
@@ -73,7 +72,7 @@ class Master_simpanan extends CI_Model {
 		$tanggal_u = date('Y-m-d H:i');
 		$this->db->where('id', $id);
 		return $this->db->update('jns_simpan',array(
-			'jns_simpan'		=>	$this->input->post('jenis_simpan'),
+			'jns_simpan'		=>	$this->input->post('jns_simpan'),
 			'tampil'				=>	$this->input->post('tampil'),
 			'jumlah'				=>	str_replace(',', '', $this->input->post('jumlah'))
 			));
