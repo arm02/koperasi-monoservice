@@ -45,7 +45,7 @@ if($success_message !== null){?>
 <div class="flexigrid" style='width: 100%;' data-unique-hash="<?php echo $unique_hash; ?>">
 	<div id="hidden-operations" class="hidden-operations"></div>
 	<div class="mDiv">
-		<div class="pull-right" style="vertical-align: middle;">
+		<!-- <div class="pull-right" style="vertical-align: middle;">
 			<div id="filter_tgl" class="input-group" style="display: inline;">
 				<button class="btn btn-default" id="daterange-btn" style="line-height:16px;border:1px solid #ccc">
 					<i class="fa fa-calendar"></i> <span id="reportrange"><span> Tanggal</span></span>
@@ -67,7 +67,7 @@ if($success_message !== null){?>
 			<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
-		</div>
+		</div> -->
 		<div class="ftitle">
 			<?php if(strtolower($subject) != 'record'): echo $subject; else: echo '&nbsp;'; endif; ?>
 		</div>

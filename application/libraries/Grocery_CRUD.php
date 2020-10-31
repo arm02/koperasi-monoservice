@@ -3432,7 +3432,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 	private $add_fields_checked		= false;
 	private $edit_fields_checked	= false;
 
-	protected $default_theme		= 'flexigrid';
+	protected $default_theme		= 'datatables';
 	protected $language				= null;
 	protected $lang_strings			= array();
 	protected $php_date_format		= null;

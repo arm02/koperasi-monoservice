@@ -87,13 +87,32 @@ class Simpanan_m extends CI_Model {
 		}
 	}
 
+	function get_data_jenis_simpan($limit, $start) {
+		$this->db->select('*');
+		$this->db->from('jns_simpan');
+		$this->db->order_by('id', 'ASC');
+		$this->db->limit($limit, $start);
+		$query = $this->db->get();
+		if($query->num_rows()>0){
+			$out = $query->result();
+			return $out;
+		} else {
+			return FALSE;
+		}
+	}
+
+	//hitung jumlah total simpanan
+	// function get_jml_simpanan() {
+	// 	$this->db->select('SUM(jumlah) AS jml_total');
+	// 	$this->db->from('tbl_trans_sp');
+	// 	$this->db->where('dk','D');
+	// 	$query = $this->db->get();
+	// 	return $query->row();
+	// }
 	//hitung jumlah total simpanan
 	function get_jml_simpanan() {
-		$this->db->select('SUM(jumlah) AS jml_total');
-		$this->db->from('tbl_trans_sp');
-		$this->db->where('dk','D');
-		$query = $this->db->get();
-		return $query->row();
+		$this->db->select('*');
+		return $this->db->count_all_results('jns_simpan');
 	}
 
 	//panggil data simpanan untuk esyui

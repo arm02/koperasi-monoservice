@@ -4,9 +4,9 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 
 	public function __construct() {
 		parent::__construct();	
-		$this->load->helper('fungsi');
 		$this->load->model('general_m');
 		$this->load->model('lap_simpanan_m');
+		$this->load->helper('fungsi');
 	}	
 
 	public function index() {
