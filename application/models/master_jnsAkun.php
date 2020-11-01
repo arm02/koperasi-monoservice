@@ -11,16 +11,20 @@ class Master_jnsAkun extends CI_Model {
 		$jns_trans = isset($_REQUEST['jns_trans']) ? $_REQUEST['jns_trans'] : '';
 		$akun = isset($_REQUEST['akun']) ? $_REQUEST['akun'] : '';
 		$sql = '';
-		$sql = " SELECT * FROM jns_akun ";
+		$sql = " SELECT jns_akun.* FROM jns_akun ";
 		$q = array('jns_trans' => $jns_trans,
 			'akun' => $akun);
 		if(is_array($q)) {
 			if($q['jns_trans'] != '') {
-				$sql .="WHERE jns_trans = '".$q['jns_trans']."%' ";
+				$sql .="WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' ";
 			} else {
 				if($q['akun'] != '') {
-					$sql .="WHERE akun = '".$q['akun']."%' ";
+					$sql .="WHERE jns_akun.akun = '".$q['akun']."'";
 				}
+			}
+
+			if($q['jns_trans'] != '' && $q['akun'] != ''){
+				$where = "WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' AND jns_akun.akun = '".$q['akun']."' ";
 			}
 		}
 		$query = $this->db->query($sql);
@@ -41,8 +45,12 @@ class Master_jnsAkun extends CI_Model {
 				$where .="WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' ";
 			} else {
 				if($q['akun'] != '') {
-					$where .="WHERE jns_akun.akun = '%".$q['akun']."%' ";
+					$where .="WHERE jns_akun.akun = '".$q['akun']."' ";
 				}
+			}
+
+			if($q['jns_trans'] != '' && $q['akun'] != ''){
+				$where = "WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' AND jns_akun.akun = '".$q['akun']."' ";
 			}
 		}
 		$sql .= $where;

@@ -15,11 +15,15 @@ class Master_simpanan extends CI_Model {
 			'tampil' => $tampil);
 		if(is_array($q)) {
 			if($q['jns_simpan'] != '') {
-				$sql .=" WHERE jns_simpan = '".$q['jns_simpan']."'";
+				$sql .=" WHERE jns_simpan LIKE '%".$q['jns_simpan']."%'";
 			} else {
 				if($q['tampil'] != '') {
 					$sql .=" WHERE tampil = '".$q['tampil']."'";
 				}
+			}
+
+			if($q['jns_simpan'] != '' && $q['tampil'] != ''){
+				$where = "WHERE jns_simpan.tampil = '".$q['tampil']."' AND jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
 			}
 		}
 		$query = $this->db->query($sql);
@@ -37,11 +41,15 @@ class Master_simpanan extends CI_Model {
 		$where = " ";
 		if(is_array($q)) {
 			if($q['jenis_simpanan'] != '') {
-				$where .=" jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
+				$where .="WHERE jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
 			} else {
 				if($q['tampil'] != '') {
-					$where .=" jns_simpan.tampil = '%".$q['tampil']."%' ";
+					$where .="WHERE jns_simpan.tampil = '".$q['tampil']."' ";
 				}
+			}
+
+			if($q['jenis_simpanan'] != '' && $q['tampil'] != ''){
+				$where = "WHERE jns_simpan.tampil = '".$q['tampil']."' AND jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
 			}
 		}
 		$sql .= $where;

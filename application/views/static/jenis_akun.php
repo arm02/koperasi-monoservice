@@ -58,7 +58,13 @@ striped="true">
 		</div> -->
 		<span>Cari :</span>
 		<input name="jns_trans" id="jns_trans_cari" size="22" placeholder="[Jenis Transaksi]" style="line-height:22px;border:1px solid #ccc;">
-		<input name="akun" id="akun_cari" size="22" placeholder="[Akun]" style="line-height:22px;border:1px solid #ccc;">
+		<!-- <input name="akun" id="akun_cari" size="22" placeholder="[Akun]" style="line-height:22px;border:1px solid #ccc;"> -->
+		<select id="akun_cari" name="akun" style="width:170px; height:27px" >
+			<option value=""> -- Pilih Akun --</option>			
+			<option value="Pasiva">Pasiva</option>
+			<option value="Aktiva">Aktiva</option>
+		</select>
+
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -156,7 +162,7 @@ var url;
 function doSearch(){
 	$('#dg').datagrid('load',{
 		jns_trans: $('#jns_trans_cari').val(),
-		akun: $('#akun_cari').val(),
+		akuns: $('#akun_cari').val(),
 	});
 }
 

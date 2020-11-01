@@ -82,7 +82,7 @@ class Jenis_akun extends AdminController {
 		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'jns_simpan';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$jns_trans = isset($_POST['jns_trans']) ? $_POST['jns_trans'] : '';
-		$akun = isset($_POST['akun']) ? $_POST['akun'] : '';
+		$akun = isset($_POST['akuns']) ? $_POST['akuns'] : '';
 		$search = array('jns_trans' => $jns_trans,
 			'akun' => $akun);
 		$offset = ($offset-1)*$limit;
