@@ -18,26 +18,21 @@ td, div {
 </style>
 
 <!-- Data Grid -->
-<table   id="dg" 
+<table id="dg" 
 class="easyui-datagrid"
-title="Data Master Jenis Simpanan" 
+title="Data Jenis Angsuran" 
 style="width:auto; height: auto;" 
-url="<?php echo site_url('jenis_akun/ajax_list'); ?>" 
+url="<?php echo site_url('jenis_angsuran/ajax_list'); ?>" 
 pagination="true" rownumbers="true" 
 fitColumns="true" singleSelect="true" collapsible="true"
-sortName="jns_trans" sortOrder="desc"
+sortName="ket" sortOrder="desc"
 toolbar="#tb"
 striped="true">
 <thead>
 	<tr>
 		<th data-options="field:'id', sortable:'true',halign:'center', align:'center'" hidden="true">ID</th>
-		<th data-options="field:'kd_aktiva', width:'17', halign:'center', align:'center'">KD Aktivita</th>
-		<th data-options="field:'jns_trans',halign:'center', align:'center', width:'25'">Jenis Transaksi</th>
-		<th data-options="field:'akun', width:'25', halign:'center', align:'center'">Akun</th>
-		<th data-options="field:'pemasukan', width:'25', halign:'center', align:'center'">Pemasukan</th>
-		<th data-options="field:'pengeluaran', width:'25', halign:'center', align:'center'">Pengeluaran</th>
-		<th data-options="field:'aktif', width:'25', halign:'center', align:'center'">Aktif</th>
-		<th data-options="field:'laba_rugi', width:'25', halign:'center', align:'center'">Laba Rugi</th>
+		<th data-options="field:'ket', width:'17', halign:'center', align:'center'">Lama Angsuran (Bulan)</th>
+		<th data-options="field:'aktif',halign:'center', align:'center', width:'25'">Aktif</th>
 	</tr>
 </thead>
 </table>
@@ -57,12 +52,10 @@ striped="true">
 			</button>
 		</div> -->
 		<span>Cari :</span>
-		<input name="jns_trans" id="jns_trans_cari" size="22" placeholder="[Jenis Transaksi]" style="line-height:22px;border:1px solid #ccc;">
-		<!-- <input name="akun" id="akun_cari" size="22" placeholder="[Akun]" style="line-height:22px;border:1px solid #ccc;"> -->
-		<select id="akun_cari" name="akun" style="width:170px; height:27px" >
-			<option value=""> -- Pilih Akun --</option>			
-			<option value="Pasiva">Pasiva</option>
-			<option value="Aktiva">Aktiva</option>
+		<select id="aktif_cari" name="aktif" style="width:170px; height:27px" >
+			<option value=""> -- Pilih Aktif --</option>			
+			<option value="Y">Y</option>
+			<option value="T">T</option>
 		</select>
 
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
@@ -79,74 +72,22 @@ striped="true">
 				<td>
 					<table>
 						<tr style="height:35px">
-							<td> KD Aktiva</td>
+							<td> Lama Angsuran (Bulan) </td>
 							<td>:</td>
 							<td>
-								<input id="kd_aktiva" name="kd_aktiva" style="width:190px; height:20px" >
+								<input type="number" id="ket" name="ket" style="width:190px; height:20px" >
 							</td>	
-						</tr>
-						<tr style="height:35px">
-							<td> Jenis Transaksi</td>
-							<td>:</td>
-							<td>
-								<input id="jns_trans" name="jns_trans" style="width:190px; height:20px" >
-							</td>	
-						</tr>
-						<tr style="height:35px">
-							<td> Akun </td>
-							<td>:</td>
-							<td>
-								<select id="akun" name="akun" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0" selected disabled> -- Pilih Akun --</option>
-									<option value="Aktiva">Aktiva</option>
-									<option value="Pasiva">Pasiva</option>
-								</select>
-							</td>
-						</tr>
-						<tr style="height:35px">
-							<td>Pemasukan</td>
-							<td>:</td>
-							<td>
-								<select id="pemasukan" name="pemasukan" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0" selected disabled> -- Pilih Pemasukan --</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
-								</select>
-							</td>
-						</tr>
-						<tr style="height:35px">
-							<td>Pengeluaran</td>
-							<td>:</td>
-							<td>
-								<select id="pengeluaran" name="pengeluaran" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0" selected disabled> -- Pilih Pengeluaran --</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
-								</select>
-							</td>
 						</tr>
 						<tr style="height:35px">
 							<td>Aktif</td>
 							<td>:</td>
 							<td>
 								<select id="aktif" name="aktif" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0" selected disabled> -- Pilih Aktif --</option>
+									<option value="0" selected disabled> -- Pilih Pemasukan --</option>
 									<option value="Y">Y</option>
-									<option value="N">N</option>
+									<option value="T">T</option>
 								</select>
 							</td>
-						</tr>
-						<tr style="height:35px">
-							<td> Laba Rugi </td>
-							<td>:</td>
-							<td>
-								<input id="laba_rugi" name="laba_rugi" style="width:190px; height:20px" >
-								<select id="laba_rugi" name="laba_rugi" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0" selected disabled> -- Pilih Laba Rugi --</option>
-									<option value="PENDAPATAN">PENDAPATAN</option>
-									<option value="BIAYA">BIAYA</option>
-								</select>
-							</td>	
 						</tr>
 				</table>
 				</td>
@@ -166,8 +107,7 @@ var url;
 
 function doSearch(){
 	$('#dg').datagrid('load',{
-		jns_trans: $('#jns_trans_cari').val(),
-		akuns: $('#akun_cari').val(),
+		aktif: $('#aktif_cari').val(),
 	});
 }
 
@@ -179,32 +119,32 @@ function create(){
 	$('#dialog-form').dialog('open').dialog('setTitle','Tambah Data');
 	$('#form').form('clear');
 
-	url = '<?php echo site_url('jenis_akun/create'); ?>';
+	url = '<?php echo site_url('jenis_angsuran/create'); ?>';
 }
 
 function save() {
 	var string = $("#form").serialize();
 	//validasi teks kosong
-	var jenis_id = $("#jns_trans").val();
-	if(jenis_id == 0) {
+	var ket = $("#ket").val();
+	if(ket == 0) {
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Jenis Transaksi Kosong.</div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Lama Angsuran (Bulan) Kosong.</div>',
 			timeout:2000,
 			showType:'slide'
 		});
-		$("#jns_trans").focus();
+		$("#ket").focus();
 		return false;
 	}
-	var akun = $("#akun").val();
-	if(akun == 0) {
+	var aktif = $("#aktif").val();
+	if(aktif == 0) {
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, data Akun Kosong !.</div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, data aktif Kosong !.</div>',
 			timeout:2000,
 			showType:'slide'
 		});
-		$("#akun").focus();
+		$("#aktif").focus();
 		return false;
 	}
 
@@ -244,7 +184,7 @@ function update(){
 	if(row){
 		jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 		jQuery('#form').form('load',row);
-		url = '<?php echo site_url('jenis_akun/update'); ?>/' + row.id;
+		url = '<?php echo site_url('jenis_angsuran/update'); ?>/' + row.id;
 		
 	}else {
 		$.messager.show({
@@ -259,11 +199,11 @@ function update(){
 function hapus(){  
 	var row = $('#dg').datagrid('getSelected');  
 	if (row){ 
-		$.messager.confirm('Konfirmasi','Apakah Anda akan menghapus data kode transaksi : <code>' + row.jns_trans + '</code> ?',function(r){  
+		$.messager.confirm('Konfirmasi','Apakah Anda akan menghapus data Lama Angsuran : <code>' + row.ket + '</code> ?',function(r){  
 			if (r){  
 				$.ajax({
 					type	: "POST",
-					url		: "<?php echo site_url('jenis_akun/delete'); ?>",
+					url		: "<?php echo site_url('jenis_angsuran/delete'); ?>",
 					data	: 'id='+row.id,
 					success	: function(result){
 						var result = eval('('+result+')');
@@ -300,10 +240,9 @@ function hapus(){
 }
 
 function cetak () {
-	var jns_trans 	= $('#jns_trans_cari').val();
-	var akun 	= $('#akun_cari').val();
+	var aktif = $('#aktif_cari').val()
 	
-	var win = window.open('<?php echo site_url("jenis_akun/cetak_laporan/?jns_trans=' + jns_trans + '&akun=' + akun + '"); ?>');
+	var win = window.open('<?php echo site_url("jenis_angsuran/cetak_laporan/?ket=' + ket + '&aktif=' + aktif + '"); ?>');
 	if (win) {
 		win.focus();
 	} else {
