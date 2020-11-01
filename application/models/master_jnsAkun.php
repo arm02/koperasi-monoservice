@@ -10,16 +10,16 @@ class Master_jnsAkun extends CI_Model {
 	function lap_data_jns_akun() {
 		$jns_trans = isset($_REQUEST['jns_trans']) ? $_REQUEST['jns_trans'] : '';
 		$akun = isset($_REQUEST['akun']) ? $_REQUEST['akun'] : '';
-		$sql = '';
 		$sql = " SELECT jns_akun.* FROM jns_akun ";
+		$where = "";
 		$q = array('jns_trans' => $jns_trans,
 			'akun' => $akun);
 		if(is_array($q)) {
 			if($q['jns_trans'] != '') {
-				$sql .="WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' ";
+				$where .="WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' ";
 			} else {
 				if($q['akun'] != '') {
-					$sql .="WHERE jns_akun.akun = '".$q['akun']."'";
+					$where .="WHERE jns_akun.akun = '".$q['akun']."'";
 				}
 			}
 
@@ -27,6 +27,7 @@ class Master_jnsAkun extends CI_Model {
 				$where = "WHERE jns_akun.jns_trans LIKE '%".$q['jns_trans']."%' AND jns_akun.akun = '".$q['akun']."' ";
 			}
 		}
+		$sql.=$where;
 		$query = $this->db->query($sql);
 		if($query->num_rows() > 0) {
 			$out = $query->result();

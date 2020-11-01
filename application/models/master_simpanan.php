@@ -23,7 +23,7 @@ class Master_simpanan extends CI_Model {
 			}
 
 			if($q['jns_simpan'] != '' && $q['tampil'] != ''){
-				$where = "WHERE jns_simpan.tampil = '".$q['tampil']."' AND jns_simpan.jns_simpan LIKE '%".$q['jenis_simpanan']."%' ";
+				$where = "WHERE jns_simpan.tampil = '".$q['tampil']."' AND jns_simpan.jns_simpan LIKE '%".$q['jns_simpan']."%' ";
 			}
 		}
 		$query = $this->db->query($sql);
