@@ -4,9 +4,11 @@ class Anggota extends OperatorController {
 
 	public function __construct() {
 		parent::__construct();	
+		$this->load->helper('fungsi');
+		$this->load->model('master_anggota');
 	}	
 	
-	public function index() {
+	public function indexs() {
 		$this->data['judul_browser'] = 'Data';
 		$this->data['judul_utama'] = 'Data';
 		$this->data['judul_sub'] = 'Anggota <a href="'.site_url('anggota/import').'" class="btn btn-sm btn-success">Import Data</a>';
@@ -129,6 +131,246 @@ class Anggota extends OperatorController {
 
 	}
 
+
+	public function index() {
+		$this->data['judul_browser'] = 'Setting';
+		$this->data['judul_utama'] = 'Setting';
+		$this->data['judul_sub'] = 'Anggota <a href="'.site_url('anggota/import').'" class="btn btn-sm btn-success">Import Data</a>';
+
+		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/default/easyui.css';
+		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/icon.css';
+		$this->data['js_files'][] = base_url() . 'assets/easyui/jquery.easyui.min.js';
+
+		#include tanggal
+		$this->data['css_files'][] = base_url() . 'assets/extra/bootstrap_date_time/css/bootstrap-datetimepicker.min.css';
+		$this->data['js_files'][] = base_url() . 'assets/extra/bootstrap_date_time/js/bootstrap-datetimepicker.min.js';
+		$this->data['js_files'][] = base_url() . 'assets/extra/bootstrap_date_time/js/locales/bootstrap-datetimepicker.id.js';
+
+		#include daterange
+		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
+		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
+
+		//number_format
+		$this->data['js_files'][] = base_url() . 'assets/extra/fungsi/number_format.js';
+
+		$this->data['isi'] = $this->load->view('static/data_anggota', $this->data, TRUE);
+		$this->load->view('themes/layout_utama_v', $this->data);
+	}
+
+
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'nama';
+		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
+		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
+		$aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
+		$search = array('nama' => $nama,
+			'aktif' => $aktif);
+		$offset = ($offset-1)*$limit;
+		$data   = $this->master_anggota->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
+		$i	= 0;
+		$rows   = array();
+
+		foreach ($data['data'] as $r) {
+			$jabatan = "";
+			switch ($r->jabatan_id) {
+				case 1:
+					$jabatan = "Anggota";
+					break;
+				
+				case 2:
+					$jabatan = "Pengurus";
+					break;
+				
+				default:
+					$jabatan = "-";
+					break;
+			}
+			$aktif = "";
+			switch ($r->aktif) {
+				case "Y":
+					$aktif = "Aktif";
+					break;
+				
+				case "N":
+					$aktif = "Tidak Aktif";
+					break;
+				
+				default:
+					$aktif = "-";
+					break;
+			}
+			//array keys ini = attribute 'field' di view nya
+			$rows[$i]['id'] = $r->id;
+			$rows[$i]['id_anggota'] = 'AG'.sprintf('%04d', $r->id);
+			$rows[$i]['nama'] = $r->nama;
+			$rows[$i]['identitas'] = $r->identitas;
+			$rows[$i]['jk'] = $r->jk;
+			$rows[$i]['tmp_lahir'] = $r->tmp_lahir;
+			$rows[$i]['tgl_lahir'] = $r->tgl_lahir;
+			$rows[$i]['status'] = $r->status;
+			$rows[$i]['agama'] = $r->agama;
+			$rows[$i]['departement'] = $r->departement;
+			$rows[$i]['pekerjaan'] = $r->pekerjaan;
+			$rows[$i]['alamat'] = $r->alamat;
+			$rows[$i]['kota'] = $r->kota;
+			$rows[$i]['notelp'] = $r->notelp;
+			$rows[$i]['tgl_daftar'] = $r->tgl_daftar;
+			$rows[$i]['jabatan_id'] = $jabatan;
+			$rows[$i]['aktif'] = $aktif;
+			$rows[$i]['file_pic'] = $r->file_pic;
+			$rows[$i]['file_pic_html'] = $this->callback_column_pic($r->file_pic);
+			// $rows[$i]['nota'] = '<p></p><p>
+			// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+			$i++;
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
+	public function create() {
+		if(!isset($_POST)) {
+			show_404();
+		}
+		if($this->master_anggota->create()){
+			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>'));
+		}else
+		{
+			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>'));
+		}
+	}
+
+	public function update($id=null) {
+		if(!isset($_POST)) {
+			show_404();
+		}
+		if($this->master_anggota->update($id)) {
+			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil diubah </div>'));
+		} else {
+			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i>  Maaf, Data gagal diubah, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>'));
+		}
+
+	}
+	public function delete() {
+		if(!isset($_POST))	 {
+			show_404();
+		}
+		$id = intval(addslashes($_POST['id']));
+		if($this->master_anggota->delete($id))
+		{
+			//echo 'console.log('.$id.')';
+			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil dihapus </div>'));
+		} else {
+			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data gagal dihapus </div>'));
+		}
+	}
+
+	function cetak_laporan() {
+		$simpanan = $this->master_anggota->lap_data_anggota();
+		if($simpanan == FALSE) {
+			//redirect('simpanan');
+			echo 'DATA KOSONG<br>Pastikan Filter Tanggal dengan benar.';
+			exit();
+		}
+
+		$this->load->library('Pdf');
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->set_nsi_header(TRUE);
+		$pdf->AddPage('L');
+		$html = '';
+		// <th class="h_tengah" style="width:5%;">Photo</th>
+		$html .= '
+		<style>
+			.h_tengah {text-align: center;}
+			.h_kiri {text-align: left;}
+			.h_kanan {text-align: right;}
+			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 12px;}
+			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
+			.txt_content {font-size: 10pt; font-style: arial;}
+		</style>
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Jenis Simpanan <br></span>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
+		<table width="100%" cellspacing="0" cellpadding="3" border="1" border-collapse= "collapse">
+		<tr class="header_kolom">
+			<th class="h_tengah" style="width:3%;">ID</th>
+			<th class="h_tengah" style="width:7%;">ID Anggota</th>
+			<th class="h_tengah" style="width:10%;">Nama</th>
+			<th class="h_tengah" style="width:10%;">Identitas</th>
+			<th class="h_tengah" style="width:5%;">Jenis Kelamin</th>
+			<th class="h_tengah" style="width:5%;">Tempat Lahir</th>
+			<th class="h_tengah" style="width:5%;">Tanggal Lahir</th>
+			<th class="h_tengah" style="width:5%;">Status</th>
+			<th class="h_tengah" style="width:5%;">Agama</th>
+			<th class="h_tengah" style="width:10%;">Departement</th>
+			<th class="h_tengah" style="width:5%;">Pekerjaan</th>
+			<th class="h_tengah" style="width:5%;">Alamat</th>
+			<th class="h_tengah" style="width:5%;">Kota</th>
+			<th class="h_tengah" style="width:5%;">No Telp</th>
+			<th class="h_tengah" style="width:5%;">Tanggal Daftar</th>
+			<th class="h_tengah" style="width:5%;">Jabatan</th>
+			<th class="h_tengah" style="width:5%;"> Aktif </th>
+		</tr>';
+
+		$no =1;
+		$jml_simpanan = 0;
+		foreach ($simpanan as $r) {
+			$jabatan = "";
+			switch ($r->jabatan_id) {
+				case 1:
+					$jabatan = "Anggota";
+					break;
+				
+				case 2:
+					$jabatan = "Pengurus";
+					break;
+				
+				default:
+					$jabatan = "-";
+					break;
+			}
+			$aktif = "";
+			switch ($r->aktif) {
+				case "Y":
+					$aktif = "Aktif";
+					break;
+				
+				case "N":
+					$aktif = "Tidak Aktif";
+					break;
+				
+				default:
+					$aktif = "-";
+					break;
+			}
+			// '.'AG'.sprintf('%04d', $row->anggota_id).'
+			// <td class="h_tengah"> '.$this->callback_column_pic($r->file_pic).'</td>
+			$html .= '
+			<tr>
+				<td class="h_tengah" >'.$no++.'</td>
+				<td class="h_tengah"> '.'AG'.sprintf('%04d', $r->id).'</td>
+				<td class="h_tengah"> '.$r->nama.'</td>
+				<td class="h_tengah"> '.$r->identitas.'</td>
+				<td class="h_tengah"> '.$r->jk.'</td>
+				<td class="h_tengah"> '.$r->tmp_lahir.'</td>
+				<td class="h_tengah"> '.$r->tgl_lahir.'</td>
+				<td class="h_tengah"> '.$r->status.'</td>
+				<td class="h_tengah"> '.$r->agama.'</td>
+				<td class="h_tengah"> '.$r->departement.'</td>
+				<td class="h_tengah"> '.$r->pekerjaan.'</td>
+				<td class="h_tengah"> '.$r->alamat.'</td>
+				<td class="h_tengah"> '.$r->kota.'</td>
+				<td class="h_tengah"> '.$r->notelp.'</td>
+				<td class="h_tengah"> '.$r->tgl_daftar.'</td>
+				<td class="h_tengah"> '.$jabatan.'</td>
+				<td class="h_tengah"> '.$aktif.'</td>
+			</tr>';
+		}
+		$html .= '</table>';
+		$pdf->nsi_html($html);
+		$pdf->Output('data_anggota'.date('Ymd_His') . '.pdf', 'I');
+	}
 
 	function import() {
 		$this->data['judul_browser'] = 'Import Data';
@@ -282,7 +524,7 @@ class Anggota extends OperatorController {
 		return nl2br($value);
 	}
 
-	function callback_column_pic($value, $row) {
+	function callback_column_pic($value) {
 		if($value) {
 			return '<div style="text-align: center;"><a class="image-thumbnail" href="'.base_url().'uploads/anggota/' . $value .'"><img src="'.base_url().'uploads/anggota/' . $value . '" alt="' . $value . '" width="30" height="40" /></a></div>';
 		} else {
