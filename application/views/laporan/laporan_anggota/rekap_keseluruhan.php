@@ -128,6 +128,16 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<td>29644682</td>
 		<td>29644682</td>
 	</tr>
+	<tr class="header_kolom">
+		<th style="width:5%; vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
+		<th style="width:15%;" >3000000 </th>
+		<th style="width:20%;" > 42967023  </th>
+		<th style="width:15%;" > 42967023  </th>
+		<th style="width:15%;" > 42967023   </th>
+		<th style="width:15%;" > 88934046   </th>
+		<th style="width:15%;" > 88934046   </th>
+		<th style="width:15%;" > 88934046   </th>
+	</tr>
 </div>
 </div>
 	

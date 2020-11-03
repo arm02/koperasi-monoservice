@@ -92,14 +92,12 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
 		<th style="width:10%; vertical-align: middle; text-align:center"> Wajib  </th>
 		<th style="width:10%; vertical-align: middle; text-align:center"> Sukarela  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Khusus  </th>
 		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
 	</tr>
 	<tr>
 		<td>1</td>
 		<td>Alimin</td>
 		<td>1000000</td>
-		<td>14322341</td>
 		<td>14322341</td>
 		<td>14322341</td>
 		<td>29644682</td>
@@ -110,7 +108,6 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<td>1000000</td>
 		<td>14322341</td>
 		<td>14322341</td>
-		<td>14322341</td>
 		<td>29644682</td>
 	</tr>
 	<tr>
@@ -119,8 +116,14 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<td>1000000</td>
 		<td>14322341</td>
 		<td>14322341</td>
-		<td>14322341</td>
 		<td>29644682</td>
+	</tr>
+	<tr class="header_kolom">
+		<th style="width:15%; vertical-align: middle; text-align:center" colspan="2">Jumlah </th>
+		<th style="width:10%;"> 14322341  </th>
+		<th style="width:10%;"> 14322341  </th>
+		<th style="width:10%;"> 14322341  </th>
+		<th style="width:15%;"> 14322341  </th>
 	</tr>
 </div>
 </div>

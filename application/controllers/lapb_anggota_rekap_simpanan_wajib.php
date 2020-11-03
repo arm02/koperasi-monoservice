@@ -132,6 +132,7 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 			<th style="vertical-align: middle; text-align:center"> Oktober  </th>
 			<th style="vertical-align: middle; text-align:center"> November  </th>
 			<th style="vertical-align: middle; text-align:center"> Desember  </th>
+			<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
 			<th style="vertical-align: middle; text-align:center"> Saldo 18  </th>
 			<th style="vertical-align: middle; text-align:center"> Saldo 19  </th>
 		</tr>';
@@ -164,6 +165,25 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 				<td class="h_kanan">'. number_format($value['saldo19']).'</td>
 			</tr>';
 		}
+		$html .= '
+		<tr class="header_kolom">
+			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
 		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');

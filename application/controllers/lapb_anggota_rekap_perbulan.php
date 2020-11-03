@@ -124,7 +124,7 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Anggota Periode Bulan '.$bulan.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Anggota <br> Periode Bulan '.$bulan.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="vertical-align: middle; text-align:center"> No. </th>
@@ -156,6 +156,15 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 				<td class="h_kanan">'. number_format($jumlah).'</td>
 			</tr>';
 		}
+		$html .= '
+		<tr class="header_kolom">
+			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
 		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');

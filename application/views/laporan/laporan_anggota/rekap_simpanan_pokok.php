@@ -80,8 +80,9 @@
 		<th style="vertical-align: middle; text-align:center"> Oktober  </th>
 		<th style="vertical-align: middle; text-align:center"> November  </th>
 		<th style="vertical-align: middle; text-align:center"> Desember  </th>
+		<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
 		<th style="vertical-align: middle; text-align:center"> Saldo 18  </th>
-		<th style="vertical-align: middle; text-align:center"> Saldo 19i  </th>
+		<th style="vertical-align: middle; text-align:center"> Saldo 19  </th>
 	</tr>
 	<tr>
 		<td>1</td>
@@ -98,6 +99,7 @@
 		<td>0</td>
 		<td>0</td>
 		<td>100000</td>
+		<td>1000000</td>
 		<td>1000000</td>
 		<td>1000000</td>
 	</tr>
@@ -118,6 +120,7 @@
 		<td>0</td>
 		<td>1000000</td>
 		<td>1000000</td>
+		<td>1000000</td>
 	</tr>
 	<tr>
 		<td>3</td>
@@ -136,6 +139,25 @@
 		<td>0</td>
 		<td>1000000</td>
 		<td>1000000</td>
+		<td>1000000</td>
+	</tr>
+	<tr class="header_kolom">
+		<th style="vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
+		<th style=""> 1000000  </th>
 	</tr>
 </div>
 </div>

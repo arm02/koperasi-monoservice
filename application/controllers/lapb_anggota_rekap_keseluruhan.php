@@ -187,7 +187,7 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 		}
 		$html .= '
 		<tr class="header_kolom">
-			<td colspan="2" class="h_tengah"><strong>Jumlah Total</strong></td>
+			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_pokok).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_wajib).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_sukarela).'</strong></td>
