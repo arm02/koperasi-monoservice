@@ -61,17 +61,21 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 		$config['num_tag_open'] = '<li class="page">';
 		$config['num_tag_close'] = '</li>';
 
+
 		$this->pagination->initialize($config);
 		$offset = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 		if($offset > 0) {
 			$offset = ($offset * $config['per_page']) - $config['per_page'];
 		}
+
+		$datas = $this->lap_simpanan_m->lap_rekap_seluruh_anggota();
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
 		
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_keseluruhan', $this->data, TRUE);
-		$this->load->view('themes/layout_utama_v', $this->data);
+		// $this->load->view('themes/layout_utama_v', $this->data);
+		print_r($datas);
 
 	}
 

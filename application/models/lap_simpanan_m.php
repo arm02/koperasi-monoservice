@@ -28,6 +28,30 @@ class Lap_simpanan_m extends CI_Model {
 		return $this->db->count_all_results('jns_simpan');
 	}
 
+	function lap_rekap_seluruh_anggota() {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id
+		LIMIT 100,100";
+
+
+		$execute = $this->db->query($sql);
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListSimpanan($row['anggota_id']);
+		endforeach; 
+		return $data;	
+	}
+
+	function getListSimpanan($id) {
+		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = $id group by simpan.jns_simpan";
+		$execute = $this->db->query($sql);
+		return $execute->result_array();
+	}
+
 	//menghitung jumlah simpanan
 	function get_jml_simpanan($jenis) {
 		$this->db->select('SUM(jumlah) AS jml_total');
@@ -79,7 +103,7 @@ class Lap_simpanan_m extends CI_Model {
 		}
 		$this->db->where('DATE(tgl_transaksi) >= ', ''.$tgl_dari.'');
 		$this->db->where('DATE(tgl_transaksi) <= ', ''.$tgl_samp.'');
-		
+
 		$query = $this->db->get();
 		return $query->row();
 	}
