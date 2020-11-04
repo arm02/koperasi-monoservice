@@ -172,7 +172,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 		 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 			<a href="#">
 				<i class="fa fa-folder-open-o"></i>
-				<span>Laporan Koperasi</span>
+				<span>Laporan Keuangan</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 		 	<ul class="treeview-menu">
@@ -195,7 +195,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 		 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 			<a href="#">
 				<i class="fa fa-folder-open-o"></i>
-				<span>Laporan Keuangan</span>
+				<span>Laporan Koperasi</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 		 	<ul class="treeview-menu">
