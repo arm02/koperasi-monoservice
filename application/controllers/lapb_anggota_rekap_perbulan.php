@@ -73,6 +73,9 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_perbulan', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
+		// $datas = $this->lap_simpanan_m->lap_rekap_anggota_perbulan(100,100);
+		// print_r($datas);
+
 	}
 
 	function cetak() {

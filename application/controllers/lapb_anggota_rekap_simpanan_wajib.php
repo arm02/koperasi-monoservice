@@ -73,6 +73,9 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_simpanan_wajib', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
+		// $datas = $this->lap_simpanan_m->lap_rekap_anggota_wajib(100,100);
+		// print_r($datas);
+
 	}
 
 	function cetak() {
