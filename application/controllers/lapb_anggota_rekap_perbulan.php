@@ -78,42 +78,66 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 
 	}
 
-	function cetak() {
-		$simpanan = array(
-			array(
-				"nama" => 'Alimin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"simpanan" => 14322341,
-				"khusus" => 14322341,
-			),
-			array(
-				"nama" => 'Endin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"simpanan" => 14322341,
-				"khusus" => 14322341,
-			),
-			array(
-				"nama" => '	Empat Siti Fatimah',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"simpanan" => 14322341,
-				"khusus" => 14322341,
-			),
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$search = array(
+			'tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_samp
 		);
-		if($simpanan == FALSE) {
+		$offset = ($offset-1)*$limit;
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_perbulan($offset,$limit,$search);
+		$i	= 0;
+		$rows   = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+
+				$rows[$i]['id_anggota'] = $r['id_anggota'];
+				$rows[$i]['no'] = $i+1;
+				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
+				$rows[$i]['simpananwajib'] = 'Rp.'.number_format($r['simpananwajib']);
+				$rows[$i]['simpananpokok'] = 'Rp.'.number_format($r['simpananpokok']);
+				$rows[$i]['simpanansukarela'] = 'Rp.'.number_format($r['simpanansukarela']);
+				$rows[$i]['jumlah_total'] = 'Rp.'.number_format($r['jumlah_total']);
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
+	function cetak() {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$q = array(
+			'tgl_dari' => $tgl_dari, 
+			'tgl_samp' => $tgl_samp, 
+		);
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_anggota_perbulan(200,200, $q);
+		if($simpanan["rows"] == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
 			exit();
 		}
-
-		if($_REQUEST['bulan'] != null) {
-			$bulan = $_REQUEST['bulan'];
+		if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+			$tgl_dari = $_REQUEST['tgl_dari'];
+			$tgl_samp = $_REQUEST['tgl_samp'];
 		} else {
-			$bulan = date('F');
+			$tgl_dari = null;
+			$tgl_samp = null;
 		}
-		
+		$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+		$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+		if($tgl_dari && $tgl_samp){
+			$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+		}else{
+			$tgl_periode_txt = 'Semua Data';
+		}
 		$this->load->library('Pdf');
 
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -127,7 +151,7 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Anggota <br> Periode Bulan '.$bulan.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Anggota <br> Periode '.$tgl_periode_txt.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="vertical-align: middle; text-align:center"> No. </th>
@@ -135,7 +159,6 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 			<th style="vertical-align: middle; text-align:center"> Pokok  </th>
 			<th style="vertical-align: middle; text-align:center"> Wajib  </th>
 			<th style="vertical-align: middle; text-align:center"> Sukarela  </th>
-			<th style="vertical-align: middle; text-align:center"> Khusus  </th>
 			<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
 		</tr>';
 
@@ -145,31 +168,19 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 		$simpanan_total = 0; 
 		$penarikan_total = 0;; 
 		$jumlah = 0;
-		foreach ($simpanan as $jenis) {
-			$jumlah = $jenis['pokok'] + $jenis['wajib'] + $jenis['simpanan'] + $jenis['khusus'] ;
-
+		foreach ($simpanan["rows"] as $jenis) {
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $jenis['nama'].'</td>
-				<td class="h_kanan">'. number_format($jenis['pokok']).'</td>
-				<td class="h_kanan">'. number_format($jenis['wajib']).'</td>
-				<td class="h_kanan">'. number_format($jenis['simpanan']).'</td>
-				<td class="h_kanan">'. number_format($jenis['khusus']).'</td>
-				<td class="h_kanan">'. number_format($jumlah).'</td>
+				<td>'. $jenis['nama_anggota'].'</td>
+				<td class="h_kanan"> Rp.'. number_format($jenis['simpananpokok']).'</td>
+				<td class="h_kanan"> Rp.'. number_format($jenis['simpananwajib']).'</td>
+				<td class="h_kanan"> Rp.'. number_format($jenis['simpanansukarela']).'</td>
+				<td class="h_kanan"> Rp.'. number_format($jenis['jumlah_total']).'</td>
 			</tr>';
 		}
-		$html .= '
-		<tr class="header_kolom">
-			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
+		$pdf->Output('lap_rekap_anggota_perbulan'.date('Ymd_His') . '.pdf', 'I');
 	}
 }

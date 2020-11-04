@@ -191,12 +191,12 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_wajib($limit, $offset,$q = "") {
+	function lap_rekap_anggota_wajib($offset, $limit,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
 		GROUP BY anggota.id
 		ORDER BY tgl_daftar desc 
-		LIMIT ".$limit.",".$offset."";
+		LIMIT ".$offset.",".$limit."";
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
@@ -287,12 +287,12 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_perbulan($limit, $offset) {
+	function lap_rekap_anggota_perbulan($offset, $limit, $q="") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
 		ORDER BY tgl_daftar desc 
-		LIMIT ".$limit.",".$offset."";
+		LIMIT ".$offset.",".$limit."";
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
@@ -302,23 +302,19 @@ class Lap_simpanan_m extends CI_Model {
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListAnggotabulan($row['anggota_id'],$row["nama"]);
+			$data[] = $this->getListAnggotabulan($row['anggota_id'],$row["nama"], $q);
 		endforeach;
 		$result["count"] = $this->db->query($count)->num_rows();
 		$result["rows"] = $data; 
 		return $result;		
 	}
 
-	function getListAnggotabulan($id,$nama_anggota) {
-		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
-		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+	function getListAnggotabulan($id,$nama_anggota,$q) {
 		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = ".$id."";
 
 		$where = "";
-		$q = array('tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_sampai);
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by trans.jenis_id";

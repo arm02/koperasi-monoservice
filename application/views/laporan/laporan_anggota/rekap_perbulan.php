@@ -30,8 +30,8 @@ if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
 	$tgl_dari = $_REQUEST['tgl_dari'];
 	$tgl_samp = $_REQUEST['tgl_samp'];
 } else {
-	$tgl_dari = date('Y') . '-01-01';
-	$tgl_samp = date('Y') . '-12-31';
+	$tgl_dari = null;
+	$tgl_samp = null;
 }
 $tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
 $tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
@@ -55,8 +55,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
 								<button class="btn btn-default" id="daterange-btn">
-									<i class="fa fa-calendar"></i> <span id="reportrange"><span><?php echo $tgl_periode_txt; ?>
-									</span></span>
+									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
 									<i class="fa fa-caret-down"></i>
 								</button>
 							</div>
@@ -76,46 +75,27 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 <div class="box box-primary">
 <div class="box-body">
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center">Nama </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Wajib  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Sukarela  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
-	</tr>
-	<tr>
-		<td>1</td>
-		<td>Alimin</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-	</tr>
-	<tr>
-		<td>2</td>
-		<td>Endin</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-	</tr>
-	<tr>
-		<td>3</td>
-		<td>Empat Siti Fatimah</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-	</tr>
-	<tr class="header_kolom">
-		<th style="width:15%; vertical-align: middle; text-align:center" colspan="2">Jumlah </th>
-		<th style="width:10%;"> 14322341  </th>
-		<th style="width:10%;"> 14322341  </th>
-		<th style="width:10%;"> 14322341  </th>
-		<th style="width:15%;"> 14322341  </th>
-	</tr>
+<table  id="dg"
+class="easyui-datagrid"
+title="Data Rekapitulasi Perbulan"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_anggota_rekap_perbulan/ajax_list'); ?>"
+pagination="true" rownumbers="false"
+fitColumns="true" singleSelect="true" collapsible="true"
+sortName="nama_anggota" sortOrder="desc"
+toolbar="#tb"
+striped="true">
+	<thead>
+		<tr class="header_kolom">
+			<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center'"> No. </th>
+			<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'">Nama </th>
+			<th data-options="field:'simpananpokok',width:'17', halign:'center', align:'center'"> Pokok  </th>
+			<th data-options="field:'simpananwajib',width:'17', halign:'center', align:'center'"> Wajib  </th>
+			<th data-options="field:'simpanansukarela',width:'17', halign:'center', align:'center'"> Sukarela  </th>
+			<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'center'"> Jumlah  </th>
+		</tr>
+	</thead>
+</table>
 </div>
 </div>
 	
@@ -155,6 +135,7 @@ function fm_filter_tgl() {
 	},
 
 	function (start, end) {
+		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
 		doSearch();
 	});
 }
@@ -166,15 +147,20 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_anggota_rekap_perbulan'); ?>');
-	$('#fmCari').submit();	
+	$('#dg').datagrid('load',{
+		tgl_dari: tgl_dari,
+		tgl_samp: tgl_samp,
+	});	
 }
 
 function cetak () {
-	var bulan = $('select[name=bulan]').val();
-	var win = window.open('<?php echo site_url("lapb_anggota_rekap_perbulan/cetak/?bulan=' + bulan + '"); ?>');
+	var tgl_dari = $('input[name=daterangepicker_start]').val();
+	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	if($('#reportrange').text() != 'Tanggal'){
+		var win = window.open('<?php echo site_url("lapb_anggota_rekap_perbulan/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+	}else{
+		var win = window.open('<?php echo site_url("lapb_anggota_rekap_perbulan/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {
