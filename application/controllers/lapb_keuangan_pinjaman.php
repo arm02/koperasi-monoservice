@@ -170,7 +170,7 @@ class Lapb_keuangan_pinjaman extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Tagihan Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Pinjaman Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="width:5%; vertical-align: middle; text-align:center"> No. </th>
@@ -210,7 +210,7 @@ class Lapb_keuangan_pinjaman extends OperatorController {
 		}
 		$html .= '
 		<tr class="header_kolom">
-			<td colspan="2" class="h_tengah"><strong>Jumlah Total</strong></td>
+			<td colspan="2" class="h_tengah"><strong>Jumlah</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_barang).'</strong></td>

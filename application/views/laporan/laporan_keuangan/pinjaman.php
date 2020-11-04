@@ -62,7 +62,7 @@
 <div class="box box-primary">
 <div class="box-body">
 <p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Tagihan Per Tahun </p>
+<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Pinjaman Per Tahun </p>
 
 <table  class="table table-bordered">
 	<tr class="header_kolom">
@@ -179,6 +179,13 @@
 		<td>14322341</td>
 		<td>29644682</td>
 		<td>29644682</td>
+	</tr>
+	<tr class="header_kolom">
+		<th style="width:5%; vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
+		<th style="width:15%;" >3000000 </th>
+		<th style="width:20%;" > 42967023  </th>
+		<th style="width:15%;" > 42967023  </th>
+		<th style="width:15%;" > 42967023   </th>
 	</tr>
 </div>
 </div>
