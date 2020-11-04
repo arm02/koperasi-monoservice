@@ -83,7 +83,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 <table
 id="dg"
 class="easyui-datagrid"
-title="Data Rekapitulasi Simpanan Anggota"
+title="Data Rekapitulasi Simpanan Pokok"
 style="width:auto; height: auto;"
 url="<?php echo site_url('lapb_anggota_rekap_simpanan_pokok/ajax_list'); ?>"
 pagination="true" rownumbers="true"
@@ -158,13 +158,13 @@ function fm_filter_tgl() {
 		<?php 
 			if(isset($tgl_dari) && isset($tgl_samp)) {
 				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
+					tgl_dari: '".$tgl_dari."',
+					tgl_samp: '".$tgl_samp."'
 				";
 			} else {
 				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
+					tgl_dari: moment().startOf('year').startOf('month'),
+					tgl_samp: moment().endOf('year').endOf('month')
 				";
 			}
 		?>
@@ -182,10 +182,10 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_anggota_rekap_simpanan_pokok'); ?>');
-	$('#fmCari').submit();	
+	$('#dg').datagrid('load',{
+		tgl_dari: tgl_dari,
+		tgl_samp: tgl_samp,
+	});	
 }
 
 function cetak () {

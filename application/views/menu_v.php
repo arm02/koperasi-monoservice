@@ -76,7 +76,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 </li>
 
 <!-- laporan -->
-<li  class="treeview <?php 
+<!-- <li  class="treeview <?php 
 	 $menu_lap_arr= array('lap_anggota','lap_kas_anggota','lap_simpanan','lap_kas_pinjaman','lap_tempo','lap_macet','lap_trans_kas','lap_buku_besar','lap_neraca','lap_saldo','lap_laba','lap_shu','lap_summary_kas','lap_detail_setoran');
 	 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 
@@ -139,7 +139,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 		 	</ul>
 		</li>
 	</ul>
-</li>
+</li> -->
 
 <li  class="treeview <?php 
 	 $menu_lap_arr= array('lap_anggota','lap_kas_anggota','lap_simpanan','lap_kas_pinjaman','lap_tempo','lap_macet','lap_trans_kas','lap_buku_besar','lap_neraca','lap_saldo','lap_laba','lap_shu','lap_summary_kas','lap_detail_setoran');
@@ -148,7 +148,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 
 	<a href="#">
 		<img height="20" src="<?php echo base_url().'assets/theme_admin/img/laporan.png'; ?>">
-		<span>Laporan Baru</span>
+		<span>Laporan</span>
 		<i class="fa fa-angle-left pull-right"></i>
 	</a>
 	<ul class="treeview-menu">

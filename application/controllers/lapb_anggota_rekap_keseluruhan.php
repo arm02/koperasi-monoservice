@@ -31,7 +31,6 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 
 		$config = array();
 		$config["base_url"] = base_url() . "lapb_anggota_rekap_keseluruhan/index/halaman";
-		$config["total_rows"] = $this->lap_simpanan_m->get_jml_data_simpan(); // banyak data
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 4;
 		$config['use_page_numbers'] = TRUE;
@@ -96,13 +95,13 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 				$rows[$i]['id_anggota'] = $r['id_anggota'];
 				$rows[$i]['no'] = $i+1;
 				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
-				$rows[$i]['simpananwajib'] = number_format($r['simpananwajib']);
-				$rows[$i]['simpananpokok'] = number_format($r['simpananpokok']);
-				$rows[$i]['simpanansukarela'] = number_format($r['simpanansukarela']);
-				$rows[$i]['simpanankhusus'] = number_format($r['simpanankhusus']);
-				$rows[$i]['jumlah_total'] = number_format($r['jumlah_total']);
-				$rows[$i]['yang_diambil'] = number_format($r['yang_diambil']);
-				$rows[$i]['saldo_simpanan'] = number_format($r['saldo_simpanan']);
+				$rows[$i]['simpananwajib'] = 'Rp.'.number_format($r['simpananwajib']);
+				$rows[$i]['simpananpokok'] = 'Rp.'.number_format($r['simpananpokok']);
+				$rows[$i]['simpanansukarela'] = 'Rp.'.number_format($r['simpanansukarela']);
+				$rows[$i]['simpanankhusus'] = 'Rp.'.number_format($r['simpanankhusus']);
+				$rows[$i]['jumlah_total'] = 'Rp.'.number_format($r['jumlah_total']);
+				$rows[$i]['yang_diambil'] = 'Rp.'.number_format($r['yang_diambil']);
+				$rows[$i]['saldo_simpanan'] = 'Rp.'.number_format($r['saldo_simpanan']);
 				// $rows[$i]['nota'] = '<p></p><p>
 				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 				$i++;
@@ -186,25 +185,25 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
 				<td>'. $jenis['nama_anggota'].'</td>
-				<td class="h_kanan">'. number_format($jenis['simpananpokok']).'</td>
-				<td class="h_kanan">'. number_format($jenis['simpananwajib']).'</td>
-				<td class="h_kanan">'. number_format($jenis['simpanansukarela']).'</td>
-				<td class="h_kanan">'. number_format($jenis['simpanankhusus']).'</td>
-				<td class="h_kanan">'. number_format($jumlah).'</td>
-				<td class="h_kanan">'. number_format($jenis['yang_diambil']).'</td>
-				<td class="h_kanan">'. number_format($jenis['saldo_simpanan']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['simpananpokok']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['simpananwajib']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['simpanansukarela']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['simpanankhusus']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jumlah).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['yang_diambil']).'</td>
+				<td class="h_kanan">'. 'Rp.'.number_format($jenis['saldo_simpanan']).'</td>
 			</tr>';
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_wajib).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_sukarela).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_khusus).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_yang_diambil).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_saldo_disimpan).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_pokok).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_wajib).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_sukarela).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_khusus).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($total_jumlah).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_yang_diambil).'</strong></td>
+			<td class="h_kanan"><strong>'.'Rp.'.number_format($jumlah_saldo_disimpan).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);

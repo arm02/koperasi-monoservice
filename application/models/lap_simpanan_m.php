@@ -91,6 +91,10 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_anggota_pokok($limit, $offset) {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$q = array('tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_sampai);
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= 40
@@ -109,15 +113,29 @@ class Lap_simpanan_m extends CI_Model {
 		return $result;	
 	}
 
-	function getListSimpananPokok($id,$nama_anggota) {
-		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
-		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+	function get_datagrid_rekap_anggota_pokok($limit, $offset,$q = "") {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
+		INNER JOIN jns_simpan simpan ON simpan.id= 40
+		GROUP BY anggota.id
+		ORDER BY tgl_daftar desc 
+		LIMIT ".$limit.",".$offset."";
+		$execute = $this->db->query($sql);
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListSimpananPokok($row['anggota_id'],$row["nama"], $q);
+		endforeach;
+		$result["rows"] = $data; 
+		$result["count"] = count($data);
+		return $result;	
+	}
+
+	function getListSimpananPokok($id,$nama_anggota,$q = "") {
 		$sql = "SELECT anggota.nama as nama, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=40 where anggota.id = ".$id."";
 
 		$where = "";
-		$q = array('tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_sampai);
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' GROUP BY YEAR(trans.tgl_transaksi), MONTH(trans.tgl_transaksi)";
