@@ -122,7 +122,13 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 
 	function cetak() {
 		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok(200,200);
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$q = array(
+			'tgl_dari' => $tgl_dari, 
+			'tgl_samp' => $tgl_samp, 
+		);
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok(200,200,$q);
 		if($data["rows"] == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -134,12 +140,16 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			$tgl_dari = $_REQUEST['tgl_dari'];
 			$tgl_samp = $_REQUEST['tgl_samp'];
 		} else {
-			$tgl_dari = date('Y') . '-01-01';
-			$tgl_samp = date('Y') . '-12-31';
+			$tgl_dari = null;
+			$tgl_samp = null;
 		}
 		$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
 		$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
-		$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+		if($tgl_dari && $tgl_samp){
+			$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+		}else{
+			$tgl_periode_txt = 'Semua Data';
+		}
 
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->set_nsi_header(TRUE);

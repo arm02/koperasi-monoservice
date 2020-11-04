@@ -28,13 +28,13 @@ class Lap_simpanan_m extends CI_Model {
 		return $this->db->count_all_results('jns_simpan');
 	}
 
-	function lap_rekap_seluruh_anggota($limit = 200, $offset = 200, $q = "") {
+	function lap_rekap_seluruh_anggota($offset = 200, $limit = 200, $q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
 		GROUP BY anggota.id
 		ORDER BY tgl_daftar desc 
-		LIMIT ".$limit.",".$offset."";
+		LIMIT ".$offset.",".$limit."";
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
@@ -95,10 +95,6 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_anggota_pokok($limit, $offset,$q = "") {
-		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
-		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
-		$q = array('tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_sampai);
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= 40
