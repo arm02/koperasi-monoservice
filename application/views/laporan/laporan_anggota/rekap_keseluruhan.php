@@ -92,7 +92,6 @@ striped="true">
 <thead>
 	<tr>
 		<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center',hidden: true"> ID </th>
-		<th data-options="field:'no',width:'17', halign:'center', align:'center'"> No </th>
 		<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'"> Nama </th>
 		<!-- <th style="width:20%; vertical-align: middle; text-align:center" colspan="4"> Simpanan </th> -->
 		<th data-options="field:'simpananwajib',width:'17', halign:'center', align:'center'"> Simpanan Pokok  </th>
