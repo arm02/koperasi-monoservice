@@ -39,17 +39,53 @@ class Lap_simpanan_m extends CI_Model {
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSimpanan($row['anggota_id']);
-		endforeach; 
-		return $data;	
+			$data[] = $this->getListSimpanan($row['anggota_id'], $row);
+		endforeach;
+		$result["rows"] = $data; 
+		return $result;		
 	}
 
-	function getListSimpanan($id) {
-		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
+	function getListSimpanan($id,$rows) {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = $id group by simpan.jns_simpan";
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = $id";
+
+		$where = "";
+		$q = array('tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_sampai);
+		if(is_array($q)) {
+			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
+				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by trans.jenis_id";
+			}else{
+				$where .="group by trans.jenis_id";
+			}
+		}
+		$sql .= $where;
+
 		$execute = $this->db->query($sql);
-		return $execute->result_array();
+
+		$data = array(
+			"nama_anggota" => null,
+			"simpananwajib"=>0,
+			"simpananpokok"=>0,
+			"simpanansukarela"=>0,
+			"simpanankhusus"=>0,
+			"jumlah_total" => 0,
+			"yang_diambil" => 0,
+			"saldo_simpanan" => 0
+		);
+
+		foreach ($execute->result_array() as $row => $value):  
+			$data["nama_anggota"] = $value["nama"];	 
+			$data[$value["inisial"]] = $value["jumlah"];
+			$data["jumlah_total"] += $value["jumlah"];
+			$data["yang_diambil"] = 0;
+			$data["saldo_simpanan"] = 0;
+		endforeach; 
+
+		return $rows;
 	}
 
 	//menghitung jumlah simpanan
