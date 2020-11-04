@@ -65,10 +65,10 @@ class Master_users extends CI_Model {
 
 	public function create() {
 		$data = array(
-				'u_name'			=>	$this->input->post('u_name'),
-				'pass_word'			=>	sha1('nsi' . $this->input->post('pass_word')),
-				'aktif'			=>	$this->input->post('aktif'),
-				'level'			=>	$this->input->post('level'),
+				'u_name' =>	$this->input->post('u_name'),
+				'pass_word'	=>	sha1('nsi' . $this->input->post('pass_word')),
+				'aktif'	=>	$this->input->post('aktif'),
+				'level'	=>	$this->input->post('level'),
 			);
 		return $this->db->insert('tbl_user', $data);
 	}
