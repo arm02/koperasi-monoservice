@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Lapb_keuangan_tagihan extends OperatorController {
+class Lapb_keuangan_rugi_laba extends OperatorController {
 
 	public function __construct() {
 		parent::__construct();	
@@ -14,7 +14,7 @@ class Lapb_keuangan_tagihan extends OperatorController {
 
 		$this->data['judul_browser'] = 'Laporan';
 		$this->data['judul_utama'] = 'Laporan';
-		$this->data['judul_sub'] = 'Data Simpanan';
+		$this->data['judul_sub'] = 'Data Rugi Laba';
 
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/default/easyui.css';
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/icon.css';
@@ -30,7 +30,7 @@ class Lapb_keuangan_tagihan extends OperatorController {
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 
 		$config = array();
-		$config["base_url"] = base_url() . "lapb_keuangan_tagihan/index/halaman";
+		$config["base_url"] = base_url() . "lapb_keuangan_rugi_laba/index/halaman";
 		$config["total_rows"] = $this->lap_simpanan_m->get_jml_data_simpan(); // banyak data
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 4;
@@ -70,7 +70,7 @@ class Lapb_keuangan_tagihan extends OperatorController {
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
 		
-		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/tagihan', $this->data, TRUE);
+		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
 	}
