@@ -40,7 +40,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">Rekapitulasi Simpanan Keseluruhan Anggota</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -77,8 +77,6 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Simpanan Anggota </p>
 
 <table
 id="dg"
@@ -158,10 +156,10 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_anggota_rekap_keseluruhan'); ?>');
-	$('#fmCari').submit();	
+	$('#dg').datagrid('load',{
+		tgl_dari: tgl_dari,
+		tgl_samp: tgl_samp,
+	});		
 }
 
 function cetak () {

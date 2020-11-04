@@ -80,10 +80,12 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 		/*Default request pager params dari jeasyUI*/
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
-		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
-		// $aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
-		// $search = array('nama' => $nama,
-		// 	'aktif' => $aktif);
+		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$search = array(
+			'tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_samp
+		);
 		$offset = ($offset-1)*$limit;
 		$data   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota($offset,$limit);
 		$i	= 0;

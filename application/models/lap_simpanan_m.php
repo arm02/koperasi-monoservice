@@ -28,10 +28,11 @@ class Lap_simpanan_m extends CI_Model {
 		return $this->db->count_all_results('jns_simpan');
 	}
 
-	function lap_rekap_seluruh_anggota($limit = 200, $offset = 200) {
+	function lap_rekap_seluruh_anggota($limit = 200, $offset = 200, $q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		GROUP BY anggota.id
 		ORDER BY tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
@@ -39,14 +40,14 @@ class Lap_simpanan_m extends CI_Model {
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSimpanan($row['anggota_id'],$row["nama"]);
+			$data[] = $this->getListSimpanan($row['anggota_id'],$row["nama"], $q);
 		endforeach;
 		$result["rows"] = $data;
 		$result["count"] = count($data);
 		return $result;		
 	}
 
-	function getListSimpanan($id,$nama_anggota) {
+	function getListSimpanan($id,$nama_anggota,$q = "") {
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
@@ -54,8 +55,6 @@ class Lap_simpanan_m extends CI_Model {
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = ".$id."";
 
 		$where = "";
-		$q = array('tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_sampai);
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by trans.jenis_id";
@@ -90,7 +89,7 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_pokok($limit, $offset) {
+	function lap_rekap_anggota_pokok($limit, $offset,$q = "") {
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$q = array('tgl_dari' => $tgl_dari,
@@ -99,27 +98,9 @@ class Lap_simpanan_m extends CI_Model {
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= 40
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar desc 
+		ORDER BY anggota.tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
-		$execute = $this->db->query($sql);
-
-		$data = array();
-		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSimpananPokok($row['anggota_id'],$row["nama"]);
-		endforeach;
-		$result["rows"] = $data; 
-		$result["count"] = count($data);
-		return $result;	
-	}
-
-	function get_datagrid_rekap_anggota_pokok($limit, $offset,$q = "") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 40
-		GROUP BY anggota.id
-		ORDER BY tgl_daftar desc 
-		LIMIT ".$limit.",".$offset."";
 		$execute = $this->db->query($sql);
 
 		$data = array();
@@ -130,6 +111,7 @@ class Lap_simpanan_m extends CI_Model {
 		$result["count"] = count($data);
 		return $result;	
 	}
+
 
 	function getListSimpananPokok($id,$nama_anggota,$q = "") {
 		$sql = "SELECT anggota.nama as nama, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi FROM tbl_anggota anggota 

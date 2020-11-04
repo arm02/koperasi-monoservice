@@ -40,7 +40,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">Rekapitulasi Simpanan Anggota Periode Bulan</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -53,20 +53,13 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 				<table>
 					<tr>
 						<td>
-							<select name="bulan" id="bulan">
-								<option value="Januari">Januari</option>
-								<option value="Februari">Februari</option>
-								<option value="Maret">Maret</option>
-								<option value="April">April</option>
-								<option value="Mei">Mei</option>
-								<option value="Juni">Juni</option>
-								<option value="Juli">Juli</option>
-								<option value="Agustus">Agustus</option>
-								<option value="September">September</option>
-								<option value="Oktober">Oktober</option>
-								<option value="November">November</option>
-								<option value="Desember">Desember</option>
-							</select>
+							<div id="filter_tgl" class="input-group" style="display: inline;">
+								<button class="btn btn-default" id="daterange-btn">
+									<i class="fa fa-calendar"></i> <span id="reportrange"><span><?php echo $tgl_periode_txt; ?>
+									</span></span>
+									<i class="fa fa-caret-down"></i>
+								</button>
+							</div>
 						</td>
 						<td>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
@@ -82,8 +75,6 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Simpanan Anggota Koperasi Periode Bulan </p>
 
 <table  class="table table-bordered">
 	<tr class="header_kolom">

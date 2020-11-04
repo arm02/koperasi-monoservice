@@ -40,7 +40,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">Rekapitulasi Simpanan Pokok Anggota</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -77,8 +77,6 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Simpanan Pokok Koperasi </p>
 
 <table
 id="dg"

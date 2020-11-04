@@ -85,7 +85,7 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			'tgl_samp' => $tgl_samp
 		);
 		$offset = ($offset-1)*$limit;
-		$data   = $this->lap_simpanan_m->get_datagrid_rekap_anggota_pokok($offset,$limit,$search);
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok($offset,$limit,$search);
 		$i	= 0;
 		$rows   = array();
 		if($data){
@@ -95,21 +95,21 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 				$rows[$i]['id_anggota'] = $r['id_anggota'];
 				$rows[$i]['no'] = $i+1;
 				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
-				$rows[$i]['januari'] = number_format($r['januari']);
-				$rows[$i]['februari'] = number_format($r['februari']);
-				$rows[$i]['maret'] = number_format($r['maret']);
-				$rows[$i]['april'] = number_format($r['april']);
-				$rows[$i]['mei'] = number_format($r['mei']);
-				$rows[$i]['juni'] = number_format($r['juni']);
-				$rows[$i]['juli'] = number_format($r['juli']);
-				$rows[$i]['agustus'] = number_format($r['agustus']);
-				$rows[$i]['september'] = number_format($r['september']);
-				$rows[$i]['oktober'] = number_format($r['oktober']);
-				$rows[$i]['november'] = number_format($r['november']);
-				$rows[$i]['desember'] = number_format($r['desember']);
-				$rows[$i]['jumlah'] = number_format($r['jumlah']);
-				$rows[$i]['saldo18'] = number_format($r['saldo18']);
-				$rows[$i]['saldo19'] = number_format($r['saldo19']);
+				$rows[$i]['januari'] = 'Rp.'. number_format($r['januari']);
+				$rows[$i]['februari'] = 'Rp.'. number_format($r['februari']);
+				$rows[$i]['maret'] = 'Rp.'. number_format($r['maret']);
+				$rows[$i]['april'] = 'Rp.'. number_format($r['april']);
+				$rows[$i]['mei'] = 'Rp.'. number_format($r['mei']);
+				$rows[$i]['juni'] = 'Rp.'. number_format($r['juni']);
+				$rows[$i]['juli'] = 'Rp.'. number_format($r['juli']);
+				$rows[$i]['agustus'] = 'Rp.'. number_format($r['agustus']);
+				$rows[$i]['september'] = 'Rp.'. number_format($r['september']);
+				$rows[$i]['oktober'] = 'Rp.'. number_format($r['oktober']);
+				$rows[$i]['november'] = 'Rp.'. number_format($r['november']);
+				$rows[$i]['desember'] = 'Rp.'. number_format($r['desember']);
+				$rows[$i]['jumlah'] = 'Rp.'. number_format($r['jumlah']);
+				$rows[$i]['saldo18'] = 'Rp.'. number_format($r['saldo18']);
+				$rows[$i]['saldo19'] = 'Rp.'. number_format($r['saldo19']);
 				// $rows[$i]['nota'] = '<p></p><p>
 				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 				$i++;
