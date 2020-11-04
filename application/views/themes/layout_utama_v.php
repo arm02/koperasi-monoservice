@@ -2,13 +2,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title><?php echo $judul_browser;?> - SIFOR KOPJAM</title>
+	<title><?php echo $judul_browser;?> - IMS KOPERASI</title>
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>icon.ico" type="image/x-icon" />
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- bootstrap 3.0.2 -->
 	<link href="<?php echo base_url(); ?>assets/theme_admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<!-- font Awesome -->
-	<link href="<?php echo base_url(); ?>assets/theme_admin/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<!-- Ionicons -->
 	<link href="<?php echo base_url(); ?>assets/theme_admin/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 	<!-- Theme style -->
@@ -53,8 +53,7 @@
 	<!-- header logo: style can be found in header.less -->
 	<header class="header">
 		<a href="<?php echo site_url();?>" class="logo">
-			<!-- Add the class icon to your logo image or logo icon to add the margining -->
-			KOSIPA
+			<i class="fa fa-balance-scale"></i>&nbsp;INTI MULTI SOLUSI
 		</a>
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top" role="navigation">

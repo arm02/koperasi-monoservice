@@ -522,12 +522,12 @@ body > .header .navbar .nav > li > a:hover > .label {
 }
 body > .header .logo {
   float: left;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 50px;
   text-align: center;
-  padding: 0 10px;
+  padding: 0px;
   width: 220px;
-  font-family: 'Kaushan Script', cursive;
+  font-family: 'Segoe UI', cursive;
   font-weight: 500;
   height: 50px;
   display: block;
