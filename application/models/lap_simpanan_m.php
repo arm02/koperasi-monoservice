@@ -28,29 +28,29 @@ class Lap_simpanan_m extends CI_Model {
 		return $this->db->count_all_results('jns_simpan');
 	}
 
-	function lap_rekap_seluruh_anggota() {
+	function lap_rekap_seluruh_anggota($limit, $offset) {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id
-		LIMIT 100,100";
-
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		ORDER BY tgl_daftar desc 
+		LIMIT ".$limit.",".$offset."";
 
 		$execute = $this->db->query($sql);
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSimpanan($row['anggota_id'], $row);
+			$data[] = $this->getListSimpanan($row['anggota_id'],$row["nama"]);
 		endforeach;
 		$result["rows"] = $data; 
 		return $result;		
 	}
 
-	function getListSimpanan($id,$rows) {
+	function getListSimpanan($id,$nama_anggota) {
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = $id";
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id where anggota.id = ".$id."";
 
 		$where = "";
 		$q = array('tgl_dari' => $tgl_dari,
@@ -59,7 +59,7 @@ class Lap_simpanan_m extends CI_Model {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by trans.jenis_id";
 			}else{
-				$where .="group by trans.jenis_id";
+				$where .=" group by trans.jenis_id";
 			}
 		}
 		$sql .= $where;
@@ -67,7 +67,8 @@ class Lap_simpanan_m extends CI_Model {
 		$execute = $this->db->query($sql);
 
 		$data = array(
-			"nama_anggota" => null,
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
 			"simpananwajib"=>0,
 			"simpananpokok"=>0,
 			"simpanansukarela"=>0,
@@ -85,7 +86,7 @@ class Lap_simpanan_m extends CI_Model {
 			$data["saldo_simpanan"] = 0;
 		endforeach; 
 
-		return $rows;
+		return $data;
 	}
 
 	//menghitung jumlah simpanan

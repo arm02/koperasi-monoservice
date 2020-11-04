@@ -68,7 +68,7 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 			$offset = ($offset * $config['per_page']) - $config['per_page'];
 		}
 
-		$datas = $this->lap_simpanan_m->lap_rekap_seluruh_anggota();
+		$datas = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(100,100);
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
