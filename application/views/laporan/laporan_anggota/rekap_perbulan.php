@@ -87,12 +87,12 @@ toolbar="#tb"
 striped="true">
 	<thead>
 		<tr class="header_kolom">
-			<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center'"> No. </th>
-			<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'">Nama </th>
-			<th data-options="field:'simpananpokok',width:'17', halign:'center', align:'center'"> Pokok  </th>
-			<th data-options="field:'simpananwajib',width:'17', halign:'center', align:'center'"> Wajib  </th>
-			<th data-options="field:'simpanansukarela',width:'17', halign:'center', align:'center'"> Sukarela  </th>
-			<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'center'"> Jumlah  </th>
+			<th data-options="field:'id_anggota',width:'10', halign:'center', align:'center'"> ID Anggota </th>
+			<th data-options="field:'nama_anggota',width:'17', halign:'right', align:'right'">Nama </th>
+			<th data-options="field:'simpananpokok',width:'17', halign:'right', align:'right'"> Pokok  </th>
+			<th data-options="field:'simpananwajib',width:'17', halign:'right', align:'right'"> Wajib  </th>
+			<th data-options="field:'simpanansukarela',width:'17', halign:'right', align:'right'"> Sukarela  </th>
+			<th data-options="field:'jumlah_total',width:'17', halign:'right', align:'right'"> Jumlah  </th>
 		</tr>
 	</thead>
 </table>
