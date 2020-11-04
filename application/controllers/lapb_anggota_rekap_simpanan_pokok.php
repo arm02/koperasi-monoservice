@@ -75,34 +75,70 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 
 	}
 
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
+		// $aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
+		// $search = array('nama' => $nama,
+		// 	'aktif' => $aktif);
+		$offset = ($offset-1)*$limit;
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok($offset,$limit);
+		$i	= 0;
+		$rows   = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+
+				$rows[$i]['id_anggota'] = $r['id_anggota'];
+				$rows[$i]['no'] = $i+1;
+				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
+				$rows[$i]['januari'] = number_format($r['januari']);
+				$rows[$i]['februari'] = number_format($r['februari']);
+				$rows[$i]['maret'] = number_format($r['maret']);
+				$rows[$i]['april'] = number_format($r['april']);
+				$rows[$i]['mei'] = number_format($r['mei']);
+				$rows[$i]['juni'] = number_format($r['juni']);
+				$rows[$i]['juli'] = number_format($r['juli']);
+				$rows[$i]['agustus'] = number_format($r['agustus']);
+				$rows[$i]['september'] = number_format($r['september']);
+				$rows[$i]['oktober'] = number_format($r['oktober']);
+				$rows[$i]['november'] = number_format($r['november']);
+				$rows[$i]['desember'] = number_format($r['desember']);
+				$rows[$i]['jumlah'] = number_format($r['jumlah']);
+				$rows[$i]['saldo18'] = number_format($r['saldo18']);
+				$rows[$i]['saldo19'] = number_format($r['saldo19']);
+				// $rows[$i]['nota'] = '<p></p><p>
+				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
 	function cetak() {
 		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-
-		$data = array(
-			array(
-			"nama" => 'Alimin',
-			"januari" => 1000000,
-			"februari" => 0,
-			"maret" => 0,
-			"april" => 0,
-			"mei" => 0,
-			"juni" => 0,
-			"juli" => 0,
-			"agustus" => 0,
-			"september" => 0,
-			"oktober" => 0,
-			"november" => 0,
-			"desember" => 1000000,
-			"saldo18" => 1000000,
-			"saldo19" => 1000000,
-			)
-		);
-		if($data == FALSE) {
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok(200,200);
+		if($data["rows"] == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
 			exit();
 		}
 		$this->load->library('Pdf');
+
+		if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+			$tgl_dari = $_REQUEST['tgl_dari'];
+			$tgl_samp = $_REQUEST['tgl_samp'];
+		} else {
+			$tgl_dari = date('Y') . '-01-01';
+			$tgl_samp = date('Y') . '-12-31';
+		}
+		$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+		$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+		$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->set_nsi_header(TRUE);
@@ -115,7 +151,7 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Pokok Koperasi Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Simpanan Pokok Koperasi Periode '.$tgl_periode_txt.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="vertical-align: middle; text-align:center"> No. </th>
@@ -139,7 +175,7 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 
 		$no = 1;
 		$jumlah = 0;
-		foreach ($data as $value) {
+		foreach ($data["rows"] as $value) {
 			foreach ($bulan as $month) {
 				$jumlah = $jumlah + $value[$month];
 			}
@@ -147,7 +183,7 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $value['nama'].'</td>
+				<td>'. $value['nama_anggota'].'</td>
 				<td class="h_kanan">'. number_format($value['januari']).'</td>
 				<td class="h_kanan">'. number_format($value['februari']).'</td>
 				<td class="h_kanan">'. number_format($value['maret']).'</td>

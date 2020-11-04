@@ -105,6 +105,7 @@ class Lap_simpanan_m extends CI_Model {
 			$data[] = $this->getListSimpananPokok($row['anggota_id'],$row["nama"]);
 		endforeach;
 		$result["rows"] = $data; 
+		$result["count"] = count($data);
 		return $result;	
 	}
 

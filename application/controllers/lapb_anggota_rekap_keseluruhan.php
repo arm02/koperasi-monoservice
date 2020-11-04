@@ -114,36 +114,7 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 	}
 
 	function cetak() {
-		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(1,10);
-		// $simpanan = array(
-		// 	array(
-		// 		"nama" => 'Alimin',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// 	array(
-		// 		"nama" => 'Endin',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// 	array(
-		// 		"nama" => '	Empat Siti Fatimah',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// );
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(200,200);
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');

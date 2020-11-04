@@ -105,57 +105,8 @@ striped="true">
 		<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'center'"> Jumlah </th>
 		<th data-options="field:'yang_diambil',width:'17', halign:'center', align:'center'"> Yang Diambil </th>
 		<th data-options="field:'saldo_simpanan',width:'17', halign:'center', align:'center'"> Saldo Disimpan </th>
-		<!-- <th style="width:5%; vertical-align: middle; text-align:center"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center">Nama </th>
-		<th style="width:20%; vertical-align: middle; text-align:center" colspan="4"> Simpanan  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Yang Diambil  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Saldo Simpanan  </th> -->
 	</tr>
 </thead>
-	<!-- <tr>
-		<td>1</td>
-		<td>Alimin</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-	<tr>
-		<td>2</td>
-		<td>Endin</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-	<tr>
-		<td>3</td>
-		<td>Empat Siti Fatimah</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr> -->
-	<!-- <tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
-		<th style="width:15%;" >3000000 </th>
-		<th style="width:20%;" > 42967023  </th>
-		<th style="width:15%;" > 42967023  </th>
-		<th style="width:15%;" > 42967023   </th>
-		<th style="width:15%;" > 88934046   </th>
-		<th style="width:15%;" > 88934046   </th>
-		<th style="width:15%;" > 88934046   </th>
-	</tr> -->
 </table>
 </div>
 </div>
