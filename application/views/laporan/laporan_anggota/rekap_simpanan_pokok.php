@@ -91,7 +91,6 @@ striped="true">
 <thead>
 	<tr class="header_kolom">
 		<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center',hidden: true"> ID </th>
-		<th data-options="field:'no',width:'17', halign:'center', align:'center'"> No. </th>
 		<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'">Nama </th>
 		<th data-options="field:'januari',width:'17', halign:'center', align:'center'"> Januari  </th>
 		<th data-options="field:'februari',width:'17', halign:'center', align:'center'"> Februari  </th>

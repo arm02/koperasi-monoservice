@@ -102,14 +102,19 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY anggota.tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
+		INNER JOIN jns_simpan simpan ON simpan.id= 40
+		GROUP BY anggota.id";
+
 		$execute = $this->db->query($sql);
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
 			$data[] = $this->getListSimpananPokok($row['anggota_id'],$row["nama"], $q);
 		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
 		$result["rows"] = $data; 
-		$result["count"] = count($data);
 		return $result;	
 	}
 
@@ -193,12 +198,17 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
+		GROUP BY anggota.id";
+
 		$execute = $this->db->query($sql);
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
 			$data[] = $this->getListSimpananWajib($row['anggota_id'],$row["nama"]);
 		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
 		$result["rows"] = $data; 
 		return $result;	
 	}
@@ -287,12 +297,17 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id";
+
 		$execute = $this->db->query($sql);
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
 			$data[] = $this->getListAnggotabulan($row['anggota_id'],$row["nama"]);
 		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();
 		$result["rows"] = $data; 
 		return $result;		
 	}
