@@ -30,8 +30,8 @@ if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
 	$tgl_dari = $_REQUEST['tgl_dari'];
 	$tgl_samp = $_REQUEST['tgl_samp'];
 } else {
-	$tgl_dari = date('Y') . '-01-01';
-	$tgl_samp = date('Y') . '-12-31';
+	$tgl_dari = null;
+	$tgl_samp = null;
 }
 $tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
 $tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
@@ -57,8 +57,7 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
 								<button class="btn btn-default" id="daterange-btn">
-									<i class="fa fa-calendar"></i> <span id="reportrange"><span><?php echo $tgl_periode_txt; ?>
-									</span></span>
+									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
 									<i class="fa fa-caret-down"></i>
 								</button>
 							</div>
@@ -135,16 +134,12 @@ function fm_filter_tgl() {
 					tgl_dari: '".$tgl_dari."',
 					tgl_samp: '".$tgl_samp."'
 				";
-			} else {
-				echo "
-					tgl_dari: moment().startOf('year').startOf('month'),
-					tgl_samp: moment().endOf('year').endOf('month')
-				";
 			}
 		?>
 	},
 
 	function (start, end) {
+		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
 		doSearch();
 	});
 }
@@ -163,16 +158,9 @@ function doSearch() {
 }
 
 function cetak () {
-	var validationFilterData = '<?php 
-		 						if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])){
-		 							echo true;
-		 						}else{
-		 							echo false;
-		 						}
-	 						?>'
-	if(validationFilterData){
-		var tgl_dari = '<?php echo isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '' ?>'
-		var tgl_samp = '<?php echo isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : ''?>'
+	var tgl_dari = $('input[name=daterangepicker_start]').val();
+	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	if($('#reportrange').text() != 'Tanggal'){
 		var win = window.open('<?php echo site_url("lapb_anggota_rekap_keseluruhan/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
 	}else{
 		var win = window.open('<?php echo site_url("lapb_anggota_rekap_keseluruhan/cetak"); ?>');

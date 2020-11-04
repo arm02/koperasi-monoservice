@@ -87,7 +87,7 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 			'tgl_samp' => $tgl_samp
 		);
 		$offset = ($offset-1)*$limit;
-		$data   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota($offset,$limit);
+		$data   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota($offset,$limit,$search);
 		$i	= 0;
 		$rows   = array();
 		if($data){
@@ -115,7 +115,13 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 	}
 
 	function cetak() {
-		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(200,200);
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$q = array(
+			'tgl_dari' => $tgl_dari, 
+			'tgl_samp' => $tgl_samp, 
+		);
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(200,200, $q);
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -126,12 +132,16 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 			$tgl_dari = $_REQUEST['tgl_dari'];
 			$tgl_samp = $_REQUEST['tgl_samp'];
 		} else {
-			$tgl_dari = date('Y') . '-01-01';
-			$tgl_samp = date('Y') . '-12-31';
+			$tgl_dari = null;
+			$tgl_samp = null;
 		}
 		$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
 		$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
-		$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+		if($tgl_dari && $tgl_samp){
+			$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+		}else{
+			$tgl_periode_txt = 'Semua Data';
+		}
 		
 		$this->load->library('Pdf');
 
