@@ -28,7 +28,7 @@ class Lap_simpanan_m extends CI_Model {
 		return $this->db->count_all_results('jns_simpan');
 	}
 
-	function lap_rekap_seluruh_anggota($limit, $offset) {
+	function lap_rekap_seluruh_anggota($limit = 200, $offset = 200) {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
@@ -41,7 +41,8 @@ class Lap_simpanan_m extends CI_Model {
 		foreach ($execute->result_array() as $row):   
 			$data[] = $this->getListSimpanan($row['anggota_id'],$row["nama"]);
 		endforeach;
-		$result["rows"] = $data; 
+		$result["rows"] = $data;
+		$result["count"] = count($data);
 		return $result;		
 	}
 

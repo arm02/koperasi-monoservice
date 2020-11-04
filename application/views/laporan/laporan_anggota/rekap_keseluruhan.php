@@ -80,22 +80,40 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 <p></p>
 <p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Simpanan Anggota </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2">Nama </th>
-		<th style="width:20%; vertical-align: middle; text-align:center" colspan="4"> Simpanan  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Jumlah  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Yang Diambil  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Saldo Simpanan  </th>
-	</tr>
-	<tr class="header_kolom">
-		<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Wajib  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Sukarela  </th>
-		<th style="width:10%; vertical-align: middle; text-align:center"> Khusus  </th>
-	</tr>
+<table
+id="dg"
+class="easyui-datagrid"
+title="Data Rekapitulasi Simpanan Anggota"
+style="width:auto; height: auto;"
+url="<?php echo site_url('Lapb_anggota_rekap_keseluruhan/ajax_list'); ?>"
+pagination="true" rownumbers="true"
+fitColumns="true" singleSelect="true" collapsible="true"
+sortName="nama_anggota" sortOrder="desc"
+toolbar="#tb"
+striped="true">
+<thead>
 	<tr>
+		<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center',hidden: true"> ID </th>
+		<th data-options="field:'no',width:'17', halign:'center', align:'center'"> No </th>
+		<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'"> Nama </th>
+		<!-- <th style="width:20%; vertical-align: middle; text-align:center" colspan="4"> Simpanan </th> -->
+		<th data-options="field:'simpananwajib',width:'17', halign:'center', align:'center'"> Simpanan Pokok  </th>
+		<th data-options="field:'simpananpokok',width:'17', halign:'center', align:'center'"> Simpanan Wajib  </th>
+		<th data-options="field:'simpanansukarela',width:'17', halign:'center', align:'center'"> Simpanan Sukarela  </th>
+		<th data-options="field:'simpanankhusus',width:'17', halign:'center', align:'center'"> Khusus  </th>
+
+		<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'center'"> Jumlah </th>
+		<th data-options="field:'yang_diambil',width:'17', halign:'center', align:'center'"> Yang Diambil </th>
+		<th data-options="field:'saldo_simpanan',width:'17', halign:'center', align:'center'"> Saldo Disimpan </th>
+		<!-- <th style="width:5%; vertical-align: middle; text-align:center"> No. </th>
+		<th style="width:15%; vertical-align: middle; text-align:center">Nama </th>
+		<th style="width:20%; vertical-align: middle; text-align:center" colspan="4"> Simpanan  </th>
+		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
+		<th style="width:15%; vertical-align: middle; text-align:center"> Yang Diambil  </th>
+		<th style="width:15%; vertical-align: middle; text-align:center"> Saldo Simpanan  </th> -->
+	</tr>
+</thead>
+	<!-- <tr>
 		<td>1</td>
 		<td>Alimin</td>
 		<td>1000000</td>
@@ -127,8 +145,8 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<td>29644682</td>
 		<td>29644682</td>
 		<td>29644682</td>
-	</tr>
-	<tr class="header_kolom">
+	</tr> -->
+	<!-- <tr class="header_kolom">
 		<th style="width:5%; vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
 		<th style="width:15%;" >3000000 </th>
 		<th style="width:20%;" > 42967023  </th>
@@ -137,7 +155,8 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 		<th style="width:15%;" > 88934046   </th>
 		<th style="width:15%;" > 88934046   </th>
 		<th style="width:15%;" > 88934046   </th>
-	</tr>
+	</tr> -->
+</table>
 </div>
 </div>
 	
@@ -164,13 +183,13 @@ function fm_filter_tgl() {
 		<?php 
 			if(isset($tgl_dari) && isset($tgl_samp)) {
 				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
+					tgl_dari: '".$tgl_dari."',
+					tgl_samp: '".$tgl_samp."'
 				";
 			} else {
 				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
+					tgl_dari: moment().startOf('year').startOf('month'),
+					tgl_samp: moment().endOf('year').endOf('month')
 				";
 			}
 		?>
@@ -195,13 +214,20 @@ function doSearch() {
 }
 
 function cetak () {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	//$('input[name=tgl_dari]').val(tgl_dari);
-	//$('input[name=tgl_samp]').val(tgl_samp);
-	//$('#fmCari').attr('action', '<?php echo site_url('lapb_anggota_rekap_keseluruhan/cetak'); ?>');
-	//$('#fmCari').submit();
-	var win = window.open('<?php echo site_url("lapb_anggota_rekap_keseluruhan/cetak/?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+	var validationFilterData = '<?php 
+		 						if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])){
+		 							echo true;
+		 						}else{
+		 							echo false;
+		 						}
+	 						?>'
+	if(validationFilterData){
+		var tgl_dari = '<?php echo isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '' ?>'
+		var tgl_samp = '<?php echo isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : ''?>'
+		var win = window.open('<?php echo site_url("lapb_anggota_rekap_keseluruhan/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+	}else{
+		var win = window.open('<?php echo site_url("lapb_anggota_rekap_keseluruhan/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {

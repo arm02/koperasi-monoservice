@@ -77,36 +77,73 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 
 	}
 
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
+		// $aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
+		// $search = array('nama' => $nama,
+		// 	'aktif' => $aktif);
+		$offset = ($offset-1)*$limit;
+		$data   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota($offset,$limit);
+		$i	= 0;
+		$rows   = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+
+				$rows[$i]['id_anggota'] = $r['id_anggota'];
+				$rows[$i]['no'] = $i+1;
+				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
+				$rows[$i]['simpananwajib'] = number_format($r['simpananwajib']);
+				$rows[$i]['simpananpokok'] = number_format($r['simpananpokok']);
+				$rows[$i]['simpanansukarela'] = number_format($r['simpanansukarela']);
+				$rows[$i]['simpanankhusus'] = number_format($r['simpanankhusus']);
+				$rows[$i]['jumlah_total'] = number_format($r['jumlah_total']);
+				$rows[$i]['yang_diambil'] = number_format($r['yang_diambil']);
+				$rows[$i]['saldo_simpanan'] = number_format($r['saldo_simpanan']);
+				// $rows[$i]['nota'] = '<p></p><p>
+				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
 	function cetak() {
-		$simpanan = array(
-			array(
-				"nama" => 'Alimin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
-			array(
-				"nama" => 'Endin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
-			array(
-				"nama" => '	Empat Siti Fatimah',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
-		);
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(1,10);
+		// $simpanan = array(
+		// 	array(
+		// 		"nama" => 'Alimin',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// 	array(
+		// 		"nama" => 'Endin',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// 	array(
+		// 		"nama" => '	Empat Siti Fatimah',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// );
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -163,28 +200,28 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 		$jumlah_yang_diambil = 0; 
 		$jumlah_saldo_disimpan = 0; 
 		$total_jumlah = 0;
-		foreach ($simpanan as $jenis) {
-			$jumlah = $jenis['pokok'] + $jenis['wajib'] + $jenis['sukarela'] + $jenis['khusus'] ;
+		foreach ($simpanan["rows"] as $jenis) {
+			$jumlah = $jenis['simpananpokok'] + $jenis['simpananwajib'] + $jenis['simpanansukarela'] + $jenis['simpanankhusus'] ;
 
-			$jumlah_pokok += $jenis['pokok'];
-			$jumlah_wajib += $jenis['wajib'];
-			$jumlah_sukarela += $jenis['sukarela'];
-			$jumlah_khusus += $jenis['khusus'];
+			$jumlah_pokok += $jenis['simpananpokok'];
+			$jumlah_wajib += $jenis['simpananwajib'];
+			$jumlah_sukarela += $jenis['simpanansukarela'];
+			$jumlah_khusus += $jenis['simpanankhusus'];
 			$jumlah_yang_diambil += $jenis['yang_diambil'];
-			$jumlah_saldo_disimpan += $jenis['saldo_disimpan'];
+			$jumlah_saldo_disimpan += $jenis['saldo_simpanan'];
 			$total_jumlah += $jumlah;
 
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $jenis['nama'].'</td>
-				<td class="h_kanan">'. number_format($jenis['pokok']).'</td>
-				<td class="h_kanan">'. number_format($jenis['wajib']).'</td>
-				<td class="h_kanan">'. number_format($jenis['sukarela']).'</td>
-				<td class="h_kanan">'. number_format($jenis['khusus']).'</td>
+				<td>'. $jenis['nama_anggota'].'</td>
+				<td class="h_kanan">'. number_format($jenis['simpananpokok']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpananwajib']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpanansukarela']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpanankhusus']).'</td>
 				<td class="h_kanan">'. number_format($jumlah).'</td>
 				<td class="h_kanan">'. number_format($jenis['yang_diambil']).'</td>
-				<td class="h_kanan">'. number_format($jenis['saldo_disimpan']).'</td>
+				<td class="h_kanan">'. number_format($jenis['saldo_simpanan']).'</td>
 			</tr>';
 		}
 		$html .= '
