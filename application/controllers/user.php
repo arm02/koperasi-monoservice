@@ -103,6 +103,7 @@ class User extends AdminController {
 			$rows[$i]['u_name'] = $r->u_name;
 			$rows[$i]['aktif'] = $r->aktif;
 			$rows[$i]['level'] = $r->level;
+			$i++;
 		}
 		//keys total & rows wajib bagi jEasyUI
 		$result = array('total'=>$data['count'],'rows'=>$rows);

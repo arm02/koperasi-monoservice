@@ -83,30 +83,30 @@ class="easyui-datagrid"
 title="Data Rekapitulasi Simpanan Pokok"
 style="width:auto; height: auto;"
 url="<?php echo site_url('lapb_anggota_rekap_simpanan_pokok/ajax_list'); ?>"
-pagination="true" rownumbers="true"
+pagination="true" rownumbers="false"
 fitColumns="true" singleSelect="true" collapsible="true"
 sortName="nama_anggota" sortOrder="desc"
 toolbar="#tb"
 striped="true">
 <thead>
 	<tr class="header_kolom">
-		<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center',hidden: true"> ID </th>
-		<th data-options="field:'nama_anggota',width:'17', halign:'center', align:'center'">Nama </th>
-		<th data-options="field:'januari',width:'17', halign:'center', align:'center'"> Januari  </th>
-		<th data-options="field:'februari',width:'17', halign:'center', align:'center'"> Februari  </th>
-		<th data-options="field:'maret',width:'17', halign:'center', align:'center'"> Maret  </th>
-		<th data-options="field:'april',width:'17', halign:'center', align:'center'"> April  </th>
-		<th data-options="field:'mei',width:'17', halign:'center', align:'center'"> Mei  </th>
-		<th data-options="field:'juni',width:'17', halign:'center', align:'center'"> Juni  </th>
-		<th data-options="field:'juli',width:'17', halign:'center', align:'center'"> Juli  </th>
-		<th data-options="field:'agustus',width:'17', halign:'center', align:'center'"> Agustus  </th>
-		<th data-options="field:'september',width:'17', halign:'center', align:'center'"> September  </th>
-		<th data-options="field:'oktober',width:'17', halign:'center', align:'center'"> Oktober  </th>
-		<th data-options="field:'november',width:'17', halign:'center', align:'center'"> November  </th>
-		<th data-options="field:'desember',width:'17', halign:'center', align:'center'"> Desember  </th>
-		<th data-options="field:'jumlah',width:'17', halign:'center', align:'center'"> Jumlah  </th>
-		<th data-options="field:'saldo18',width:'17', halign:'center', align:'center'"> Saldo 18  </th>
-		<th data-options="field:'saldo19',width:'17', halign:'center', align:'center'"> Saldo 19  </th>
+		<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center'"> ID Anggota</th>
+		<th data-options="field:'nama_anggota',width:'30', halign:'center', align:'center'">Nama </th>
+		<th data-options="field:'januari',width:'17', halign:'right', align:'right'"> Januari  </th>
+		<th data-options="field:'februari',width:'17', halign:'right', align:'right'"> Februari  </th>
+		<th data-options="field:'maret',width:'17', halign:'right', align:'right'"> Maret  </th>
+		<th data-options="field:'april',width:'17', halign:'right', align:'right'"> April  </th>
+		<th data-options="field:'mei',width:'17', halign:'right', align:'right'"> Mei  </th>
+		<th data-options="field:'juni',width:'17', halign:'right', align:'right'"> Juni  </th>
+		<th data-options="field:'juli',width:'17', halign:'right', align:'right'"> Juli  </th>
+		<th data-options="field:'agustus',width:'17', halign:'right', align:'right'"> Agustus  </th>
+		<th data-options="field:'september',width:'17', halign:'right', align:'right'"> September  </th>
+		<th data-options="field:'oktober',width:'17', halign:'right', align:'right'"> Oktober  </th>
+		<th data-options="field:'november',width:'17', halign:'right', align:'right'"> November  </th>
+		<th data-options="field:'desember',width:'17', halign:'right', align:'right'"> Desember  </th>
+		<th data-options="field:'jumlah',width:'17', halign:'right', align:'right'"> Jumlah  </th>
+		<th data-options="field:'saldo18',width:'17', halign:'right', align:'right'"> Saldo 18  </th>
+		<th data-options="field:'saldo19',width:'17', halign:'right', align:'right'"> Saldo 19  </th>
 	</tr>
 </thead>
 	<tr class="header_kolom">

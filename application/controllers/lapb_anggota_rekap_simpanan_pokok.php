@@ -195,41 +195,41 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
 				<td>'. $value['nama_anggota'].'</td>
-				<td class="h_kanan">'. number_format($value['januari']).'</td>
-				<td class="h_kanan">'. number_format($value['februari']).'</td>
-				<td class="h_kanan">'. number_format($value['maret']).'</td>
-				<td class="h_kanan">'. number_format($value['april']).'</td>
-				<td class="h_kanan">'. number_format($value['mei']).'</td>
-				<td class="h_kanan">'. number_format($value['juni']).'</td>
-				<td class="h_kanan">'. number_format($value['juli']).'</td>
-				<td class="h_kanan">'. number_format($value['agustus']).'</td>
-				<td class="h_kanan">'. number_format($value['september']).'</td>
-				<td class="h_kanan">'. number_format($value['oktober']).'</td>
-				<td class="h_kanan">'. number_format($value['november']).'</td>
-				<td class="h_kanan">'. number_format($value['desember']).'</td>
-				<td class="h_kanan">'. number_format($jumlah).'</td>
-				<td class="h_kanan">'. number_format($value['saldo18']).'</td>
-				<td class="h_kanan">'. number_format($value['saldo19']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['januari']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['februari']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['maret']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['april']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['mei']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['juni']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['juli']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['agustus']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['september']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['oktober']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['november']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['desember']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($jumlah).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo18']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo19']).'</td>
 			</tr>';
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah </strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
+			<td class="h_kanan"><strong> Rp.'.number_format($jumlah).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
