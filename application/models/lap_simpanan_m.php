@@ -291,12 +291,14 @@ class Lap_simpanan_m extends CI_Model {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
 		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		GROUP BY anggota.id
 		ORDER BY tgl_daftar desc 
 		LIMIT ".$offset.",".$limit."";
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id";
+		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id
+		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
 
@@ -338,9 +340,10 @@ class Lap_simpanan_m extends CI_Model {
 		foreach ($execute->result_array() as $row => $value):  
 			$data["nama_anggota"] = $value["nama"];	 
 			$data[$value["inisial"]] = $value["jumlah"];
-			$data["jumlah_total"] += $value["jumlah"];
+			if($value["jenis_simpanan"] != 112 ){
+				$data["jumlah_total"] += $value["jumlah"];
+			}
 		endforeach; 
-
 		return $data;
 	}
 
