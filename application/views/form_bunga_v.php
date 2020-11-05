@@ -50,7 +50,7 @@
       'name' => 'dana_anggota_atas_usaha',
       'id' => 'dana_anggota_atas_usaha',
       'class' => 'form-control',
-      'value' => $dana_anggota_atas_usaha,
+      'value' => 0,
       'maxlength' => '255',
       'style' => 'width: 50%'
     );
@@ -95,7 +95,7 @@
       'name' => 'dana_anggota_atas_modal',
       'id' => 'dana_anggota_atas_modal',
       'class' => 'form-control',
-      'value' => $dana_anggota_atas_modal,
+      'value' => 0,
       'maxlength' => '255',
       'style' => 'width: 50%'
     );
@@ -185,7 +185,7 @@
       'name' => 'dana_kesejahteraan_karyawan',
       'id' => 'dana_kesejahteraan_karyawan',
       'class' => 'form-control',
-      'value' => $dana_kesejahteraan_karyawan,
+      'value' => 0,
       'maxlength' => '255',
       'style' => 'width: 50%'
     );
@@ -230,7 +230,7 @@
       'name' => 'dana_pembangunan_daerah_kerja',
       'id' => 'dana_pembangunan_daerah_kerja',
       'class' => 'form-control',
-      'value' => $dana_pembangunan_daerah_kerja,
+      'value' => 0,
       'maxlength' => '25',
       'style' => 'width: 50%'
     );
