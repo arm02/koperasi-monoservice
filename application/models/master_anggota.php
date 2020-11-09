@@ -86,14 +86,14 @@ class Master_anggota extends CI_Model {
 
 	public function update($id)
 	{
-		// $this->callback_after_upload($this->input->post('file_pic'),'uploads/anggota',$this->input->post('file_pic'))
 		$sql = " SELECT * FROM tbl_anggota WHERE id =".$id;
 		$data_anggota = '';
-		$query = $this->db->query($sql);
+		$query =  $this->db->query($sql);
 		if($query->num_rows() > 0) {
 			$data_anggota = $query->result();
 		}
 		$this->db->where('id', $id);
+		$file_pic = $this->ubah_pic($data_anggota[0]);
 		return $this->db->update('tbl_anggota',array(
 			'nama'			=>	$this->input->post('nama'),
 			'identitas'			=>	$this->input->post('identitas'),
@@ -110,8 +110,8 @@ class Master_anggota extends CI_Model {
 			'tgl_daftar'			=>	$this->input->post('tgl_daftar'),
 			'jabatan_id'			=>	$this->input->post('jabatan_id'),
 			'aktif'			=>	$this->input->post('aktif'),
-			'pass_word' => $this->input->post('pass_word') ? sha1('nsi' . $this->input->post('pass_word')) : $data_anggota->pass_word,
-			'file_pic'			=>	$this->input->post('file_pic'),
+			'pass_word' => $this->input->post('pass_word') ? sha1('nsi' . $this->input->post('pass_word')) : $data_anggota[0]->pass_word,
+			'file_pic'			=>	$file_pic['success'],
 			));
 	}
 
@@ -119,11 +119,52 @@ class Master_anggota extends CI_Model {
 		return $this->db->delete('tbl_anggota', array('id' => $id));
 	}
 
-	function callback_after_upload($uploader_response,$field_info, $files_to_upload) {
-		$this->load->library('image_moo');
-        //Is only one file uploaded so it ok to use it with $uploader_response[0].
-		$file_uploaded = $field_info->upload_path.'/'.$uploader_response[0]->name;
-		$this->image_moo->load($file_uploaded)->resize(250,250)->save($file_uploaded,true);
-		return true;
+	public function ubah_pic($row) {
+		$out = array('error' => '', 'success' => '');
+		$file_lama = $row->file_pic;
+		$config['upload_path'] = FCPATH . 'uploads/anggota/';
+		$config['file_name'] = uniqid();
+		$config['overwrite'] = FALSE;
+		$config["allowed_types"] = 'jpg|jpeg|png|gif';
+		$config["max_size"] = 1024;
+		$config["max_width"] = 2000;
+		$config["max_height"] = 2000;
+		$this->load->library('upload', $config);
+
+		if(!$this->upload->do_upload('file_upload')) {
+			$out['error'] = $this->upload->display_errors();
+			$out['success'] = $row->file_pic;
+		} else {
+			$config['image_library'] = 'gd2';
+			$config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
+			$config['maintain_ratio'] = TRUE;
+			$config['width'] = 250;
+			$config['height'] = 250;
+			$config['overwrite'] = TRUE;
+			$this->load->library('image_lib',$config); 
+
+			if ( !$this->image_lib->resize()){
+				$out['error'] = $this->image_lib->display_errors();
+				$out['success'] = $row->file_pic;
+			} else {
+				//success
+				$uploadedFile = $this->upload->data();
+				$data = $uploadedFile['file_name'];
+
+				// hapus file lama
+				if($file_lama != '') {
+					$file_lama_f = FCPATH . '/uploads/anggota/'.$file_lama;
+					if(file_exists($file_lama_f)) {
+						if(unlink($file_lama_f)) {
+							// DELETED
+						} else {
+							// NOT DELETED
+						}
+					}
+				}
+				$out['success'] = $data;
+			}
+		}
+		return $out;
 	}
 }

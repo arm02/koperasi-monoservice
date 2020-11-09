@@ -82,7 +82,7 @@ striped="true">
 
 <!-- Dialog Form -->
 <div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:480px; height:500px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
-	<form id="form" method="post" novalidate>
+	<form id="form" method="post">
 	<table style="height:150px" >
 			<tr>
 				<td>
@@ -143,7 +143,8 @@ striped="true">
 							<td> Departement </td>
 							<td>:</td>
 							<td>
-								<select id="departement" name="departement" style="width:195px; height:25px" class="easyui-validatebox" required="true">
+								<input id="departement" name="departement" style="width:190px; height:20px" >
+								<!-- <select id="departement" name="departement" style="width:195px; height:25px" class="easyui-validatebox" required="true">
 									<option value="0" selected disabled> -- Pilih Departement --</option>
 									<option value="Produksi BOPP">Produksi BOPP</option>
 									<option value="Produksi Slitting">Produksi Slitting</option>
@@ -154,7 +155,7 @@ striped="true">
 									<option value="Purchasing">Purchasing</option>
 									<option value="Accounting">Accounting</option>
 									<option value="Engineering">Engineering</option>
-								</select>
+								</select> -->
 							</td>
 						</tr>
 						<tr style="height:35px">
@@ -184,12 +185,12 @@ striped="true">
 							<td>
 								<select id="agama" name="agama" style="width:195px; height:25px" class="easyui-validatebox" required="true">
 									<option value="0" selected disabled> -- Pilih Agama --</option>
-									<option value="Islam">Islam</option>
-									<option value="Khatolik">Khatolik</option>
-									<option value="Protestan">Protestan</option>
-									<option value="Hindu">Hindu</option>
-									<option value="Buddha">Buddha</option>
-									<option value="Lainnya">Lainnya</option>
+									<option value="islam">Islam</option>
+									<option value="khatolik">Khatolik</option>
+									<option value="protestan">Protestan</option>
+									<option value="hindu">Hindu</option>
+									<option value="buddha">Buddha</option>
+									<option value="lainnya">Lainnya</option>
 								</select>
 							</td>
 						</tr>
@@ -197,7 +198,8 @@ striped="true">
 							<td> Alamat </td>
 							<td>:</td>
 							<td>
-								<textarea id="alamat" nama="alamat" style="width:195px; height:25px"></textarea>
+								<!-- <textarea id="alamat" nama="alamat" style="width:195px; height:25px"></textarea> -->
+								<input id="alamat" name="alamat" style="width:190px; height:50px" >
 							</td>
 						</tr>
 						<tr style="height:35px">
@@ -225,7 +227,7 @@ striped="true">
 							<td> Jabatan </td>
 							<td>:</td>
 							<td>
-								<select id="jabatan" name="jabatan" style="width:195px; height:25px" class="easyui-validatebox" required="true">
+								<select id="jabatan_id" name="jabatan_id" style="width:195px; height:25px" class="easyui-validatebox" required="true">
 									<option value="0" selected disabled> -- Pilih Jabatan --</option>
 									<option value="1">Anggota</option>
 									<option value="2">Pengurus</option>
@@ -236,7 +238,7 @@ striped="true">
 							<td> Password </td>
 							<td>:</td>
 							<td>
-								<input type="password" id="pass_word" name="pass_word" style="width:190px; height:20px" ><br>
+								<input type="password" id="pass_word" name="pass_word" style="width:190px; height:20px" ><br/>
 								Kosongkan Password Jika tidak ingin diganti
 							</td>
 						</tr>
@@ -254,8 +256,17 @@ striped="true">
 						<tr style="height:35px">
 							<td> Photo </td>
 							<td>:</td>
+							<td id="file_img">
+								
+							</td>
+						</tr>
+						<tr style="height:35px">
+							<td></td>
+							<td></td>
 							<td>
-								<input type="file" id="file_pic" name="file_pic" style="width:190px; height:20px" >
+								<input type="hidden" id="file_pic" name="file_pic">
+								<input type="file" id="file_upload" name="file_upload" style="width:190px; height:20px" ><br/>
+								Kosongkan Photo Jika tidak ingin diganti
 							</td>
 						</tr>
 				</table>
@@ -268,7 +279,7 @@ striped="true">
 <!-- Dialog Button -->
 <div id="dialog-buttons">
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">Simpan</a>
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:jQuery('#dialog-form').dialog('close')">Batal</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="tutup()">Batal</a>
 </div>
 
 <script type="text/javascript">
@@ -291,8 +302,13 @@ function create(){
 
 	url = '<?php echo site_url('anggota/create'); ?>';
 }
-
+function tutup() {
+	$('#profile_img').remove()
+	jQuery('#dialog-form').dialog('close')
+}
 function save() {
+	var form = document.getElementById('form');
+	var data = new FormData(form)
 	var string = $("#form").serialize();
 	//validasi teks kosong
 	var nama = $("#nama").val();
@@ -321,11 +337,16 @@ function save() {
 	var isValid = $('#form').form('validate');
 	if (isValid) {
 		$.ajax({
-			type	: "POST",
 			url: url,
-			data	: string,
+			type	: "POST",
+			data	: data,
+			processData:false,
+         	contentType:false,
+         	cache:false,
+         	async:false,
 			success	: function(result){
 				var result = eval('('+result+')');
+				$('#profile_img').remove()
 				$.messager.show({
 					title:'<div><i class="fa fa-info"></i> Informasi</div>',
 					msg: result.msg,
@@ -362,6 +383,7 @@ function update(){
 	    aktif = "Y"
 	    break;
 	}
+	data.aktif = aktif
 	var jabatan = 0
 	switch(row.jabatan_id) {
 	  case 'Anggota':
@@ -372,9 +394,16 @@ function update(){
 	    break;
 	}
 	data.jabatan_id = jabatan
+	data.file_upload = ""
+	console.log(data)
+	if(data.file_pic){
+		$('#file_img').append('<img id="profile_img" src="/ci/koperasi-monoservice/uploads/anggota/'+ data.file_pic +'" width="15%"/>');
+	}else{
+		$('#file_img').append('<img id="profile_img" src="/ci/koperasi-monoservice/assets/theme_admin/img/photo.jpg" width="15%"/>');
+	}
 	if(row){
 		jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
-		jQuery('#form').form('load',row);
+		jQuery('#form').form('load',data);
 		url = '<?php echo site_url('anggota/update'); ?>/' + row.id;
 		
 	}else {

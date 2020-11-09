@@ -4,7 +4,9 @@ class Anggota extends OperatorController {
 
 	public function __construct() {
 		parent::__construct();	
+		$this->load->helper('form');
 		$this->load->helper('fungsi');
+		$this->load->library('form_validation');
 		$this->load->model('master_anggota');
 	}	
 	
@@ -222,6 +224,7 @@ class Anggota extends OperatorController {
 			$rows[$i]['aktif'] = $aktif;
 			$rows[$i]['file_pic'] = $r->file_pic;
 			$rows[$i]['file_pic_html'] = $this->callback_column_pic($r->file_pic);
+			$rows[$i]['file_upload'] = "";
 			// $rows[$i]['nota'] = '<p></p><p>
 			// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 			$i++;
