@@ -71,10 +71,14 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 		
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_simpanan_pokok', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
+		// $datas = $this->lap_simpanan_m->lap_rekap_anggota_pokok(100,100);
+		// print_r($datas);
 
 	}
 
 	function ajax_list() {
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
 		/*Default request pager params dari jeasyUI*/
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
@@ -108,8 +112,8 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 				$rows[$i]['november'] = 'Rp.'. number_format($r['november']);
 				$rows[$i]['desember'] = 'Rp.'. number_format($r['desember']);
 				$rows[$i]['jumlah'] = 'Rp.'. number_format($r['jumlah']);
-				$rows[$i]['saldo18'] = 'Rp.'. number_format($r['saldo18']);
-				$rows[$i]['saldo19'] = 'Rp.'. number_format($r['saldo19']);
+				$rows[$i]['saldo18'] = 'Rp.'. number_format($r["saldo".$saldo2.""]);
+				$rows[$i]['saldo19'] = 'Rp.'. number_format($r["saldo".$saldo1.""]);
 				// $rows[$i]['nota'] = '<p></p><p>
 				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 				$i++;

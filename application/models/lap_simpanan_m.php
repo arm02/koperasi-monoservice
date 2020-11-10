@@ -120,7 +120,10 @@ class Lap_simpanan_m extends CI_Model {
 
 
 	function getListSimpananPokok($id,$nama_anggota,$q = "") {
-		$sql = "SELECT anggota.nama as nama, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi FROM tbl_anggota anggota 
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
+		$sql = "SELECT anggota.nama as nama, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi, sum(case when year(trans.tgl_transaksi) = ".$saldo1." then trans.jumlah else 0 end) saldo1, sum(case when year(trans.tgl_transaksi) = ".$saldo2." then trans.jumlah else 0 end) saldo2
+		FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=40 where anggota.id = ".$id."";
 
 		$where = "";
@@ -151,8 +154,8 @@ class Lap_simpanan_m extends CI_Model {
 			"november"=>0,
 			"desember"=>0,
 			"jumlah"=>0,
-			"saldo18"=>0,
-			"saldo19"=>0
+			"saldo".$saldo2.""=>0,
+			"saldo".$saldo1.""=>0
 		);
 
 		foreach ($execute->result_array() as $row => $value):  
@@ -184,8 +187,12 @@ class Lap_simpanan_m extends CI_Model {
 			$data["nama_anggota"] = $value["nama"];	 
 			$data[$value["bulan_transaksi"]] = $value["jumlah"];
 			$data["jumlah"] += $value["jumlah"];
-			$data["saldo18"] = 0;
-			$data["saldo19"] = 0;
+			if($value["saldo2"]){
+				$data["saldo".$saldo2.""] = $value["saldo2"];
+			}
+			if($value["saldo1"]){
+				$data["saldo".$saldo1.""] = $value["saldo1"];
+			}
 		endforeach; 
 
 		return $data;
@@ -215,7 +222,11 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function getListSimpananWajib($id,$nama_anggota,$q = "") {
-		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi FROM tbl_anggota anggota 
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
+		$sql = "SELECT anggota.nama as nama, simpan.jns_simpan as jenis_simpanan,simpan.inisial as inisial, sum(trans.jumlah) as jumlah, trans.tgl_transaksi as tgl_transaksi, EXTRACT( MONTH FROM trans.tgl_transaksi ) as bulan_transaksi, EXTRACT( YEAR FROM trans.tgl_transaksi ) as tahun_transaksi, 
+		sum(case when year(trans.tgl_transaksi) = $saldo1 then trans.jumlah else 0 end) saldo1, 
+		sum(case when year(trans.tgl_transaksi) = $saldo2 then trans.jumlah else 0 end) saldo2 FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
 		INNER JOIN jns_simpan simpan ON simpan.id= 41 where anggota.id = ".$id."";
 
@@ -247,8 +258,8 @@ class Lap_simpanan_m extends CI_Model {
 			"november"=>0,
 			"desember"=>0,
 			"jumlah"=>0,
-			"saldo18"=>0,
-			"saldo19"=>0
+			"saldo".$saldo2.""=>0,
+			"saldo".$saldo1.""=>0
 		);
 
 		foreach ($execute->result_array() as $row => $value):  
@@ -280,8 +291,12 @@ class Lap_simpanan_m extends CI_Model {
 			$data["nama_anggota"] = $value["nama"];	 
 			$data[$value["bulan_transaksi"]] = $value["jumlah"];
 			$data["jumlah"] += $value["jumlah"];
-			$data["saldo18"] = 0;
-			$data["saldo19"] = 0;
+			if($value["saldo2"]){
+				$data["saldo".$saldo2.""] = $value["saldo2"];
+			}
+			if($value["saldo1"]){
+				$data["saldo".$saldo1.""] = $value["saldo1"];
+			}
 		endforeach; 
 
 		return $data;
