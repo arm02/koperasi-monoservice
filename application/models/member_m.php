@@ -267,6 +267,7 @@ class Member_m extends CI_Model {
 					if($key == 'N') { $pair['departement'] = $val; }
 				}
 				$pair['jabatan_id'] = 2;
+				$pair['aktif'] = 'Y';
 				$pair_arr[] = $pair;
 			}
 			//var_dump($pair_arr);

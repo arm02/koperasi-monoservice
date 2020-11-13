@@ -72,7 +72,15 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_simpanan_wajib', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 		// $datas = $this->lap_simpanan_m->lap_rekap_anggota_wajib(100,100);
-		// print_r($datas);
+		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$search = array(
+			'tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_samp
+		);
+
+		print_r($search);
+		exit();
 
 	}
 
@@ -94,6 +102,7 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 		$rows   = array();
 		if($data){
 			foreach ($data["rows"] as $r) {
+				
 				//array keys ini = attribute 'field' di view nya
 
 				$rows[$i]['id_anggota'] = $r['id_anggota'];

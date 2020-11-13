@@ -87,7 +87,7 @@ if(isset($header)) {
 <?php if($form_view) { ?>
 	<?php echo form_open_multipart('');?>
 
-	<input type="file" name="import_anggota" size="20" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+	<input type="file" name="import_anggota" id="import_anggota" size="20" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
 	<br /><br />
 	<input name="submit" type="submit" class="btn btn-primary" value="Upload" />
 

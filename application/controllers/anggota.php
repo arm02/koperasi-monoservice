@@ -213,7 +213,7 @@ class Anggota extends OperatorController {
 			$rows[$i]['tmp_lahir'] = $r->tmp_lahir;
 			$rows[$i]['tgl_lahir'] = $r->tgl_lahir;
 			$rows[$i]['status'] = $r->status;
-			$rows[$i]['agama'] = $r->agama;
+			$rows[$i]['agama'] = ucfirst($r->agama);
 			$rows[$i]['departement'] = $r->departement;
 			$rows[$i]['pekerjaan'] = $r->pekerjaan;
 			$rows[$i]['alamat'] = $r->alamat;
@@ -383,7 +383,7 @@ class Anggota extends OperatorController {
 		$this->load->helper(array('form'));
 
 		if($this->input->post('submit')) {
-			$config['upload_path']   = FCPATH . 'uploads/temp/';
+			$config['upload_path']   = FCPATH . 'uploads/import_anggota/';
 			$config['allowed_types'] = 'xls|xlsx';
 			$this->load->library('upload', $config);
 

@@ -380,7 +380,7 @@ function update(){
 	    aktif = "Y"
 	    break;
 	  case 'Tidak Aktif':
-	    aktif = "Y"
+	    aktif = "N"
 	    break;
 	}
 	data.aktif = aktif
@@ -394,8 +394,8 @@ function update(){
 	    break;
 	}
 	data.jabatan_id = jabatan
+	data.agama = data.agama.toLowerCase()
 	data.file_upload = ""
-	console.log(data)
 	if(data.file_pic){
 		$('#file_img').append('<img id="profile_img" src="/ci/koperasi-monoservice/uploads/anggota/'+ data.file_pic +'" width="15%"/>');
 	}else{
