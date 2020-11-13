@@ -249,7 +249,7 @@ if(in_array($this->uri->segment(1), $menu_data_arr)) {echo "active";}?>">
 <!-- MENU Setting -->
 <?php if($level == 'admin') { ?>
 <li  class="treeview <?php 
-$menu_sett_arr= array('profil','suku_bunga');
+$menu_sett_arr= array('profil','suku_bunga','backup','restore');
 if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 
 <a href="#">
@@ -262,6 +262,10 @@ if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 	<li class="<?php if ($this->uri->segment(1) == 'profil') { echo 'active'; } ?>"><a href="<?php echo base_url(); ?>profil"> <i class="fa fa-folder-open-o"></i> Identitas Koperasi </a></li>
 
 	<li class="<?php if ($this->uri->segment(1) == 'suku_bunga') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>suku_bunga"> <i class="fa fa-folder-open-o"></i> Suku Bunga </a></li>
+
+	<li class="<?php if ($this->uri->segment(1) == 'backup') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>backup"> <i class="fa fa-folder-open-o"></i> Backup Data </a></li>
+
+	<li class="<?php if ($this->uri->segment(1) == 'restore') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>restore"> <i class="fa fa-folder-open-o"></i> Restore Data </a></li>
 </ul>
 </li>
 <?php } ?>

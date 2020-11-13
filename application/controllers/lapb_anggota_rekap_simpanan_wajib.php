@@ -71,12 +71,6 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 		
 		$this->data['isi'] = $this->load->view('laporan/laporan_anggota/rekap_simpanan_wajib', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
-		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
-		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
-		$search = array(
-			'tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_samp
-		);
 	}
 
 	function ajax_list() {
