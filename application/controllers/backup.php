@@ -74,4 +74,14 @@ class Backup extends CI_Controller {
 		echo "Backup of Database Taken";
 
 	}
+
+	// public function restore(){
+	// 	$isi_file = file_get_contents('./Database_Backup/database-uhuy-11-13-2020-12-28-29.sql');
+	// 	$string_query = rtrim( $isi_file, "\n;" );
+	// 	$array_query = explode(";", $string_query);
+	// 	foreach($array_query as $query)
+	// 	{
+	// 		$this->db->query($query);
+	// 	}
+	// }
 }
