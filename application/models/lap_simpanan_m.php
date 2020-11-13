@@ -235,7 +235,7 @@ class Lap_simpanan_m extends CI_Model {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' GROUP BY YEAR(trans.tgl_transaksi), MONTH(trans.tgl_transaksi)";
 			}else{
-				// $where .=" GROUP BY YEAR(trans.tgl_transaksi), MONTH(trans.tgl_transaksi)";
+				$where .=" GROUP BY YEAR(trans.tgl_transaksi), MONTH(trans.tgl_transaksi)";
 			}
 		}
 		$sql .= $where;
