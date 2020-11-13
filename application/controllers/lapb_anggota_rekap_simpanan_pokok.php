@@ -89,7 +89,7 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 			'tgl_samp' => $tgl_samp
 		);
 		$offset = ($offset-1)*$limit;
-		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok($offset,$limit,"");
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok($offset,$limit,$search);
 		$i	= 0;
 		$rows   = array();
 		if($data){
