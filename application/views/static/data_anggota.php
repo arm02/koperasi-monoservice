@@ -25,7 +25,7 @@ style="width:auto; height: auto;"
 url="<?php echo site_url('anggota/ajax_list'); ?>" 
 pagination="true" rownumbers="true" 
 fitColumns="true" singleSelect="true" collapsible="true"
-sortName="nama" sortOrder="desc"
+sortName="created_date" sortOrder="desc"
 toolbar="#tb"
 striped="true">
 <thead>

@@ -58,6 +58,7 @@ class Master_anggota extends CI_Model {
 		$sql .=" ORDER BY {$sort} {$order} ";
 		$sql .=" LIMIT {$offset},{$limit} ";
 		$result['data'] = $this->db->query($sql)->result();
+
 		return $result;
 	}
 

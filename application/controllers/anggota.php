@@ -23,8 +23,8 @@ class Anggota extends OperatorController {
 		$crud->set_table('tbl_anggota');
 		$crud->set_subject('Data Anggota');
 
-		$crud->columns('file_pic','id_anggota','identitas','nama','jk','alamat','kota','jabatan_id','departement','tgl_daftar','aktif');
-		$crud->fields('nama','identitas','jk', 'tmp_lahir','tgl_lahir','status','departement','pekerjaan','agama','alamat','kota','notelp','tgl_daftar', 'jabatan_id','pass_word','aktif','file_pic');
+		$crud->columns('file_pic','id_anggota','identitas','nama','jk','alamat','kota','jabatan_id','departement','tgl_daftar','aktif','created_date');
+		$crud->fields('nama','identitas','jk', 'tmp_lahir','tgl_lahir','status','departement','pekerjaan','agama','alamat','kota','notelp','tgl_daftar', 'jabatan_id','pass_word','aktif','file_pic','created_date');
 
 		$crud->display_as('id_anggota','ID Anggota');
 		$crud->display_as('identitas','Username');
@@ -43,7 +43,7 @@ class Anggota extends OperatorController {
 		$crud->callback_after_upload(array($this,'callback_after_upload'));
 		$crud->callback_column('file_pic',array($this,'callback_column_pic'));
 
-		$crud->required_fields('nama','identitas','tmp_lahir','tgl_lahir','jk','alamat','kota','jabatan_id','tgl_daftar','aktif');
+		$crud->required_fields('nama','identitas','tmp_lahir','tgl_lahir','jk','alamat','kota','jabatan_id','tgl_daftar','aktif','created_date');
 		$crud->unset_texteditor('alamat');
 		$crud->field_type('no_rek','invisible'); 
 		
@@ -164,7 +164,7 @@ class Anggota extends OperatorController {
 		/*Default request pager params dari jeasyUI*/
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
-		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'nama';
+		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'created_date';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
 		$aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
