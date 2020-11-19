@@ -10,7 +10,7 @@ class Backup extends CI_Controller {
 		$this->load->helper('fungsi');
 		$this->load->model('general_m');
 		$this->load->model('lap_simpanan_m');
-		$this->load->model('master_anggota');
+		$this->load->model('m_backup');
 	}
 
 	public function backup_db()
@@ -67,20 +67,25 @@ class Backup extends CI_Controller {
 		chmod($folder, 0755);
 
 		$date = date('m-d-Y-H-i-s', time()); 
-		$filename = $folder."database-uhuy-".$date; 
+		$filename = "Backup-Database-Koperasi-".$date.".sql"; 
+		$path = $folder."Backup-Database-Koperasi-".$date; 
 
-		$handle = fopen($filename.'.sql','w+');
+		$handle = fopen($path.'.sql','w+');
 
 		fwrite($handle,$return);
 		fclose($handle);
 
 		// echo "Backup of Database Taken";
-		echo $filename;
+		$result = array(
+			'path' => $path, 
+			'filename' => $filename, 
+		);
+		echo json_encode($result);
 
 	}
 
 	// public function restore(){
-	// 	$isi_file = file_get_contents('./Database_Backup/database-uhuy-11-13-2020-12-28-29.sql');
+	// 	$isi_file = file_get_contents('./Database_Backup/Backup-Database-Koperasi-11-13-2020-12-28-29.sql');
 	// 	$string_query = rtrim( $isi_file, "\n;" );
 	// 	$array_query = explode(";", $string_query);
 	// 	foreach($array_query as $query)
@@ -109,7 +114,7 @@ class Backup extends CI_Controller {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		$this->data['js_files2'] = [];
-		$this->data['u_name'] = "admin";
+		$this->data['u_name'] = $this->session->userdata('u_name');
 
 		
 		$this->data['isi'] = $this->load->view('backup', $this->data, TRUE);
@@ -123,23 +128,25 @@ class Backup extends CI_Controller {
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
 		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tanggal';
+		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$search = array(
 			'tgl_dari' => $tgl_dari,
 			'tgl_samp' => $tgl_samp
 		);
 		
 		$offset = ($offset-1)*$limit;
-		$data   = $this->lap_simpanan_m->lap_rekap_anggota_wajib($offset,$limit,$search);
+		$data   = $this->m_backup->get_data_db_ajax($offset,$limit,$search,$sort,$order);
 		$i	= 0;
 		$rows   = array();
 		if($data){
-			foreach ($data["rows"] as $r) {
-				
+			foreach ($data["data"] as $r) {
 				//array keys ini = attribute 'field' di view nya
 
-				$rows[$i]['id'] = 'BCKP'.$r['id_anggota'];
 				$rows[$i]['no'] = $i+1;
-				$rows[$i]['tgl_upload'] = date('d F Y');;
+				$rows[$i]['id'] = 'BCKP'.$r->id;
+				$rows[$i]['nama_backup'] = $r->nama_backup;
+				$rows[$i]['tanggal'] = date_format(date_create($r->tanggal), "d F Y");
 				$i++;
 			}
 		}
@@ -152,10 +159,9 @@ class Backup extends CI_Controller {
 		if(!isset($_POST)) {
 			show_404();
 		}
-		if($this->master_simpanan->create()){
+		if($this->m_backup->create()){
 			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>'));
-		}else
-		{
+		}else{
 			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>'));
 		}
 	}

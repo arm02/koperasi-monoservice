@@ -76,18 +76,19 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 
 <table id="dg"
 class="easyui-datagrid"
-title="Data Rekapitulasi Simpanan Wajib"
+title="Data Backup"
 style="width:auto; height: auto;"
 url="<?php echo site_url('backup/ajax_list'); ?>"
 pagination="true" rownumbers="false"
 fitColumns="true" singleSelect="true" collapsible="true"
-sortName="tgl_upload" sortOrder="desc"
+sortName="tanggal" sortOrder="desc"
 toolbar="#tb"
 striped="true">
 	<thead>
 		<tr class="header_kolom">
 			<th data-options="field:'id',width:'17', halign:'center', align:'center'"> ID </th>
-			<th data-options="field:'tgl_upload',width:'30', halign:'center', align:'center'"> Tanggal Backup </th>
+			<th data-options="field:'nama_backup',width:'30', halign:'left', align:'left'"> Nama Backup </th>
+			<th data-options="field:'tanggal',width:'30', halign:'center', align:'center'"> Tanggal Backup </th>
 		</tr>
 	</thead>
 </table>
@@ -137,6 +138,7 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	console.log(tgl_dari,tgl_samp)
 	$('#dg').datagrid('load',{
 		tgl_dari: tgl_dari,
 		tgl_samp: tgl_samp,
@@ -145,13 +147,41 @@ function doSearch() {
 function backup () {
 	var url = '<?php echo site_url("backup/backup_db"); ?>'
 	$.ajax({
-			url: url,
-			type	: "GET",
-			success	: function(result){
-				console.log(result)
-				window.location.href = result+'.sql'
-			}
-		});
+		url: url,
+		type	: "GET",
+		success	: function(result){
+			var response = jQuery.parseJSON(result)
+			create(response)
+			window.location.href = response.path+'.sql'
+		}
+	});
+
+}
+function create (datas) {
+	var url = '<?php echo site_url("backup/create"); ?>'
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: {
+			nama_backup : datas.filename,
+			pathdb : datas.path,
+		},
+		success	: function(result){
+			var result = eval('('+result+')');
+			$.messager.show({
+					title:'<div><i class="fa fa-info"></i> Informasi</div>',
+					msg: result.msg,
+					timeout:2000,
+					showType:'slide'
+				});
+				if(result.ok) {
+					jQuery('#dialog-form').dialog('close');
+					//clearSearch();
+					$('#dg').datagrid('reload');
+				}
+			// location.reload()
+		}
+	});
 
 }
 </script>
