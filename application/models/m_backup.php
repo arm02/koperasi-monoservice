@@ -29,7 +29,7 @@ class M_backup extends CI_Model {
 		$data = array(
 			'tanggal'			=>	date('Y-m-d'),
 			'nama_backup'	=>	$this->input->post('nama_backup'),
-			'pathdb'			=>	'',
+			'pathdb'			=>	$this->input->post('pathdb'),
 			'created_by'		=>	$this->session->userdata('u_name'),
 		);
 
@@ -50,7 +50,7 @@ class M_backup extends CI_Model {
 		return $this->db->update('backup_db',array(
 			'tanggal'			=>	date('Y-m-d'),
 			'nama_backup' =>	$this->input->post('nama_backup'),
-			'pathdb'			=>	'',
+			'pathdb'			=>	$this->input->post('pathdb'),
 			'created_by'		=>	$this->session->userdata('u_name'),
 			));
 	}

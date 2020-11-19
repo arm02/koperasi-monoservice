@@ -145,6 +145,7 @@ class Backup extends CI_Controller {
 
 				$rows[$i]['no'] = $i+1;
 				$rows[$i]['id'] = 'BCKP'.$r->id;
+				$rows[$i]['pathdb'] = $r->pathdb;
 				$rows[$i]['nama_backup'] = $r->nama_backup;
 				$rows[$i]['tanggal'] = date_format(date_create($r->tanggal), "d F Y");
 				$i++;

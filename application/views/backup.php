@@ -63,6 +63,8 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="backup()">Backup Data</a>
 
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
+
+							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-save" plain="false" onclick="downloadBackup()">Download Backup</a>
 						</td>
 					</tr>
 				</table>
@@ -152,10 +154,25 @@ function backup () {
 		success	: function(result){
 			var response = jQuery.parseJSON(result)
 			create(response)
-			window.location.href = response.path+'.sql'
 		}
 	});
 
+}
+
+function downloadBackup() {
+	var row = jQuery('#dg').datagrid('getSelected');
+	var data = row
+	if(data){
+		window.location.href = data.pathdb+'.sql'
+		
+	}else {
+		$.messager.show({
+			title:'<div><i class="fa fa-warning"></i> Peringatan !</div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data harus dipilih terlebih dahulu </div>',
+			timeout:2000,
+			showType:'slide'
+		});
+	}
 }
 function create (datas) {
 	var url = '<?php echo site_url("backup/create"); ?>'
