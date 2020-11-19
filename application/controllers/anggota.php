@@ -166,9 +166,12 @@ class Anggota extends OperatorController {
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'created_date';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
+		$id_anggota = isset($_POST['id_anggota']) ? $_POST['id_anggota'] : '';
 		$nama = isset($_POST['nama']) ? $_POST['nama'] : '';
 		$aktif = isset($_POST['aktif']) ? $_POST['aktif'] : '';
-		$search = array('nama' => $nama,
+		$search = array(
+			'id_anggota' => (int)$id_anggota,
+			'nama' => $nama,
 			'aktif' => $aktif);
 		$offset = ($offset-1)*$limit;
 		$data   = $this->master_anggota->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);

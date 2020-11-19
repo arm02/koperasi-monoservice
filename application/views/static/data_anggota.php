@@ -31,7 +31,7 @@ striped="true">
 <thead>
 	<tr>
 		<th data-options="field:'id', sortable:'true',halign:'center', align:'center'" hidden="true">ID</th>
-		<th data-options="field:'id_anggota', sortable:'true',halign:'center', align:'center'" hidden="true">ID Anggota</th>
+		<th data-options="field:'id_anggota', sortable:'true',halign:'center', align:'center'">ID Anggota</th>
 		<th data-options="field:'file_pic_html',halign:'center', align:'center', width:'25'">Photo</th>
 		<th data-options="field:'nama', width:'17', halign:'center', align:'center'">Nama</th>
 		<th data-options="field:'identitas', width:'17', halign:'center', align:'center'">Identitas</th>
@@ -66,7 +66,8 @@ striped="true">
 				<i class="fa fa-caret-down"></i>
 			</button>
 		</div> -->
-		<span>Cari :</span>
+		<span style="padding-right: 10px">Cari :</span>
+		<b>[AG]</b> <input name="id_anggota" id="id_anggota_cari" size="22" type="number" placeholder="[ID Anggota]" style="line-height:22px;border:1px solid #ccc;">
 		<input name="nama" id="nama_cari" size="22" placeholder="[Nama]" style="line-height:22px;border:1px solid #ccc;">
 		<select id="aktif_cari" name="aktif" style="width:170px; height:27px" >
 			<option value=""> -- Pilih Aktif --</option>			
@@ -288,6 +289,7 @@ var url;
 function doSearch(){
 	$('#dg').datagrid('load',{
 		nama: $('#nama_cari').val(),
+		id_anggota: $('#id_anggota_cari').val(),
 		aktif: $('#aktif_cari').val(),
 	});
 }
@@ -461,9 +463,10 @@ function hapus(){
 
 function cetak () {
 	var nama = $('#nama_cari').val()
+	var id_anggota = $('#id_anggota_cari').val()
 	var aktif = $('#aktif_cari').val()
 	
-	var win = window.open('<?php echo site_url("anggota/cetak_laporan/?nama=' + nama + '&aktif=' + aktif + '"); ?>');
+	var win = window.open('<?php echo site_url("anggota/cetak_laporan/?nama=' + nama + '&aktif=' + aktif + '&id_anggota=' + id_anggota + '"); ?>');
 	if (win) {
 		win.focus();
 	} else {

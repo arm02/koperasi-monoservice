@@ -9,8 +9,8 @@ class Backup extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('fungsi');
 		$this->load->model('general_m');
-		$this->load->model('master_simpanan');
 		$this->load->model('lap_simpanan_m');
+		$this->load->model('master_anggota');
 	}
 
 	public function backup_db()
@@ -109,46 +109,8 @@ class Backup extends CI_Controller {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		$this->data['js_files2'] = [];
+		$this->data['u_name'] = "admin";
 
-		$config = array();
-		$config["base_url"] = base_url() . "lapb_anggota_rekap_simpanan_wajib/index/halaman";
-		$config["per_page"] = 10;
-		$config["uri_segment"] = 4;
-		$config['use_page_numbers'] = TRUE;
-
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-
-		$config['first_link'] = '&laquo; First';
-		$config['first_tag_open'] = '<li class="prev page">';
-		$config['first_tag_close'] = '</li>';
-
-		$config['last_link'] = 'Last &raquo;';
-		$config['last_tag_open'] = '<li class="next page">';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_link'] = 'Next &rarr;';
-		$config['next_tag_open'] = '<li class="next page">';
-		$config['next_tag_close'] = '</li>';
-
-		$config['prev_link'] = '&larr; Previous';
-		$config['prev_tag_open'] = '<li class="prev page">';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class="active"><a href="">';
-		$config['cur_tag_close'] = '</a></li>';
-
-		$config['num_tag_open'] = '<li class="page">';
-		$config['num_tag_close'] = '</li>';
-
-		$this->pagination->initialize($config);
-		$offset = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-		if($offset > 0) {
-			$offset = ($offset * $config['per_page']) - $config['per_page'];
-		}
-		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
-		$this->data["halaman"] = $this->pagination->create_links();
-		$this->data["offset"] = $offset;
 		
 		$this->data['isi'] = $this->load->view('backup', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
@@ -175,9 +137,9 @@ class Backup extends CI_Controller {
 				
 				//array keys ini = attribute 'field' di view nya
 
-				$rows[$i]['id'] = $r['id_anggota'];
+				$rows[$i]['id'] = 'BCKP'.$r['id_anggota'];
 				$rows[$i]['no'] = $i+1;
-				$rows[$i]['tgl_upload'] = $r['nama_anggota'];
+				$rows[$i]['tgl_upload'] = date('d F Y');;
 				$i++;
 			}
 		}

@@ -87,7 +87,7 @@ striped="true">
 	<thead>
 		<tr class="header_kolom">
 			<th data-options="field:'id',width:'17', halign:'center', align:'center'"> ID </th>
-			<th data-options="field:'tgl_upload',width:'30', halign:'center', align:'center'"> Backup </th>
+			<th data-options="field:'tgl_upload',width:'30', halign:'center', align:'center'"> Tanggal Backup </th>
 		</tr>
 	</thead>
 </table>

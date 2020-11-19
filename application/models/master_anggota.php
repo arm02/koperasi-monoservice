@@ -8,22 +8,44 @@ class Master_anggota extends CI_Model {
 
 	//panggil data anggota untuk laporan
 	function lap_data_anggota() {
+		$id_anggota = isset($_REQUEST['id_anggota']) ? (int)$_REQUEST['id_anggota'] : '';
 		$nama = isset($_REQUEST['nama']) ? $_REQUEST['nama'] : '';
 		$aktif = isset($_REQUEST['aktif']) ? $_REQUEST['aktif'] : '';
 		$sql = " SELECT * FROM tbl_anggota ";
 		$where = "";
-		$q = array('nama' => $nama,
+		$q = array(
+			'id_anggota' => $id_anggota,
+			'nama' => $nama,
 			'aktif' => $aktif);
 		if(is_array($q)) {
-			if($q['nama'] != '') {
-				$where .="WHERE nama LIKE '%".$q['nama']."%' ";
-			} else {
-				if($q['aktif'] != '') {
-					$where .="WHERE aktif = '".$q['aktif']."' ";
+
+			if($q['id_anggota'] != ''){
+				$where .="WHERE tbl_anggota.id = '".$q['id_anggota']."' ";
+			}else{
+				if($q['nama'] != '') {
+					$where .="WHERE tbl_anggota.nama LIKE '%".$q['nama']."%' ";
+				} else {
+					if($q['aktif'] != '') {
+						$where .="WHERE tbl_anggota.aktif = '".$q['aktif']."' ";
+					}
 				}
 			}
+
+
+			if($q['id_anggota'] != '' && $q['nama'] != '' && $q['aktif'] != '') {
+				$where ="WHERE nama LIKE '%".$q['nama']."%' AND aktif = '".$q['aktif']." AND id ='".$q['id_anggota']."' ";
+			}
+
 			if($q['nama'] != '' && $q['aktif'] != '') {
 				$where ="WHERE nama LIKE '%".$q['nama']."%' AND aktif = '".$q['aktif']."' ";
+			}
+
+			if($q['nama'] != '' && $q['id_anggota'] != '') {
+				$where ="WHERE nama LIKE '%".$q['nama']."%' AND id = '".$q['id_anggota']."' ";
+			}
+
+			if($q['aktif'] != '' && $q['id_anggota'] != '') {
+				$where ="WHERE aktif = '".$q['aktif']."' AND id = '".$q['id_anggota']."' ";
 			}
 		}
 		$sql .= $where;
@@ -41,16 +63,32 @@ class Master_anggota extends CI_Model {
 		$sql = "SELECT tbl_anggota.* FROM tbl_anggota ";
 		$where = " ";
 		if(is_array($q)) {
-			if($q['nama'] != '') {
-				$where .="WHERE tbl_anggota.nama LIKE '%".$q['nama']."%' ";
-			} else {
-				if($q['aktif'] != '') {
-					$where .="WHERE tbl_anggota.aktif = '".$q['aktif']."' ";
+			if($q['id_anggota'] != ''){
+				$where .="WHERE tbl_anggota.id = '".$q['id_anggota']."' ";
+			}else{
+				if($q['nama'] != '') {
+					$where .="WHERE tbl_anggota.nama LIKE '%".$q['nama']."%' ";
+				} else {
+					if($q['aktif'] != '') {
+						$where .="WHERE tbl_anggota.aktif = '".$q['aktif']."' ";
+					}
 				}
+			}
+
+			if($q['id_anggota'] != '' && $q['nama'] != '' && $q['aktif'] != '') {
+				$where ="WHERE nama LIKE '%".$q['nama']."%' AND aktif = '".$q['aktif']." AND id ='".$q['id_anggota']."' ";
 			}
 
 			if($q['nama'] != '' && $q['aktif'] != '') {
 				$where ="WHERE nama LIKE '%".$q['nama']."%' AND aktif = '".$q['aktif']."' ";
+			}
+
+			if($q['nama'] != '' && $q['id_anggota'] != '') {
+				$where ="WHERE nama LIKE '%".$q['nama']."%' AND id = '".$q['id_anggota']."' ";
+			}
+
+			if($q['aktif'] != '' && $q['id_anggota'] != '') {
+				$where ="WHERE aktif = '".$q['aktif']."' AND id = '".$q['id_anggota']."' ";
 			}
 		}
 		$sql .= $where;
