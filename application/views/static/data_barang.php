@@ -22,7 +22,7 @@ td, div {
 class="easyui-datagrid"
 title="Data Jenis Angsuran" 
 style="width:auto; height: auto;" 
-url="<?php echo site_url('data_barang/ajax_list'); ?>" 
+url="<?php echo site_url('jenis_pinjaman/ajax_list'); ?>" 
 pagination="true" rownumbers="true" 
 fitColumns="true" singleSelect="true" collapsible="true"
 sortName="nm_barang" sortOrder="desc"
@@ -31,12 +31,7 @@ striped="true">
 <thead>
 	<tr>
 		<th data-options="field:'id', sortable:'true',halign:'center', align:'center'" hidden="true">ID</th>
-		<th data-options="field:'nm_barang', width:'17', halign:'center', align:'center'">Nama Barang</th>
-		<th data-options="field:'type',halign:'center', align:'center', width:'25'">Type</th>
-		<th data-options="field:'merk',halign:'center', align:'center', width:'25'">Merk</th>
-		<th data-options="field:'harga',halign:'center', align:'center', width:'25'">Harga</th>
-		<th data-options="field:'jml_brg',halign:'center', align:'center', width:'25'">Jumlah Barang</th>
-		<th data-options="field:'ket',halign:'center', align:'center', width:'25'">ket</th>
+		<th data-options="field:'nm_barang', width:'17', halign:'center', align:'center'">Jenis Pinjaman</th>
 	</tr>
 </thead>
 </table>
@@ -57,8 +52,8 @@ striped="true">
 		</div> -->
 		<span>Cari :</span>
 		<input name="nm_barang" id="nm_barang_cari" size="22" placeholder="[Nama Barang]" style="line-height:22px;border:1px solid #ccc;">
-		<input name="type" id="type_cari" size="22" placeholder="[Type]" style="line-height:22px;border:1px solid #ccc;">
-		<input name="merk" id="merk_cari" size="22" placeholder="[Merk]" style="line-height:22px;border:1px solid #ccc;">
+		<!-- <input name="type" id="type_cari" size="22" placeholder="[Type]" style="line-height:22px;border:1px solid #ccc;"> -->
+		<!-- <input name="merk" id="merk_cari" size="22" placeholder="[Merk]" style="line-height:22px;border:1px solid #ccc;"> -->
 
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
@@ -80,7 +75,7 @@ striped="true">
 								<input id="nm_barang" name="nm_barang" style="width:190px; height:20px" >
 							</td>	
 						</tr>
-						<tr style="height:35px">
+						<!-- <tr style="height:35px">
 							<td> Type </td>
 							<td>:</td>
 							<td>
@@ -114,7 +109,7 @@ striped="true">
 							<td>
 								<textarea id="ket" name="ket" style="width:190px; height:20px" ></textarea>
 							</td>	
-						</tr>
+						</tr> -->
 				</table>
 				</td>
 			</tr>
@@ -147,7 +142,7 @@ function create(){
 	$('#dialog-form').dialog('open').dialog('setTitle','Tambah Data');
 	$('#form').form('clear');
 
-	url = '<?php echo site_url('data_barang/create'); ?>';
+	url = '<?php echo site_url('jenis_pinjaman/create'); ?>';
 }
 
 function save() {
@@ -223,7 +218,7 @@ function update(){
 	if(row){
 		jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 		jQuery('#form').form('load',row);
-		url = '<?php echo site_url('data_barang/update'); ?>/' + row.id;
+		url = '<?php echo site_url('jenis_pinjaman/update'); ?>/' + row.id;
 		
 	}else {
 		$.messager.show({
@@ -242,7 +237,7 @@ function hapus(){
 			if (r){  
 				$.ajax({
 					type	: "POST",
-					url		: "<?php echo site_url('data_barang/delete'); ?>",
+					url		: "<?php echo site_url('jenis_pinjaman/delete'); ?>",
 					data	: 'id='+row.id,
 					success	: function(result){
 						var result = eval('('+result+')');
@@ -280,10 +275,10 @@ function hapus(){
 
 function cetak () {
 	var nm_barang = $('#nm_barang_cari').val()
-	var type = $('#type_cari').val()
-	var merk = $('#merk_cari').val()
+	// var type = $('#type_cari').val()
+	// var merk = $('#merk_cari').val()
 	
-	var win = window.open('<?php echo site_url("data_barang/cetak_laporan/?nm_barang=' + nm_barang + '&type=' + type + '&merk=' + merk + '"); ?>');
+	var win = window.open('<?php echo site_url("jenis_pinjaman/cetak_laporan/?nm_barang=' + nm_barang + '"); ?>');
 	if (win) {
 		win.focus();
 	} else {

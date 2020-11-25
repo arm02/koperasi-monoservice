@@ -127,21 +127,21 @@ striped="true">
 							</td>	
 						</tr>
 						<tr style="height:35px">
-							<td>Nama Barang</td>
+							<td>Jenis Pinjaman</td>
 							<td>:</td>
 							<td>
 								<select id="barang_id" name="barang_id" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0"> -- Pilih Barang --</option>
+									<option value="0"> -- Pilih Jenis Pinjaman --</option>
 									<?php	
 									foreach ($barang_id as $row) {
-										echo '<option value="'.$row->id.'">'.$row->nm_barang.' Rp '.number_format($row->harga).'</option>';
+										echo '<option value="'.$row->id.'">'.$row->nm_barang.'</option>';
 									}
 									?>
 								</select>
 							</td>	
 						</tr>
 						<tr style="height:35px">
-							<td>Harga Barang</td>
+							<td>Nominal</td>
 							<td>:</td>
 							<td>
 								<input class="" id="jumlah" name="jumlah" style="width:195px; height:25px; background-color:#eee;" readonly="true"  />
@@ -228,7 +228,7 @@ $(document).ready(function() {
 			data: {barang_id: val_barang_id},
 		})
 		.done(function(result) {
-			$('#jumlah').val(result);
+			// $('#jumlah').val(result);
 			if(result == '0') {
 				$('#jumlah').removeAttr('readonly');
 				$('#jumlah').css('background-color', '');
@@ -376,6 +376,8 @@ function create(){
 
 function save() {
 	var string = $("#form").serialize();
+	console.log(string)
+	return false
 	//validasi teks kosong
 	var anggota_id = $("input[name=anggota_id]").val();
 	if(anggota_id == '') {

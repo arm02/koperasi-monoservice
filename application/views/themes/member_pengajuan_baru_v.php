@@ -57,14 +57,14 @@
 						<?php 
 						$attr_form = 'jenis';
 						$attr_form_label = 'Jenis';
-						$options = array(
-							'Biasa'		=> 'Biasa',
-							'Darurat'	=> 'Darurat',
-							'Barang'		=> 'Barang'
-							);
+						// $options = array(
+						// 	'Konsumtif'		=> 'Konsumtif',
+						// 	'Berjangka'	=> 'Berjangka',
+						// 	'Barang'		=> 'Barang'
+						// 	);
 						echo '<label for="'.$attr_form.'">'.$attr_form_label.'</label>
 								<div>';
-						echo form_dropdown($attr_form, $options, 'Biasa', 'id="'.$attr_form.'" class="form-control" style="width: 250px;"');
+						echo form_dropdown($attr_form, $options, 'Berjangka', 'id="'.$attr_form.'" class="form-control" style="width: 250px;"');
 						echo '</div>';
 						?>
 					</div>
@@ -75,7 +75,7 @@
 							'name'       => 'nominal',
 							'id'			=> 'nominal',
 							'class'		=> 'form-control',
-							'value'      => '',
+							'value'      => 0,
 							'maxlength'  => '255',
 							'style'      => 'width: 250px'
 							);

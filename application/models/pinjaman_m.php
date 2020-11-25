@@ -436,8 +436,8 @@ class Pinjaman_m extends CI_Model {
 	function get_id_barang() {
 		$this->db->select('*');
 		$this->db->from('tbl_barang');
-		$this->db->where('jml_brg >', 0);
-		$this->db->or_where('type', 'uang');
+		// $this->db->where('jml_brg >', 0);
+		// $this->db->or_where('type', 'uang');
 		$this->db->order_by('nm_barang', 'ASC');
 		$query = $this->db->get();
 

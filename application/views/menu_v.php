@@ -218,7 +218,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 <?php if($level != 'pinjaman') { ?>
 <!-- Master data -->
 <li  class="treeview <?php 
-$menu_data_arr= array('jenis_simpanan','jenis_akun','jenis_kas','jenis_angsuran','data_barang','anggota','user');
+$menu_data_arr= array('jenis_simpanan','jenis_akun','jenis_kas','jenis_angsuran','jenis_pinjaman','anggota','user');
 if(in_array($this->uri->segment(1), $menu_data_arr)) {echo "active";}?>">
 
 <a href="#">
@@ -236,7 +236,7 @@ if(in_array($this->uri->segment(1), $menu_data_arr)) {echo "active";}?>">
 
 		<li class="<?php if ($this->uri->segment(1) == 'jenis_angsuran') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>jenis_angsuran"> <i class="fa fa-folder-open-o"></i> Lama Angsuran </a></li>
 	<?php } ?>
-	<li class="<?php if ($this->uri->segment(1) == 'data_barang') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>data_barang"> <i class="fa fa-folder-open-o"></i> Data Barang </a></li>
+	<li class="<?php if ($this->uri->segment(1) == 'jenis_pinjaman') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>jenis_pinjaman"> <i class="fa fa-folder-open-o"></i> Jenis Pinjaman </a></li>
 
 	<li class="<?php if ($this->uri->segment(1) == 'anggota') { echo 'active'; } ?>"><a href="<?php echo base_url(); ?>anggota"> <i class="fa fa-folder-open-o"></i> Data Anggota</a></li>
 	<?php if($level == 'admin') { ?>

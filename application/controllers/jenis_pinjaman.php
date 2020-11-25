@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Data_barang extends OperatorController {
+class Jenis_pinjaman extends OperatorController {
 
 	public function __construct() {
 		parent::__construct();
@@ -11,14 +11,14 @@ class Data_barang extends OperatorController {
 	public function indexs() {
 		$this->data['judul_browser'] = 'Setting';
 		$this->data['judul_utama'] = 'Setting';
-		$this->data['judul_sub'] = 'Data Barang';
+		$this->data['judul_sub'] = 'Jenis Pinjaman';
 
 		$this->output->set_template('gc');
 
 		$this->load->library('grocery_CRUD');
 		$crud = new grocery_CRUD();
 		$crud->set_table('tbl_barang');
-		$crud->set_subject('Data Barang');
+		$crud->set_subject('Jenis Pinjaman');
 	
 		$crud->fields('nm_barang','type','merk','harga','jml_brg','ket');
 
@@ -47,7 +47,7 @@ class Data_barang extends OperatorController {
 	public function index() {
 		$this->data['judul_browser'] = 'Setting';
 		$this->data['judul_utama'] = 'Setting';
-		$this->data['judul_sub'] = 'Data Barang';
+		$this->data['judul_sub'] = 'Jenis Pinjaman';
 
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/default/easyui.css';
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/icon.css';
@@ -74,7 +74,7 @@ class Data_barang extends OperatorController {
 		/*Default request pager params dari jeasyUI*/
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
-		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'jns_simpan';
+		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'nm_barang';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$nm_barang = isset($_POST['nm_barang']) ? $_POST['nm_barang'] : '';
 		$type = isset($_POST['type']) ? $_POST['type'] : '';
@@ -87,6 +87,7 @@ class Data_barang extends OperatorController {
 		$offset = ($offset-1)*$limit;
 		$data   = $this->master_barang->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
 		$i	= 0;
+		$no	= 0;
 		$rows   = array();
 
 		foreach ($data['data'] as $r) {
@@ -94,12 +95,8 @@ class Data_barang extends OperatorController {
 			//array keys ini = attribute 'field' di view nya
 
 			$rows[$i]['id'] = $r->id;
+			$rows[$i]['no'] = $no++;
 			$rows[$i]['nm_barang'] = $r->nm_barang;
-			$rows[$i]['type'] = $r->type;
-			$rows[$i]['merk'] = $r->merk;
-			$rows[$i]['harga'] = $r->harga;
-			$rows[$i]['jml_brg'] = $r->jml_brg;
-			$rows[$i]['ket'] = $r->ket;
 			// $rows[$i]['nota'] = '<p></p><p>
 			// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 			$i++;
@@ -168,16 +165,11 @@ class Data_barang extends OperatorController {
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 			.txt_content {font-size: 10pt; font-style: arial;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Kas <br></span>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Jenis Pinjaman <br></span>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
 		<table width="100%" cellspacing="0" cellpadding="3" border="1" border-collapse= "collapse">
 		<tr class="header_kolom">
 			<th class="h_tengah" style="width:10%;" > No. </th>
-			<th class="h_tengah" style="width:15%;"> Nama Barang</th>
-			<th class="h_tengah" style="width:15%;"> Type </th>
-			<th class="h_tengah" style="width:15%;"> Merk </th>
-			<th class="h_tengah" style="width:15%;"> Harga </th>
-			<th class="h_tengah" style="width:15%;"> Jumlah Barang </th>
-			<th class="h_tengah" style="width:15%;"> Ket </th>
+			<th class="h_tengah" style="width:90%;"> Nama Barang</th>
 		</tr>';
 
 		$no =1;
@@ -187,12 +179,20 @@ class Data_barang extends OperatorController {
 			<tr>
 				<td class="h_tengah" >'.$no++.'</td>
 				<td class="h_tengah"> '.$r->nm_barang.'</td>
-				<td class="h_tengah"> '.$r->type.'</td>
-				<td class="h_tengah"> '.$r->merk.'</td>
-				<td class="h_tengah"> '.$r->harga.'</td>
-				<td class="h_tengah"> '.$r->jml_brg.'</td>
-				<td class="h_tengah"> '.$r->ket.'</td>
 			</tr>';
+
+
+			// <th class="h_tengah" style="width:15%;"> Type </th>
+			// <th class="h_tengah" style="width:15%;"> Merk </th>
+			// <th class="h_tengah" style="width:15%;"> Harga </th>
+			// <th class="h_tengah" style="width:15%;"> Jumlah Barang </th>
+			// <th class="h_tengah" style="width:15%;"> Ket </th>
+
+			// <td class="h_tengah"> '.$r->type.'</td>
+			// <td class="h_tengah"> '.$r->merk.'</td>
+			// <td class="h_tengah"> '.$r->harga.'</td>
+			// <td class="h_tengah"> '.$r->jml_brg.'</td>
+			// <td class="h_tengah"> '.$r->ket.'</td>
 		}
 		$html .= '</table>';
 		$pdf->nsi_html($html);

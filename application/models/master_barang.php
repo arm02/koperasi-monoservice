@@ -9,40 +9,41 @@ class Master_barang extends CI_Model {
 	//panggil data untuk laporan
 	function lap_data_barang() {
 		$nm_barang = isset($_REQUEST['nm_barang']) ? $_REQUEST['nm_barang'] : '';
-		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-		$merk = isset($_REQUEST['merk']) ? $_REQUEST['merk'] : '';
+		// $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+		// $merk = isset($_REQUEST['merk']) ? $_REQUEST['merk'] : '';
 		$sql = " SELECT tbl_barang.* FROM tbl_barang ";
 		$where = "";
-		$q = array('nm_barang' => $nm_barang,
-			'type' => $type,
-			'merk' => $merk
+		$q = array('nm_barang' => $nm_barang
+			// 'type' => $type,
+			// 'merk' => $merk
     	);
 		if(is_array($q)) {
 			if($q['nm_barang'] != '') {
 				$where .="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' ";
-			} else if($q['type'] != '') {
-				$where .="WHERE tbl_barang.type = '".$q['type']."' ";
-			} else {
-        		if($q['merk'] != '') {
-					$where .="WHERE tbl_barang.merk = '".$q['merk']."' ";
-				}
-	      	}
+			} 
+			// else if($q['type'] != '') {
+			// 	$where .="WHERE tbl_barang.type = '".$q['type']."' ";
+			// } else {
+   //      		if($q['merk'] != '') {
+			// 		$where .="WHERE tbl_barang.merk = '".$q['merk']."' ";
+			// 	}
+	  //     	}
 
-	      	if($q['nm_barang'] != '' && $q['type'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."'  ";
-	      	}
+	  //     	if($q['nm_barang'] != '' && $q['type'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."'  ";
+	  //     	}
 
-	      	if($q['nm_barang'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.merk = '".$q['merk']."'  ";
-	      	}
+	  //     	if($q['nm_barang'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.merk = '".$q['merk']."'  ";
+	  //     	}
 
-	      	if($q['type'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.merk = '".$q['merk']."' AND tbl_barang.type = '".$q['type']."'  ";
-	      	}
+	  //     	if($q['type'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.merk = '".$q['merk']."' AND tbl_barang.type = '".$q['type']."'  ";
+	  //     	}
 
-	      	if($q['nm_barang'] != '' && $q['type'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."' AND tbl_barang.merk = '".$q['merk']."'";
-	      	}
+	  //     	if($q['nm_barang'] != '' && $q['type'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."' AND tbl_barang.merk = '".$q['merk']."'";
+	  //     	}
 		}
 		$sql .= $where;
 		$query = $this->db->query($sql);
@@ -61,29 +62,30 @@ class Master_barang extends CI_Model {
     	if(is_array($q)) {
 			if($q['nm_barang'] != '') {
 				$where .="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' ";
-			} else if($q['type'] != '') {
-				$where .="WHERE tbl_barang.type = '".$q['type']."' ";
-			} else {
-        		if($q['merk'] != '') {
-					$where .="WHERE tbl_barang.merk = '".$q['merk']."' ";
-				}
-      		}
+			} 
+			// else if($q['type'] != '') {
+			// 	$where .="WHERE tbl_barang.type = '".$q['type']."' ";
+			// } else {
+   //      		if($q['merk'] != '') {
+			// 		$where .="WHERE tbl_barang.merk = '".$q['merk']."' ";
+			// 	}
+   //    		}
 
-      		if($q['nm_barang'] != '' && $q['type'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."'  ";
-	      	}
+   //    		if($q['nm_barang'] != '' && $q['type'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."'  ";
+	  //     	}
 
-	      	if($q['nm_barang'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.merk = '".$q['merk']."'  ";
-	      	}
+	  //     	if($q['nm_barang'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.merk = '".$q['merk']."'  ";
+	  //     	}
 
-	      	if($q['type'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.merk = '".$q['merk']."' AND tbl_barang.type = '".$q['type']."'  ";
-	      	}
+	  //     	if($q['type'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.merk = '".$q['merk']."' AND tbl_barang.type = '".$q['type']."'  ";
+	  //     	}
 
-	      	if($q['nm_barang'] != '' && $q['type'] != '' && $q['merk'] != ''){
-	      		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."' AND tbl_barang.merk = '".$q['merk']."'";
-	      	}
+	  //     	if($q['nm_barang'] != '' && $q['type'] != '' && $q['merk'] != ''){
+	  //     		$where ="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' AND tbl_barang.type = '".$q['type']."' AND tbl_barang.merk = '".$q['merk']."'";
+	  //     	}
 		}
 
 		$sql .= $where;
@@ -91,6 +93,12 @@ class Master_barang extends CI_Model {
 		$sql .=" ORDER BY {$sort} {$order} ";
 		$sql .=" LIMIT {$offset},{$limit} ";
 		$result['data'] = $this->db->query($sql)->result();
+		return $result;
+	}
+
+	function get_all_barang() {
+		$sql = "SELECT tbl_barang.* FROM tbl_barang ";
+		$result = $this->db->query($sql)->result();
 		return $result;
 	}
 

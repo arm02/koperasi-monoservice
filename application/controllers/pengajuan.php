@@ -45,6 +45,7 @@ class Pengajuan extends OPPController {
 		$this->data['js_files'][] = base_url() . 'assets/extra/bootstrap3-editable/js/bootstrap-editable.min.js';	
 
 		$this->data['jenis_ags'] = $this->pinjaman_m->get_data_angsuran();
+		$this->data['biaya'] = $this->pinjaman_m->get_biaya_adm();
 
 		$this->data['isi'] = $this->load->view('pengajuan_list_v', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
@@ -52,13 +53,25 @@ class Pengajuan extends OPPController {
 
 	public function ajax_pengajuan() {
 		$this->load->model('pinjaman_m');
+		$this->load->model('master_barang');
+		$jenis_pinjaman = $this->master_barang->get_all_barang();
 		$out = $this->pinjaman_m->get_pengajuan();
+		$i = 0;
+		foreach ($out['rows'] as $key => $value) {
+			foreach ($jenis_pinjaman as $jenis_value) {
+				if($jenis_value->nm_barang == $value->jenis){
+					$out['rows'][$i]->jenis_id = $jenis_value->id;
+				}
+			}
+			$i = $i++;
+		}
 		header('Content-Type: application/json');
 		echo json_encode($out);
 		exit();
 	}
 
 	function aksi() {
+		$status = $this->input->post('aksi');
 		$this->load->model('pinjaman_m');
 		if($this->pinjaman_m->pengajuan_aksi()) {
 			echo 'OK';

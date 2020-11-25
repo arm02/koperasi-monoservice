@@ -164,11 +164,17 @@ class Member extends CI_Controller {
 
 	public function pengajuan_baru() {
 		$this->_cek_login();
+		$this->load->model('pinjaman_m');
 
 		//number_format
 		$this->data['js_files'][] = base_url() . 'assets/extra/fungsi/number_format.js';
+		$jenis_pinjaman = $this->pinjaman_m->get_id_barang();
+		$options = [];
+		foreach ($jenis_pinjaman as $key => $value) {
+			$options += [ $value->nm_barang => $value->nm_barang ];
 
-		$this->load->model('pinjaman_m');
+		}
+		$this->data['options'][] = $options;
 		$lama_ags = $this->pinjaman_m->get_data_angsuran();
 		$lama_ags_arr = array();
 		foreach ($lama_ags as $row) {

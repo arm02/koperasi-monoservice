@@ -134,12 +134,12 @@ class Pinjaman extends OperatorController {
 			$rows[$i]['jumlah'] = number_format(nsi_round($r->jumlah));
 			$rows[$i]['hitungan'] = '<table>
 						<tr>
-							<td width="100px" align="left">Nama Barang</td> 
+							<td width="100px" align="left">Jenis Pinjaman</td> 
 							<td width="10px" align="center"> : </td>
 							<td width="75px" align="left">'.$barang->nm_barang.'</td>
 						</tr>
 						<tr>
-							<td width="100px" align="left">Harga Barang</td> 
+							<td width="100px" align="left">Nominal</td> 
 							<td width="10px" align="center"> : </td>
 							<td width="75px" align="right">'.number_format($r->jumlah) .'</td>
 						</tr>

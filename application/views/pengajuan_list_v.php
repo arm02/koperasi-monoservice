@@ -10,7 +10,6 @@
 		overflow-y: auto;
 	}
 </style>
-
 	<div class="row">
 		<div class="box box-primary">
 			<div class="box-body" style="min-height: 500px;">
@@ -258,7 +257,7 @@
 			}
 		<?php } ?>
 		<?php if($this->session->userdata('level') != 'pinjaman') { ?>
-			var link_terlaksana = ' <a data-data_aksi="Terlaksana" data-data_id="'+row.id+'" class="a_dilaksanakan btn btn-sm btn-info" href="javascript:void(0);"><i class="fa fa-rocket"></i> Sudah Dilaksanakan</a>';
+			var link_terlaksana = ' <a data-data_aksi="Terlaksana" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_dilaksanakan btn btn-sm btn-info" href="javascript:void(0);"><i class="fa fa-rocket"></i> Sudah Dilaksanakan</a>';
 			var link_belum = ' <a data-data_aksi="Belum" data-data_id="'+row.id+'" class="a_belum btn btn-sm btn-default" href="javascript:void(0);"><i class="fa fa-rocket"></i> Belum Dilaksanakan</a>';
 			if(row.status == 1) {
 				nsi_out += link_terlaksana;
@@ -295,9 +294,13 @@
 		});
 
 		$table.on('click', '.a_diterima, .a_ditolak, .a_dipending, .a_hapus, .a_dilaksanakan, .a_belum, .a_dibatal', function(event) {
+			var anggota_id = $(this).data('data_anggota_id');
+			var jenis = $(this).data('data_jenis_id');
+			var tgl_input = $(this).data('data_tgl_input');
 			var data_id = $(this).data('data_id');
 			var data_aksi = $(this).data('data_aksi');
-
+			var nominal = $(this).data('data_nominal');
+			var lama_ags = $(this).data('data_lama_ags');
 			$('#link_konfirmasi').show();
 			$('#link_konfirmasi_batal').text('Batal');
 			$('.modal_hasil').html('Apakah Yakin Ingin <strong>'+data_aksi+'</strong> Ajuan ini?');
@@ -327,6 +330,11 @@
 			$('.modal-backdrop.fade.in').css('background-color', '#000');
 			$('#link_konfirmasi').data('data_id', data_id);
 			$('#link_konfirmasi').data('data_aksi', data_aksi);
+			$('#link_konfirmasi').data('tgl_input', tgl_input);
+			$('#link_konfirmasi').data('anggota_id', anggota_id);
+			$('#link_konfirmasi').data('jenis', jenis);
+			$('#link_konfirmasi').data('nominal', nominal);
+			$('#link_konfirmasi').data('lama_ags', lama_ags);
 			$('#link_konfirmasi').text('OK '+data_aksi);
 			$('.datepicker').datepicker({
 				format: "yyyy-mm-dd",
@@ -342,8 +350,14 @@
 		$('#link_konfirmasi').click(function(event) {
 			var data_id = $(this).data('data_id');
 			var data_aksi = $(this).data('data_aksi');
+			var tgl_input = $(this).data('tgl_input');
+			var anggota_id = $(this).data('anggota_id');
+			var jenis = $(this).data('jenis');
+			var nominal = $(this).data('nominal');
+			var lama_ags = $(this).data('lama_ags');
 			var data_alasan = $('#alasan').val();
 			var data_tgl_cair = $('#tgl_cair').val();
+			var biaya_adm = '<?php echo number_format($biaya[0]->opsi_val); ?>'
 			$.ajax({
 				url: '<?php echo site_url('pengajuan/aksi'); ?>',
 				type: 'POST',
@@ -351,6 +365,29 @@
 				data: {id: data_id, aksi: data_aksi, tgl_cair: data_tgl_cair, alasan: data_alasan},
 			})
 			.done(function(data) {
+				if(data_aksi == 'Terlaksana'){
+					$.ajax({
+						url: '<?php echo site_url('pinjaman/create'); ?>',
+						type: 'POST',
+						dataType: 'html',
+						data: {
+							anggota_id: anggota_id,
+							tgl_input: tgl_input,
+							barang_id: jenis,
+							jumlah: nominal,
+							lama_ags: lama_ags,
+							biaya_adm: biaya_adm,
+							kas_id: 1,
+							ket: 'Pelaksanaan Pengajuan Pinjaman',
+						},
+					})
+					.done(function(data) {
+						console.log(data)
+					})
+					.fail(function() {
+						alert('Error, Silahkan ulangi');
+					});
+				}
 				if(data == 'OK') {
 					$('.modal_hasil').html('<div class="alert alert-success">Pengajuan Telah Sukses <strong>' + data_aksi + '</strong></div>');
 					$('#link_konfirmasi').hide('slow');
