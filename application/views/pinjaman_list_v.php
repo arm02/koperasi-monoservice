@@ -81,7 +81,7 @@ striped="true">
 	</div>
 	<div class="pull-right" style="vertical-align: middle;">
 		<div id="filter_tgl" class="input-group" style="display: inline;">
-			<button class="btn btn-default" id="daterange-btn">
+			<button class="btn btn-default" id="daterange-btn" style="line-height:16px;border:1px solid #ccc">
 				<i class="fa fa-calendar"></i> <span id="reportrange"><span>Tanggal</span></span>
 				<i class="fa fa-caret-down"></i>
 			</button>
@@ -92,8 +92,8 @@ striped="true">
 			<option value="Lunas">Sudah Lunas</option>			
 		</select>
 		<span>Cari :</span>
-		<input name="kode_transaksi" id="kode_transaksi" size="23" placeholder="Kode Transaksi" style="line-height:22px;border:1px solid #ccc">
-		<input name="cari_nama" id="cari_nama" size="23" placeholder="Nama Anggota" style="line-height:22px;border:1px solid #ccc">
+		<input name="kode_transaksi" id="kode_transaksi" size="22" placeholder="Kode Transaksi" style="line-height:22px;border:1px solid #ccc">
+		<input name="cari_nama" id="cari_nama" size="22" placeholder="Nama Anggota" style="line-height:22px;border:1px solid #ccc">
 
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak_laporan()">Cetak Laporan</a>

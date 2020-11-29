@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Ubah Pic-SIFOR KOPJAM</title>
+	<title>Ubah Pic - IMS KOPERASI</title>
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>icon.ico" type="image/x-icon" />
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- bootstrap 3.0.2 -->
@@ -20,7 +20,7 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body>
+<body class="">
 
 <div class="container">
 	<?php $this->load->view('themes/member_menu_v'); ?>
@@ -54,7 +54,7 @@
 
 					<div class="form-group">
 						<?php
-						echo '<div class="">';
+						echo '<div class="" style="margin-bottom:10px;">';
 						$photo_w = 3 * 20;
 						$photo_h = 4 * 20;
 						if($row->file_pic == '') {
@@ -76,7 +76,8 @@
 							'class' 		=> 'btn btn-primary',
 							'value'		=> 'true',
 							'type'	 	=> 'submit',
-							'content' 	=> 'Ubah Pic'
+							'content' 	=> 'Ubah Pic',
+							'style' 	=> 'margin-bottom:20px;'
 							);
 						echo '<br>';
 						echo form_button($data);

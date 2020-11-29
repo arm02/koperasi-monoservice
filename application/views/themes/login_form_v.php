@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Login-SIFOR KOPJAM</title>
+	<title>Login - IMS KOPERASI</title>
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>icon.ico" type="image/x-icon" />
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- bootstrap 3.0.2 -->
@@ -51,8 +51,8 @@
 				</div> 
 				<button type="submit" class="btn btn-primary btn-block">Login</button>
 			</div>
-			<div class="footer"> 
-				&copy; Copyright <?php echo date('Y'); ?> | Developed by NSI. 
+			<div class="footer" style="text-align : center;"> 
+				Copyright &copy; <?php echo date('Y'); ?> | Developed by <a href="http://intimultisolusi.com/">IMS</a>. 
 			</div>
 		</form>
 	</div>

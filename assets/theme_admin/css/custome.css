@@ -19,16 +19,16 @@
 
 .skin-blue .sidebar > .sidebar-menu > li > a:hover, .skin-blue .sidebar > .sidebar-menu > li.active > a {
 	color: #F6F6F6;
-	background: none repeat scroll 0% 0% #3C8DBC;
+	background: none repeat scroll 0% 0% #007bff;
 }
 
 .skin-blue .navbar .dropdown-menu > li > a:hover {
-	color: #F6F6F6;
+	color: #444444;
 }
 
 .skin-blue .treeview-menu > li.active, .skin-blue .treeview-menu > li:hover {
 	color: #000000;
-	background: none repeat scroll 0% 0% #D3E6EB;
+	background: none repeat scroll 0% 0% rgba(0,0,0,.1);
 }
 
 .row {
@@ -108,5 +108,5 @@ div.input-group.date, .date div.input-group-addon, .date .form-control[disabled]
 
 /*form login*/
 .form-box .header	{
-	background-color: #367FA9;
+	background-color: #007bff;
 }

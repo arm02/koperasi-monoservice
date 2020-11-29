@@ -37,7 +37,7 @@
 						</select>
 						<input type="text" id="fr_bulan" name="fr_bulan" value="" style="display: inline-block; width: 50px; line-height: 20px; vertical-align: middle; background-color:#ddd;" readonly="true" title="Filter Untuk Per Tanggal 21 Sampai 20" />
 						<a href="javascript:void(0);" id="fm_filter" class="btn btn-primary"><i class="fa fa-filter"></i> FILTER</a>
-						<a href="javascript:void(0);" id="fm_cetak" class="btn bg-purple" onclick="cetak_laporan();"><i class="fa fa-print"></i> CETAK</a>
+						<a href="javascript:void(0);" id="fm_cetak" class="btn btn-success" onclick="cetak_laporan();"><i class="fa fa-print"></i> CETAK</a>
 					</div>
 
 				</div>
@@ -269,7 +269,7 @@
 		<?php if($this->session->userdata('level') == 'admin') { ?>
 			nsi_out += ' <a data-data_aksi="Hapus" data-data_id="'+row.id+'" class="a_hapus btn btn-sm btn-danger" href="javascript:void(0);"><i class="fa fa-times-circle"></i> Hapus</a>';
 		<?php } ?>
-		nsi_out += ' <a href="<?php echo site_url('cetak_pengajuan/cetak');?>/'+row.id+'" target="_blank" class="btn btn-sm bg-purple"><i class="fa fa-print"></i> Cetak</a>';
+		nsi_out += ' <a href="<?php echo site_url('cetak_pengajuan/cetak');?>/'+row.id+'" target="_blank" class="btn btn-success-sm"><i class="fa fa-print"></i> Cetak</a>';
 		return  nsi_out;
 	}
 
