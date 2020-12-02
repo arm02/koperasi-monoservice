@@ -23,13 +23,24 @@
 	padding: 4px;
 }	
 </style>
+
 <?php 
-	$tahun = date('Y');
+
+if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+	$tgl_dari = $_REQUEST['tgl_dari'];
+	$tgl_samp = $_REQUEST['tgl_samp'];
+} else {
+	$tgl_dari = null;
+	$tgl_samp = null;
+}
+$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 ?>
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">Rekapitulasi Tagihan</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -43,7 +54,10 @@
 					<tr>
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
+								<button class="btn btn-default" id="daterange-btn">
+									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
+									<i class="fa fa-caret-down"></i>
+								</button>
 							</div>
 						</td>
 						<td>
@@ -60,8 +74,6 @@
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Tagihan Per Tahun </p>
 
 <table  class="table table-bordered">
 	<tr class="header_kolom">

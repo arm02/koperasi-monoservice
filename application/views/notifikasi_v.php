@@ -47,7 +47,7 @@ foreach ($notif_tempo as $row) {
 		if($jml > 0) {
 			echo '
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<i class="fa fa-warning"></i>
+		<i class="fa fa-bell"></i>
 		<span class="badge bg-red" style="font-size: 14px;">'.$jml.'</span>
 	</a>
 	';
@@ -81,7 +81,7 @@ foreach ($notif_tempo as $row) {
 	<?php } else {
 			echo '
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<i class="fa fa-warning"></i>
+		<i class="fa fa-bell"></i>
 		<span class="badge bg-green" style="font-size: 14px;"><i class="fa fa-check-circle"></i></span>
 	</a>
 			';

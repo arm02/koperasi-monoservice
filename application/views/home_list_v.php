@@ -100,7 +100,7 @@ Hai, <?php echo $this->data['u_name']; ?> Silahkan pilih menu disamping untuk me
 	</div>
 
 	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-		<div class="small-box bg-purple">
+		<div class="small-box bg-gray1">
 			<div class="inner">
 				<h2 class="kotak_judul"> Kas Bulan <?php echo $txt_periode ?>
 

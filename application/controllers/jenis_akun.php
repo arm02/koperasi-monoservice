@@ -79,6 +79,7 @@ class Jenis_akun extends AdminController {
 		/*Default request pager params dari jeasyUI*/
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+
 		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'jns_trans';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$jns_trans = isset($_POST['jns_trans']) ? $_POST['jns_trans'] : '';

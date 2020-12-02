@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Pengajuan Baru - SIFOR KOPJAM</title>
+	<title>Pengajuan Baru - IMS KOPERASI</title>
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>icon.ico" type="image/x-icon" />
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- bootstrap 3.0.2 -->
@@ -28,8 +28,8 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body>
-
+<body class="">
+		
 <div class="container">
 
 	<?php $this->load->view('themes/member_menu_v'); ?>
@@ -53,7 +53,7 @@
 					</div>
 					<?php } ?>
 
-					<div class="form-group">
+					<div class="form-group" style="max-width: 40%;">
 						<?php 
 						$attr_form = 'jenis';
 						$attr_form_label = 'Jenis';
@@ -64,12 +64,12 @@
 						// 	);
 						echo '<label for="'.$attr_form.'">'.$attr_form_label.'</label>
 								<div>';
-						echo form_dropdown($attr_form, $options, 'Berjangka', 'id="'.$attr_form.'" class="form-control" style="width: 250px;"');
+						echo form_dropdown($attr_form, $options, 'Berjangka', 'id="'.$attr_form.'" class="form-control" style="width: 100%;"');
 						echo '</div>';
 						?>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" style="max-width: 40%;">
 						<?php
 						$data = array(
 							'name'       => 'nominal',
@@ -77,7 +77,7 @@
 							'class'		=> 'form-control',
 							'value'      => 0,
 							'maxlength'  => '255',
-							'style'      => 'width: 250px'
+							'style'      => 'width:100%'
 							);
 						echo form_label('Nominal', 'nominal');
 						echo form_input($data);
@@ -86,26 +86,26 @@
 					</div>
 
 
-					<div class="form-group">
+					<div class="form-group" style="max-width: 40%;">
 						<?php
 						$attr_form = 'lama_ags';
 						$attr_form_label = 'Lama Angsuran';
 						echo '<label for="'.$attr_form.'">'.$attr_form_label.'</label>
 								<div>';
-						echo form_dropdown($attr_form, $lama_ags, set_value($attr_form, ''), 'id="'.$attr_form.'" class="form-control" style="width: 100px;" ');
+						echo form_dropdown($attr_form, $lama_ags, set_value($attr_form, ''), 'id="'.$attr_form.'" class="form-control" style="width: 100%;" ');
 						echo '</div><div id="div_lama_ags"></div>';
 						?>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" style="max-width: 40%;">
 						<?php
 						$data = array(
-							'name'       => 'keterangan',
-							'id'			=> 'keterangan',
+							'name'      => 'keterangan',
+							'id'		=> 'keterangan',
 							'class'		=> 'form-control',
-							'value'      => '',
-							'maxlength'  => '255',
-							'style'      => 'width: 350px'
+							'value'     => '',
+							'maxlength' => '255',
+							'style'     => 'width:100%'
 							);
 						echo form_label('Keterangan', 'keterangan');
 						echo form_input($data);

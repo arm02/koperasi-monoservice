@@ -314,7 +314,8 @@
       'class' => 'btn btn-primary',
       'value' => 'true',
       'type' => 'submit',
-      'content' => 'Update'
+      'content' => 'Update',
+      'style' =>'margin-bottom:20px'
     );
     echo '<br>';
     echo form_button($data);

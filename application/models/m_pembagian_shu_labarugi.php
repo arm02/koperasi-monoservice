@@ -33,13 +33,13 @@ class M_pembagian_shu_labarugi extends CI_Model {
 	public function create() {
 		$data = array(
 			'create_date'	=>	date('Y-m-d'),
-      'create_by'		=>	$this->input->post('auth_name'),
+      		'create_by'		=>	$this->input->post('auth_name'),
 			'nama'	      =>	$this->input->post('nama'),
 			'kode'	      =>	$this->input->post('kode'),
 			'persentase'	=>	$this->input->post('persentase'),
 			'tahun'	      =>	$this->input->post('tahun'),
 			'type'	      =>	$this->input->post('type')
-		)
+		);
 		return $this->db->insert('pembagian_shu_labarugi', $data);
 	}
 
