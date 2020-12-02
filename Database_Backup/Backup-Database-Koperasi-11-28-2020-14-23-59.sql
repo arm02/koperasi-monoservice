@@ -200,7 +200,6 @@ INSERT INTO suku_bunga VALUES("13","jasa_modal","30");
 INSERT INTO suku_bunga VALUES("14","pjk_pph","5");
 INSERT INTO suku_bunga VALUES("15","pinjaman_bunga_tipe","A");
 
-
 DROP TABLE IF EXISTS tbl_anggota;
 
 CREATE TABLE `tbl_anggota` (
