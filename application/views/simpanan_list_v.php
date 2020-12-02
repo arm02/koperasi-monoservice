@@ -323,6 +323,20 @@ function fm_filter_tgl() {
 <script type="text/javascript">
 var url;
 
+var jenisAkun = function () {
+    var tmp = null;
+	$.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'url': '<?php echo site_url('jenis_akun/get_all_data_akun'); ?>',
+        'success': function (data) {
+            tmp = eval(data);
+        }
+    });
+    return tmp;
+}();
+
 function form_select_clear() {
 	$('select option')
 	.filter(function() {
@@ -370,6 +384,18 @@ function create(){
 
 function save() {
 	var string = $("#form").serialize();
+	var dataForm = $("#form").serializeArray();
+	var data = objectifyForm(dataForm)
+	var jenis_name = $( "#jenis_id option:selected" ).text();
+	var akun_id = jenisAkun.find(val => val.jns_trans == jenis_name).id;
+	var dataPemasukanKas = {
+		akun_id: akun_id,
+		jumlah: data.jumlah,
+		kas_id: data.kas_id,
+		ket: data.ket,
+		tgl_transaksi: data.tgl_transaksi,
+		tgl_transaksi_txt: data.tgl_transaksi_txt
+	}
 	//validasi teks kosong
 	var jenis_id = $("#jenis_id").val();
 	if(jenis_id == 0) {
@@ -403,6 +429,14 @@ function save() {
 			data	: string,
 			success	: function(result){
 				var result = eval('('+result+')');
+				$.ajax({
+					type	: "POST",
+					url: '<?php echo site_url('pemasukan_kas/create'); ?>',
+					data	: dataPemasukanKas,
+					success	: function(result){
+						console.log(result)
+					}
+				});
 				$.messager.show({
 					title:'<div><i class="fa fa-info"></i> Informasi</div>',
 					msg: result.msg,

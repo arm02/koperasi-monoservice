@@ -51,13 +51,8 @@
 				</div> 
 				<button type="submit" class="btn btn-primary btn-block">Login</button>
 			</div>
-<<<<<<< HEAD
-			<div class="footer"> 
-				&copy; Copyright <?php echo date('Y'); ?> | Developed by NSI. 
-=======
 			<div class="footer" style="text-align : center;"> 
-				Copyright &copy; <?php echo date('Y'); ?> | Developed by <a href="http://intimultisolusi.com/">IMS</a>. 
->>>>>>> e794b9182524c953e710c4502d680b81d08f14d1
+				Copyright &copy; <?php echo date('Y'); ?> | Developed by <a href="http://intimultisolusi.com/" target="_blank">IMS</a>. 
 			</div>
 		</form>
 	</div>

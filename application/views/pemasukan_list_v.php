@@ -251,7 +251,6 @@ function save() {
 	var string = $("#form").serialize();
 	var kas = $("#kas").val();
 	var akun_id = $("#akun_id").val();
-	var string = $("#form").serialize();
 	if(kas == 0) {
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
