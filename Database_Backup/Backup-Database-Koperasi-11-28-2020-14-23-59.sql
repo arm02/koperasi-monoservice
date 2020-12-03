@@ -200,6 +200,15 @@ INSERT INTO suku_bunga VALUES("13","jasa_modal","30");
 INSERT INTO suku_bunga VALUES("14","pjk_pph","5");
 INSERT INTO suku_bunga VALUES("15","pinjaman_bunga_tipe","A");
 
+
+INSERT INTO "manfaat_pensiun_type" VALUES (11, 'MP_B', 'Manfaat Pensiun Bulanan', 1, NULL, 't', NULL,'t', 'f', 't', 'f', 'f','f', 311, NULL, 211);
+INSERT INTO "manfaat_pensiun_type" VALUES (12, 'MP_S', 'Manfaat Pensiun Sekaligus', 1, NULL, 't', NULL, 't', 'f', 'f', 'f', 't', 'f', 312, NULL, 212);
+INSERT INTO "manfaat_pensiun_type" VALUES (21, 'SHR', 'Sumbangan Hari Raya', 2, NULL, 't', NULL, 't', 't', 'f', 'f', 't','t', 316, NULL, 216);
+INSERT INTO "manfaat_pensiun_type" VALUES (22, 'SKS', 'Santunan Kesehatan', 2, 't', NULL, 'f', 'f', 'f', 'f', 'f','f', 313, NULL, 213);
+INSERT INTO "manfaat_pensiun_type" VALUES (23, 'SPP', 'Santunan Hari Jadi Dapen', 2, NULL, 't', 't', 't', 'f', 'f', 'f', 314, NULL, 214);
+INSERT INTO "manfaat_pensiun_type" VALUES (24, 'SKC', 'Santunan Kaca Mata', 2, NULL, 't', NULL, 'f', 't', 'f', 'f', 'f', 'f', 315, NULL, 215);
+INSERT INTO "manfaat_pensiun_type" VALUES (25, 'SLL', 'Santunan Lain-Lain', 2, NULL, 't', NULL, 'f', 't', 'f', 'f', 'f', 'f', 317, NULL, 217);
+
 DROP TABLE IF EXISTS tbl_anggota;
 
 CREATE TABLE `tbl_anggota` (

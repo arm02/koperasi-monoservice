@@ -232,10 +232,10 @@ function form_select_clear() {
 function doSearch(){
 //alert($('input[name=daterangepicker_start]').val());
 $('#dg').datagrid('load',{
-kode_transaksi: $('#kode_transaksi').val(),
-tgl_dari: 	$('input[name=daterangepicker_start]').val(),
-tgl_sampai: $('input[name=daterangepicker_end]').val()
-});
+	kode_transaksi: $('#kode_transaksi').val(),
+	tgl_dari: 	$('input[name=daterangepicker_start]').val(),
+	tgl_sampai: $('input[name=daterangepicker_end]').val()
+	});
 }
 
 function clearSearch(){

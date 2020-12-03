@@ -100,6 +100,18 @@ class Master_anggota extends CI_Model {
 		return $result;
 	}
 
+	function get_all_data_anggota() {
+		$this->db->select('*');
+		$this->db->from('tbl_anggota');
+		$query = $this->db->get();
+		if($query->num_rows()>0){
+			$out = $query->result();
+			return $out;
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function create() {
 		$data = array(
 			'nama'			=>	$this->input->post('nama'),

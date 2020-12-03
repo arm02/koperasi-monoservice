@@ -54,7 +54,7 @@ class Angsuran_lunas_m extends CI_Model {
 
 		$total_tagihan = str_replace(',', '', $this->input->post('tagihan')) * 1;
 		$jumlah_bayar = str_replace(',', '', $this->input->post('jumlah_bayar')) * 1;
-		$denda= str_replace(',', '', $this->input->post('denda_val'))*1;
+		$denda= intval(str_replace(',', '', $this->input->post('denda_val')))*1;
 		$jml_tagihan = $total_tagihan + $denda;
 		$data = array(			
 						'tgl_bayar'		=>	$this->input->post('tgl_transaksi'),

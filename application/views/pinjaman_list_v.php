@@ -239,7 +239,7 @@ $(document).ready(function() {
 			}
 		})
 		.fail(function() {
-			alert('Kesalahan Konekasi, silahkan ulangi beberapa saat lagi.');
+			alert('Kesalahan Koneksi, silahkan ulangi beberapa saat lagi.');
 		});
 		
 	});
@@ -308,7 +308,19 @@ $(document).ready(function() {
 
 fm_filter_tgl();
 }); //ready
-
+var dataAnggota = function () {
+    var tmp = null;
+	$.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'url': '<?php echo site_url('anggota/get_all_data_anggota'); ?>',
+        'success': function (data) {
+            tmp = eval(data);
+        }
+    });
+    return tmp;
+}();
 
 function fm_filter_tgl() {
 	$('#daterange-btn').daterangepicker({
@@ -377,6 +389,14 @@ function create(){
 function save() {
 	var string = $("#form").serialize();
 	var dataForm = objectifyForm($("#form").serializeArray());
+	var nama_anggota = dataAnggota.find(val => val.id == dataForm.anggota_id).nama;
+	var dataPengeluaran = {
+		tgl_transaksi: dataForm.tgl_pinjam,
+		jumlah: dataForm.jumlah,
+		akun_id: 7,
+		kas_id: dataForm.kas_id,
+		ket: 'Penambahan Data Pinjaman Anggota - '+ nama_anggota,
+	}
 	//validasi teks kosong
 	var anggota_id = $("input[name=anggota_id]").val();
 	if(anggota_id == '') {
@@ -445,13 +465,7 @@ function save() {
 				url: '<?php echo site_url('pengeluaran_kas/create'); ?>',
 				type: 'POST',
 				dataType: 'html',
-				data: {
-					tgl_transaksi: dataForm.tgl_pinjam,
-					jumlah: dataForm.jumlah,
-					akun_id: 7,
-					kas_id: dataForm.kas_id,
-					ket: 'Penambahan Data Pinjaman Anggota',
-				},
+				data: dataPengeluaran
 			})
 			.done(function(data) {
 				console.log(data)

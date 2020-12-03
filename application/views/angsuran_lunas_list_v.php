@@ -331,6 +331,20 @@ $("#kode_transaksi").keyup(function(e){
 fm_filter_tgl();
 });
 
+var dataAnggota = function () {
+    var tmp = null;
+	$.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'url': '<?php echo site_url('anggota/get_all_data_anggota'); ?>',
+        'success': function (data) {
+            tmp = eval(data);
+        }
+    });
+    return tmp;
+}();
+
 function hitung_denda() {
 		$('#denda').html('<img src="<?php echo base_url();?>assets/theme_admin/img/loading.gif" />');
 		$('#denda_val').val('0');
@@ -420,6 +434,17 @@ function save(){
 	//validasi teks kosong
 	var tgl_bayar_txt = $("#tgl_bayar_txt").val();
 	var string = $("#form").serialize();
+	var dataForm = objectifyForm($("#form").serializeArray());
+	var anggota_id = '<?php echo $row_pinjam->anggota_id ?>'
+	var nama_anggota = dataAnggota.find(val => val.id == anggota_id).nama;
+	var dataPemasukanKas = {
+		akun_id: 7,
+		jumlah: dataForm.jumlah_bayar,
+		kas_id: dataForm.kas_id,
+		ket: 'Pelunasan Pinjaman Anggota - '+ nama_anggota,
+		tgl_transaksi: dataForm.tgl_transaksi,
+		tgl_transaksi_txt: dataForm.tgl_transaksi_txt
+	}
 	if(tgl_bayar_txt == 0){
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
@@ -448,6 +473,14 @@ function save(){
 			data	: string,
 			success	: function(result){
 				var result = eval('('+result+')');
+				$.ajax({
+					type	: "POST",
+					url: '<?php echo site_url('pemasukan_kas/create'); ?>',
+					data	: dataPemasukanKas,
+					success	: function(result){
+						console.log(result)
+					}
+				});
 				$.messager.show({
 					title:'<div><i class="fa fa-info"></i> Informasi</div>',
 					msg: result.msg,

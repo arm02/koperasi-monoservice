@@ -312,6 +312,19 @@ function fm_filter_tgl() {
 
 <script type="text/javascript">
 var url;
+var dataAnggota = function () {
+    var tmp = null;
+	$.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'url': '<?php echo site_url('anggota/get_all_data_anggota'); ?>',
+        'success': function (data) {
+            tmp = eval(data);
+        }
+    });
+    return tmp;
+}();
 
 var jenisAkun = function () {
     var tmp = null;
@@ -378,11 +391,12 @@ function save() {
 	var dataForm = objectifyForm($("#form").serializeArray());
 	var jenis_name = $( "#jenis_id option:selected" ).text();
 	var akun_id = jenisAkun.find(val => val.jns_trans == jenis_name).id;
+	var nama_anggota = dataAnggota.find(val => val.id == dataForm.anggota_id).nama;
 	var dataPengeluaranKas = {
 		tgl_transaksi: dataForm.tgl_transaksi,
 		jumlah: dataForm.jumlah,
 		kas_id: dataForm.kas_id,
-		ket: dataForm.ket,
+		ket: 'Penarikan Tunai Anggota - '+ nama_anggota,
 		akun_id: akun_id,
 		tgl_transaksi: dataForm.tgl_transaksi,
 	}

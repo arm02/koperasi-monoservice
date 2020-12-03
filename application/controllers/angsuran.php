@@ -205,7 +205,7 @@ class Angsuran extends OperatorController {
 		$denda_semua_num = 0;
 		$tgl_pinjam = substr($row_pinjam->tgl_pinjam, 0, 7) . '-01';
 		$tgl_tempo = date('Y-m-d', strtotime("+".$ags_ke." months", strtotime($tgl_pinjam)));
-		$tgl_bayar  = isset($_POST['tgl_bayar']) ? $_POST['tgl_bayar'] : '';
+		$tgl_bayar  = isset($_POST['tgl_bayar']) ? strtotime($_POST['tgl_bayar']) : '';
 		if($tgl_bayar != '') {
 			$data_bunga_arr = $this->bunga_m->get_key_val();
 			$denda_hari = $data_bunga_arr['denda_hari'];

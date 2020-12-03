@@ -115,6 +115,19 @@
 </div>
 
 <script type="text/javascript">
+	var dataAnggota = function () {
+	    var tmp = null;
+		$.ajax({
+	        'async': false,
+	        'type': "GET",
+	        'global': false,
+	        'url': '<?php echo site_url('anggota/get_all_data_anggota'); ?>',
+	        'success': function (data) {
+	            tmp = eval(data);
+	        }
+	    });
+	    return tmp;
+	}();
 
 	function fm_filter_tgl() {
 		$('#daterange-btn').daterangepicker({
@@ -365,6 +378,7 @@
 				data: {id: data_id, aksi: data_aksi, tgl_cair: data_tgl_cair, alasan: data_alasan},
 			})
 			.done(function(data) {
+				var nama_anggota = dataAnggota.find(val => val.id == anggota_id).nama;
 				if(data_aksi == 'Terlaksana'){
 					// POST PENGELUARAN
 					$.ajax({
@@ -376,7 +390,7 @@
 							jumlah: nominal,
 							akun_id: 7,
 							kas_id: 1,
-							ket: 'Pelaksanaan Pengajuan Pinjaman Anggota',
+							ket: 'Pelaksanaan Pengajuan Pinjaman Anggota - '+ nama_anggota,
 						},
 					})
 					.done(function(data) {

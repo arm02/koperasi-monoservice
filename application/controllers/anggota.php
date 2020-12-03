@@ -237,6 +237,13 @@ class Anggota extends OperatorController {
 		echo json_encode($result); //return nya json
 	}
 
+	function get_all_data_anggota() {
+		/*Default request pager params dari jeasyUI*/
+		$data = $this->master_anggota->get_all_data_anggota();
+
+		echo json_encode($data); //return nya json
+	}
+
 	public function create() {
 		if(!isset($_POST)) {
 			show_404();
