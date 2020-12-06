@@ -216,7 +216,21 @@
 	<tr class="header_kolom">
 		<th style="width:5%;" Colspan="4"> Perincian Pembagian Sisa Hasil Usaha ( SHU ) </th>
 	</tr>
-	<tr>
+	<?php 
+		$i = 1;
+		if($pembagian_shu){
+			foreach($pembagian_shu as $key => $value){
+				echo 
+				'<tr>
+					<td>'. $i++ .'</td>
+					<td>'. $value->nama .'</td>
+					<td>'. $value->persentase .'%</td>
+					<td>Rp. 71,972,929</td>
+				</tr>';
+			}
+		}
+	?>
+	<!-- <tr>
 		<td>1</td>
 		<td>Dana Cadangan</td>
 		<td>30%</td>
@@ -257,7 +271,7 @@
 		<td>Dana Sosial</td>
 		<td>50%</td>
 		<td>Rp. 71,972,929</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<td style="vertical-align: middle; text-align:center" colspan="2">Jumlah</td>
 		<td></td>
@@ -266,7 +280,21 @@
 	<tr class="header_kolom">
 		<th Colspan="4"> PEMBAGIAN SHU BAGIAN ANGGOTA BERDASARKAN : </th>
 	</tr>
-	<tr>
+	<?php 
+		$i = 1;
+		if($pembagian_shu_anggota){
+			foreach($pembagian_shu_anggota as $key => $value){
+				echo 
+				'<tr>
+					<td style="width:5%;">'. $i++ .'</td>
+					<td style="width:45%;">'. $value->nama .'</td>
+					<td style="width:25%;">'. $value->persentase .'%</td>
+					<td style="width:25%;">Rp. 71,972,929</td>
+				</tr>';
+			}
+		}
+	?>
+	<!-- <tr>
 		<td style="width:5%;">1</td>
 		<td style="width:45%;">Simpanan Anggota</td>
 		<td style="width:25%;">30%</td>
@@ -277,7 +305,7 @@
 		<td style="width:45%;">Pinjaman Anggota</td>
 		<td style="width:25%;">30%</td>
 		<td style="width:25%;">Rp. 71,972,929</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<td style="vertical-align: middle; text-align:center" colspan="2">Jumlah</td>
 		<td></td>

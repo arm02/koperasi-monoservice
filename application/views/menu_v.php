@@ -142,7 +142,11 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 </li> -->
 
 <li  class="treeview <?php 
-	 $menu_lap_arr= array('lap_anggota','lap_kas_anggota','lap_simpanan','lap_kas_pinjaman','lap_tempo','lap_macet','lap_trans_kas','lap_buku_besar','lap_neraca','lap_saldo','lap_laba','lap_shu','lap_summary_kas','lap_detail_setoran');
+	 $menu_lap_arr= array(
+	 	'Lapb_anggota_rekap_keseluruhan','lapb_anggota_rekap_simpanan_pokok', 'lapb_anggota_rekap_simpanan_wajib','Lapb_anggota_rekap_perbulan',
+	 	'lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan',
+	 	'lapb_koperasi_pinjaman_barang','lapb_koperasi_pinjaman_berjangka','lapb_koperasi_pinjaman_konsumtif','lapb_koperasi_pinjaman_perbulan','lapb_koperasi_piutang','lapb_koperasi_rekap_jasa_barang','lapb_koperasi_rekap_jasa_berjangka','lapb_koperasi_rekap_jasa_konsumtif','lapb_koperasi_tagihan_barang','lapb_koperasi_tagihan_berjangka','lapb_koperasi_tagihan_konsumtif'
+	 );
 	 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 
 
@@ -153,7 +157,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 	</a>
 	<ul class="treeview-menu">
 		<li  class="treeview <?php 
-		 $menu_lap_arr= array('Lapb_anggota_rekap_keseluruhan','lapb_anggota_rekap_simpanan_pokok', 'lapb_anggota_rekap_simpanan_wajib');
+		 $menu_lap_arr= array('Lapb_anggota_rekap_keseluruhan','lapb_anggota_rekap_simpanan_pokok', 'lapb_anggota_rekap_simpanan_wajib','Lapb_anggota_rekap_perbulan');
 		 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 			<a href="#">
 				<i class="fa fa-folder-open-o"></i>
@@ -168,7 +172,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 		 	</ul>
 		</li>
 		<li  class="treeview <?php 
-		 $menu_lap_arr= array('lapb_tagihan','lapb_pinjaman');
+		 $menu_lap_arr= array('lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan');
 		 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 			<a href="#">
 				<i class="fa fa-folder-open-o"></i>
@@ -249,7 +253,7 @@ if(in_array($this->uri->segment(1), $menu_data_arr)) {echo "active";}?>">
 <!-- MENU Setting -->
 <?php if($level == 'admin') { ?>
 <li  class="treeview <?php 
-$menu_sett_arr= array('profil','suku_bunga','pembagian_shu_labarugi','backup','restore');
+$menu_sett_arr= array('profil','suku_bunga','pembagian_shu_labarugi','setting_type_neraca','setting_penjelasan_neraca','backup','restore');
 if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 
 <a href="#">
@@ -264,6 +268,21 @@ if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 	<li class="<?php if ($this->uri->segment(1) == 'suku_bunga') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>suku_bunga"> <i class="fa fa-folder-open-o"></i> Suku Bunga </a></li>
 
 	<li class="<?php if ($this->uri->segment(1) == 'pembagian_shu_labarugi') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>pembagian_shu_labarugi"> <i class="fa fa-folder-open-o"></i> Pembagian SHU Laba Rugi </a></li>
+
+	<li  class="treeview <?php 
+	 $menu_lap_arr= array('setting_type_neraca','setting_penjelasan_neraca');
+	 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
+		<a href="#">
+			<i class="fa fa-folder-open-o"></i>
+			<span>Neraca</span>
+			<i class="fa fa-angle-left pull-right"></i>
+		</a>
+	 	<ul class="treeview-menu">
+			<li class="<?php if ($this->uri->segment(1) == 'setting_type_neraca') { echo 'active'; } ?>"> <a href="<?php echo base_url(); ?>setting_type_neraca"><i class="fa fa-folder-open-o"></i> Type Neraca </a></li>
+			<li class="<?php if ($this->uri->segment(1) == 'setting_penjelasan_neraca') { echo 'active'; } ?>"> <a href="<?php echo base_url(); ?>setting_penjelasan_neraca"><i class="fa fa-folder-open-o"></i> Penjelasan Neraca </a></li>
+
+	 	</ul>
+	</li>
 
 	<li class="<?php if ($this->uri->segment(1) == 'backup') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>backup"> <i class="fa fa-folder-open-o"></i> Backup Data </a></li>
 

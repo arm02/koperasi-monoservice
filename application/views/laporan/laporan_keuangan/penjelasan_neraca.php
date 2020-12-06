@@ -127,46 +127,6 @@
     <tr>
         <td></td>
 		<td style="width:5%; vertical-align: middle; text-align:center">3.</td>
-		<td style="width:42%;">Giro</td>
-        <td style="width:5%; vertical-align: middle; text-align:center">=</td>
-		<td style="width:43%; vertical-align: middle; text-align:right">Rp. 0</td>
-        <td style="width:5%;"></td>
-	</tr>
-    <tr>
-        <td></td>
-		<td></td>
-		<td>- Giro Bank Muamalat Indonesia</td>
-        <td style="vertical-align: middle; text-align:center">=</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 285,166,893</td>
-        <td></td>
-	</tr>
-    <tr>
-        <td></td>
-		<td></td>
-		<td>- Giro Bank Syariah Mandiri</td>
-        <td style="vertical-align: middle; text-align:center">=</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 285,166,893</td>
-        <td></td>
-	</tr>
-    <tr>
-        <td></td>
-		<td></td>
-		<td>- Giro Bank Jabar Banten</td>
-        <td style="vertical-align: middle; text-align:center">=</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-        <td></td>
-	</tr>
-    <tr>
-        <td></td>
-		<td></td>
-		<td>Saldo Giro Desember 2020</td>
-        <td style="vertical-align: middle; text-align:center">=</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 285,166,893</td>
-        <td></td>
-	</tr>
-    <tr>
-        <td></td>
-		<td style="width:5%; vertical-align: middle; text-align:center">4.</td>
 		<td style="width:42%;">Piutang Pinjaman Konsumtif</td>
         <td style="width:5%; vertical-align: middle; text-align:center">=</td>
 		<td style="width:43%; vertical-align: middle; text-align:right">Rp. 0</td>
@@ -222,7 +182,7 @@
 	</tr>
     <tr>
         <td></td>
-		<td style="width:5%; vertical-align: middle; text-align:center">5.</td>
+		<td style="width:5%; vertical-align: middle; text-align:center">4.</td>
 		<td style="width:42%;">Piutang Pinjaman Berjangka</td>
         <td style="width:5%; vertical-align: middle; text-align:center">=</td>
 		<td style="width:43%; vertical-align: middle; text-align:right">Rp. 0</td>
@@ -278,7 +238,7 @@
 	</tr>
     <tr>
         <td></td>
-		<td style="width:5%; vertical-align: middle; text-align:center">6.</td>
+		<td style="width:5%; vertical-align: middle; text-align:center">5.</td>
 		<td style="width:42%;">Piutang Pinjaman Barang</td>
         <td style="width:5%; vertical-align: middle; text-align:center">=</td>
 		<td style="width:43%; vertical-align: middle; text-align:right">Rp. 0</td>

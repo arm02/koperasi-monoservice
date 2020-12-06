@@ -56,6 +56,20 @@ class M_pembagian_shu_labarugi extends CI_Model {
 		}
 	}
 
+	function get_by_type_pembagian_shu_labarugi($type) {
+		$this->db->select('*');
+		$this->db->from('pembagian_shu_labarugi');
+		$this->db->where('type', $type);
+		$this->db->order_by('id', 'ASC');
+		$query = $this->db->get();
+		if($query->num_rows()>0){
+			$out = $query->result();
+			return $out;
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function create() {
 		$data = array(
 			'create_date'	=>	date('Y-m-d'),

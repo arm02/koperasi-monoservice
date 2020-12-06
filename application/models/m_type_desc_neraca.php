@@ -11,6 +11,11 @@ class M_type_desc_neraca extends CI_Model {
 	function get_data_db_ajax($offset, $limit, $q='', $sort, $order) {
 		$sql = "SELECT type_desc_neraca.* FROM type_desc_neraca";
 		$where = " ";
+		if(is_array($q)) {
+			if($q['title'] != ''){
+				$where .="WHERE type_desc_neraca.title = '".$q['title']."' ";
+			}
+		}
 		$sql .= $where;
 		$result['count'] = $this->db->query($sql)->num_rows();
 		$sql .=" ORDER BY {$sort} {$order} ";
@@ -23,7 +28,7 @@ class M_type_desc_neraca extends CI_Model {
 	public function create() {
 		$data = array(
 			'title'	      =>	$this->input->post('title')
-		)
+		);
 		return $this->db->insert('type_desc_neraca', $data);
 	}
 
@@ -36,7 +41,6 @@ class M_type_desc_neraca extends CI_Model {
 			$data_db = $query->result();
 		}
 		$this->db->where('id', $id);
-		$file_pic = $this->ubah_pic($data_db[0]);
 
 		return $this->db->update('type_desc_neraca',array(
 			'title'	      =>	$this->input->post('title')
