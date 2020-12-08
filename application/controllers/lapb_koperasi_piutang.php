@@ -14,7 +14,7 @@ class Lapb_koperasi_piutang extends OperatorController {
 
 		$this->data['judul_browser'] = 'Laporan';
 		$this->data['judul_utama'] = 'Laporan';
-		$this->data['judul_sub'] = 'Data Simpanan';
+		$this->data['judul_sub'] = 'Data Piutang';
 
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/default/easyui.css';
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/icon.css';
