@@ -26,7 +26,6 @@ class Suku_bunga extends AdminController {
 		foreach ($opsi_val_arr as $key => $value){
 			$out[$key] = $value;
 		}
-
 		$this->data['isi'] = $this->load->view('form_global_param_v', $out, TRUE);
 
 		$this->load->view('themes/layout_utama_v', $this->data);

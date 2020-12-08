@@ -412,4 +412,84 @@ class Lap_simpanan_m extends CI_Model {
 		$query = $this->db->get();
 		return $query->row();
 	}
+
+	function lap_keuangan_pinjaman($year) {
+
+		$januari = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 1
+		GROUP BY barang_id");
+
+		$februari = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 2
+		GROUP BY barang_id");
+
+		$maret = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 3
+		GROUP BY barang_id");
+
+		$april = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 4
+		GROUP BY barang_id");
+
+		$mei = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 5
+		GROUP BY barang_id");
+
+		$juni = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 6
+		GROUP BY barang_id");
+
+		$juli = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 7
+		GROUP BY barang_id");
+
+		$agustus = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 8
+		GROUP BY barang_id");
+
+		$september = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 9
+		GROUP BY barang_id");
+
+		$oktober = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 10
+		GROUP BY barang_id");
+
+		$november = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 11
+		GROUP BY barang_id");
+		$desember = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(jumlah) as jumlah_pinjaman FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND MONTH(pinjaman.tgl_pinjam) = 12
+		GROUP BY barang_id");
+
+
+		$data = array(
+			"januari"=> $januari->result_array(),
+			"februari"=> $februari->result_array(),
+			"maret"=> $maret->result_array(),
+			"april"=> $april->result_array(),
+			"mei"=> $mei->result_array(),
+			"juni"=> $juni->result_array(),
+			"juli"=> $juli->result_array(),
+			"agustus"=> $agustus->result_array(),
+			"september"=> $september->result_array(),
+			"oktober"=> $oktober->result_array(),
+			"november"=> $november->result_array(),
+			"desember"=> $desember->result_array()
+		);
+		return $data;
+	}
+
 }
