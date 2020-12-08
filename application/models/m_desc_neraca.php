@@ -34,7 +34,7 @@ class M_desc_neraca extends CI_Model {
 		$data = array(
 			'id_type_desc_neraca'	 =>	$this->input->post('id_type_desc_neraca'),
 			'title'	               =>	$this->input->post('title')
-		)
+		);
 		return $this->db->insert('desc_neraca', $data);
 	}
 
@@ -47,7 +47,6 @@ class M_desc_neraca extends CI_Model {
 			$data_db = $query->result();
 		}
 		$this->db->where('id', $id);
-		$file_pic = $this->ubah_pic($data_db[0]);
 
 		return $this->db->update('desc_neraca',array(
       'id_type_desc_neraca'	 =>	$this->input->post('id_type_desc_neraca'),

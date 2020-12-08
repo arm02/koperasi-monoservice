@@ -24,6 +24,11 @@ class M_type_desc_neraca extends CI_Model {
 		return $result;
 	}
 
+	function get_all_data() {
+		$sql = "SELECT type_desc_neraca.* FROM type_desc_neraca";
+		$result = $this->db->query($sql)->result();
+		return $result;
+	}
 
 	public function create() {
 		$data = array(

@@ -253,7 +253,7 @@ if(in_array($this->uri->segment(1), $menu_data_arr)) {echo "active";}?>">
 <!-- MENU Setting -->
 <?php if($level == 'admin') { ?>
 <li  class="treeview <?php 
-$menu_sett_arr= array('profil','suku_bunga','pembagian_shu_labarugi','setting_type_neraca','setting_penjelasan_neraca','backup','restore');
+$menu_sett_arr= array('profil','suku_bunga','pembagian_shu_labarugi','setting_type_neraca','setting_neraca','backup','restore');
 if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 
 <a href="#">
@@ -270,7 +270,7 @@ if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 	<li class="<?php if ($this->uri->segment(1) == 'pembagian_shu_labarugi') { echo 'active'; } ?>">  <a href="<?php echo base_url(); ?>pembagian_shu_labarugi"> <i class="fa fa-folder-open-o"></i> Pembagian SHU Laba Rugi </a></li>
 
 	<li  class="treeview <?php 
-	 $menu_lap_arr= array('setting_type_neraca','setting_penjelasan_neraca');
+	 $menu_lap_arr= array('setting_type_neraca','setting_neraca');
 	 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 		<a href="#">
 			<i class="fa fa-folder-open-o"></i>
@@ -279,7 +279,7 @@ if(in_array($this->uri->segment(1), $menu_sett_arr)) {echo "active";}?>">
 		</a>
 	 	<ul class="treeview-menu">
 			<li class="<?php if ($this->uri->segment(1) == 'setting_type_neraca') { echo 'active'; } ?>"> <a href="<?php echo base_url(); ?>setting_type_neraca"><i class="fa fa-folder-open-o"></i> Type Neraca </a></li>
-			<li class="<?php if ($this->uri->segment(1) == 'setting_penjelasan_neraca') { echo 'active'; } ?>"> <a href="<?php echo base_url(); ?>setting_penjelasan_neraca"><i class="fa fa-folder-open-o"></i> Penjelasan Neraca </a></li>
+			<li class="<?php if ($this->uri->segment(1) == 'setting_neraca') { echo 'active'; } ?>"> <a href="<?php echo base_url(); ?>setting_neraca"><i class="fa fa-folder-open-o"></i> Penjelasan Neraca </a></li>
 
 	 	</ul>
 	</li>
