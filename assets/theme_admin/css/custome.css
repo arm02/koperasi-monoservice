@@ -19,12 +19,12 @@
 
 .skin-blue .sidebar > .sidebar-menu > li > a:hover, .skin-blue .sidebar > .sidebar-menu > li.active > a {
 	color: #F6F6F6;
-	background: none repeat scroll 0% 0% #3C8DBC;
+	background: none repeat scroll 0% 0% #007bff;
 }
 
 .skin-blue .navbar .dropdown-menu > li > a:hover {
 	color: #F6F6F6;
-	background: none repeat scroll 0% 0% #007bff;
+	background: none repeat scroll 0% 0% #eee;
 }
 
 .skin-blue .navbar .dropdown-menu > li > a:hover {

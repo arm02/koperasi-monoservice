@@ -35,7 +35,7 @@
 							<option value="3">Sudah Terlaksana</option>
 							<option value="4">Batal</option>
 						</select>
-						<input type="text" id="fr_bulan" name="fr_bulan" value="" style="display: inline-block; width: 50px; line-height: 20px; vertical-align: middle; background-color:#ddd;" readonly="true" title="Filter Untuk Per Tanggal 21 Sampai 20" />
+						<input type="text" id="fr_bulan" name="fr_bulan" value="" style="display: inline-block; width: 150px; line-height: 28px; vertical-align: middle;" readonly="true" placeholder="Tanggal Pengajuan" />
 						<a href="javascript:void(0);" id="fm_filter" class="btn btn-primary"><i class="fa fa-filter"></i> FILTER</a>
 						<a href="javascript:void(0);" id="fm_cetak" class="btn btn-success" onclick="cetak_laporan();"><i class="fa fa-print"></i> CETAK</a>
 					</div>
