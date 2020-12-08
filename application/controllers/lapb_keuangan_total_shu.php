@@ -14,7 +14,7 @@ class Lapb_keuangan_total_shu extends OperatorController {
 
 		$this->data['judul_browser'] = 'Laporan';
 		$this->data['judul_utama'] = 'Laporan';
-		$this->data['judul_sub'] = 'Data Simpanan';
+		$this->data['judul_sub'] = 'Data Total SHU';
 
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/default/easyui.css';
 		$this->data['css_files'][] = base_url() . 'assets/easyui/themes/icon.css';
