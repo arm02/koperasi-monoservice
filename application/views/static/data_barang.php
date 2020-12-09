@@ -62,9 +62,9 @@ striped="true">
 </div>
 
 <!-- Dialog Form -->
-<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:480px; height:500px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
+<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:400px; height:200px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
 	<form id="form" method="post" novalidate>
-	<table style="height:150px" >
+	<table style="height:100px" >
 			<tr>
 				<td>
 					<table>
@@ -72,7 +72,7 @@ striped="true">
 							<td> Nama Barang </td>
 							<td>:</td>
 							<td>
-								<input id="nm_barang" name="nm_barang" style="width:190px; height:20px" >
+								<input id="nm_barang" name="nm_barang" style="width:250px; height:20px" >
 							</td>	
 						</tr>
 						<!-- <tr style="height:35px">

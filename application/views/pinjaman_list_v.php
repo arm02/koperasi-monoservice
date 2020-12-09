@@ -228,7 +228,7 @@ $(document).ready(function() {
 			data: {barang_id: val_barang_id},
 		})
 		.done(function(result) {
-			// $('#jumlah').val(result);
+			$('#jumlah').val(result);
 			if(result == '0') {
 				$('#jumlah').removeAttr('readonly');
 				$('#jumlah').css('background-color', '');
