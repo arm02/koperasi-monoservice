@@ -5,7 +5,7 @@ class Jenis_kas extends AdminController {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('fungsi');
-		$this->load->model('master_dataKas');
+		$this->load->model('master_datakas');
 	}	
 	
 	public function indexs() {
@@ -85,7 +85,7 @@ class Jenis_kas extends AdminController {
 		$search = array('nama' => $nama,
 			'aktif' => $aktif);
 		$offset = ($offset-1)*$limit;
-		$data   = $this->master_dataKas->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
+		$data   = $this->master_datakas->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
 		$i	= 0;
 		$rows   = array();
 
@@ -116,7 +116,7 @@ class Jenis_kas extends AdminController {
 		if(!isset($_POST)) {
 			show_404();
 		}
-		if($this->master_dataKas->create()){
+		if($this->master_datakas->create()){
 			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>'));
 		}else
 		{
@@ -128,7 +128,7 @@ class Jenis_kas extends AdminController {
 		if(!isset($_POST)) {
 			show_404();
 		}
-		if($this->master_dataKas->update($id)) {
+		if($this->master_datakas->update($id)) {
 			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil diubah </div>'));
 		} else {
 			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i>  Maaf, Data gagal diubah, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>'));
@@ -140,7 +140,7 @@ class Jenis_kas extends AdminController {
 			show_404();
 		}
 		$id = intval(addslashes($_POST['id']));
-		if($this->master_dataKas->delete($id))
+		if($this->master_datakas->delete($id))
 		{
 			//echo 'console.log('.$id.')';
 			echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil dihapus </div>'));
@@ -150,7 +150,7 @@ class Jenis_kas extends AdminController {
 	}
 
 	function cetak_laporan() {
-		$simpanan = $this->master_dataKas->lap_data_kas();
+		$simpanan = $this->master_datakas->lap_data_kas();
 		if($simpanan == FALSE) {
 			//redirect('simpanan');
 			echo 'DATA KOSONG<br>Pastikan Filter Tanggal dengan benar.';
