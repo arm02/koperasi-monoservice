@@ -82,7 +82,11 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 <table
 id="dg"
 class="easyui-datagrid"
+<<<<<<< HEAD
 title="Rekapitulasi Simpanan Keseluruhan Anggota"
+=======
+title="Data Rekapitulasi Simpanan Anggota"
+>>>>>>> 75912ff4d4790bdf3a7f792d928bea874142238a
 style="width:auto; height: auto;"
 url="<?php echo site_url('lapb_keuangan_pinjaman/ajax_list'); ?>"
 pagination="false" rownumbers="false"

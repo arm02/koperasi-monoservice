@@ -143,7 +143,10 @@ function fm_filter_tgl() {
 	},
 
 	function (start, end) {
+<<<<<<< HEAD
 		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
+=======
+>>>>>>> 75912ff4d4790bdf3a7f792d928bea874142238a
 		doSearch();
 	});
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <!-- <style type="text/css">
+=======
+<style type="text/css">
+>>>>>>> 75912ff4d4790bdf3a7f792d928bea874142238a
 .panel * {
 	font-family: "Arial","​Helvetica","​sans-serif";
 }
@@ -148,6 +152,7 @@ function cetak () {
 	}
 
 }
+<<<<<<< HEAD
 </script> -->
 
 
@@ -311,4 +316,6 @@ function cetak () {
 	}
 
 }
+=======
+>>>>>>> 75912ff4d4790bdf3a7f792d928bea874142238a
 </script>
