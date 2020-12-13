@@ -1,3 +1,4 @@
+
 <style type="text/css">
 .panel * {
 	font-family: "Arial","​Helvetica","​sans-serif";
@@ -22,15 +23,29 @@
 	height: 20px;
 	padding: 4px;
 }	
+
+.datagrid-footer .datagrid-row{
+	background: #efefef;
+}
 </style>
 
 <?php 
-	$tahun = date('Y');
+
+if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+	$tgl_dari = $_REQUEST['tgl_dari'];
+	$tgl_samp = $_REQUEST['tgl_samp'];
+} else {
+	$tgl_dari = null;
+	$tgl_samp = null;
+}
+$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 ?>
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">Rekapitulasi Simpanan Keseluruhan Anggota</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -40,14 +55,16 @@
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
+				<input type="hidden" name="tgl_dari" id="tgl_dari">
+				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
-							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
-							</div>
+							<input type="number" name="tahun_cari" id="tahun_cari" value='<?php echo date("Y") ?>'>
 						</td>
 						<td>
+							<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
+
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -61,132 +78,28 @@
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Pinjaman Per Tahun </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center">Bulan </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Konsumtif  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Berjangka  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Barang  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
-	</tr>
+<table
+id="dg"
+class="easyui-datagrid"
+title="Data Rekapitulasi Simpanan Anggota"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_keuangan_pinjaman/ajax_list'); ?>"
+pagination="false" rownumbers="false"
+fitColumns="true" singleSelect="true" collapsible="true"
+toolbar="#tb"
+striped="true"
+showFooter="true">
+<thead>
 	<tr>
-		<td>1</td>
-		<td>Januari</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
+		<th data-options="field:'bulan',width:'25', halign:'center', align:'center'"> Bulan</th>
+		<th data-options="field:'konsumtif',width:'25', halign:'center', align:'right'"> Konsumtif </th>
+		<th data-options="field:'berjangka',width:'25', halign:'center', align:'right'"> Berjangka  </th>
+		<th data-options="field:'barang',width:'25', halign:'center', align:'right'"> Barang  </th>
+		<th data-options="field:'jumlah',width:'25', halign:'center', align:'right'"> Jumlah </th>
 	</tr>
-
-	<tr>
-		<td>2</td>
-		<td>Februari</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>3</td>
-		<td>Maret</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>4</td>
-		<td>April</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>5</td>
-		<td>Mei</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>6</td>
-		<td>Juni</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>7</td>
-		<td>Juli</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>8</td>
-		<td>Agustus</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>9</td>
-		<td>September</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>10</td>
-		<td>Oktober</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>11</td>
-		<td>November</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-
-	<tr>
-		<td>12</td>
-		<td>Desember</td>
-		<td>1000000</td>
-		<td>14322341</td>
-		<td>29644682</td>
-		<td>29644682</td>
-	</tr>
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center" colspan="2"> Jumlah </th>
-		<th style="width:15%;" >3000000 </th>
-		<th style="width:20%;" > 42967023  </th>
-		<th style="width:15%;" > 42967023  </th>
-		<th style="width:15%;" > 42967023   </th>
-	</tr>
+</thead>
+</table>
 </div>
 </div>
 	
@@ -194,7 +107,6 @@
 $(document).ready(function() {
 	fm_filter_tgl();
 }); // ready
-
 function fm_filter_tgl() {
 	$('#daterange-btn').daterangepicker({
 		ranges: {
@@ -213,19 +125,15 @@ function fm_filter_tgl() {
 		<?php 
 			if(isset($tgl_dari) && isset($tgl_samp)) {
 				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
+					tgl_dari: '".$tgl_dari."',
+					tgl_samp: '".$tgl_samp."'
 				";
 			}
 		?>
 	},
 
 	function (start, end) {
+		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
 		doSearch();
 	});
 }
@@ -235,17 +143,15 @@ function clearSearch(){
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_keuangan_pinjaman'); ?>');
-	$('#fmCari').submit();	
+	var tahun = $('input[name=tahun_cari]').val();
+	$('#dg').datagrid('load',{
+		tahun: tahun
+	});		
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_keuangan_pinjaman/cetak/?tahun=' + tahun +'"); ?>');
+	var tahun = $('input[name=tahun_cari]').val() || new Date().getFullYear();
+	var win = window.open('<?php echo site_url("lapb_keuangan_pinjaman/cetak?tahun=' + tahun +'"); ?>');
 	if (win) {
 		win.focus();
 	} else {

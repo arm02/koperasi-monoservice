@@ -399,9 +399,9 @@ function update(){
 	data.agama = data.agama.toLowerCase()
 	data.file_upload = ""
 	if(data.file_pic){
-		$('#file_img').append('<img id="profile_img" src="/ci/koperasi-monoservice/uploads/anggota/'+ data.file_pic +'" width="15%"/>');
+		$('#file_img').append('<img id="profile_img" src="'+ '<?php echo base_url();?>' +'/uploads/anggota/'+ data.file_pic +'" width="15%"/>');
 	}else{
-		$('#file_img').append('<img id="profile_img" src="/ci/koperasi-monoservice/assets/theme_admin/img/photo.jpg" width="15%"/>');
+		$('#file_img').append('<img id="profile_img" src="'+ '<?php echo base_url();?>' +'/assets/theme_admin/img/photo.jpg" width="15%"/>');
 	}
 	if(row){
 		jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');

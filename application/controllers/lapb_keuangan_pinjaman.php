@@ -75,9 +75,68 @@ class Lapb_keuangan_pinjaman extends OperatorController {
 
 	}
 
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$year = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		$data   = $this->lap_simpanan_m->lap_keuangan_pinjaman($year);
+		$i	= 0;
+		$rows   = array();
+		$jumlah_konsumtif = 0;
+		$jumlah_berjangka = 0;
+		$jumlah_barang = 0;
+		$total_jumlah = 0;
+		if($data){
+			foreach ($data as $key => $r) {
+				$berjangka = 0;
+				$konsumtif = 0;
+				$barang = 0;
+				$jumlah = 0;
+				foreach($r as $nominal){
+					if(isset($nominal['jenis_pinjaman'])){
+						if($nominal['jenis_pinjaman'] == 'Pinjaman Berjangka'){
+							$berjangka = $nominal['jumlah_pinjaman'];
+							$jumlah_berjangka = $jumlah_berjangka + $nominal['jumlah_pinjaman'];
+						}else if($nominal['jenis_pinjaman'] == 'Pinjaman Konsumtif'){
+							$konsumtif = $nominal['jumlah_pinjaman'];
+							$jumlah_konsumtif = $jumlah_konsumtif + $nominal['jumlah_pinjaman'];
+						}else{
+							$barang = $nominal['jumlah_pinjaman'];
+							$jumlah_barang = $jumlah_barang + $nominal['jumlah_pinjaman'];
+						}
+
+						$jumlah = $jumlah + $nominal['jumlah_pinjaman'];
+					}
+				}
+				$total_jumlah = $total_jumlah + $jumlah;
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['bulan'] = ucfirst($key);
+				$rows[$i]['konsumtif'] = 'Rp. '.number_format($konsumtif);
+				$rows[$i]['berjangka'] = 'Rp. '.number_format($berjangka);
+				$rows[$i]['barang'] = 'Rp. '.number_format($barang);
+				$rows[$i]['jumlah'] = 'Rp. '.number_format($jumlah);
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'bulan' => 'Jumlah',
+				'konsumtif' => 'Rp. '.number_format($jumlah_konsumtif),
+				'berjangka' => 'Rp. '.number_format($jumlah_berjangka),
+				'barang' => 'Rp. '.number_format($jumlah_barang),
+				'jumlah' => 'Rp. '.number_format($total_jumlah),
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
+	}
 	function cetak() {
 		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-		$simpanan = array(
+
+		$year = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
+		$data   = $this->lap_simpanan_m->lap_keuangan_pinjaman($year);
+
+		$pinjaman = array(
 			array(
 				"bulan" => 0,
 				"konsumtif" => 1000000,
@@ -151,7 +210,7 @@ class Lapb_keuangan_pinjaman extends OperatorController {
 				"barang" => 1000000,
 			),
 		);
-		if($simpanan == FALSE) {
+		if($pinjaman == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
 			exit();
@@ -180,41 +239,54 @@ class Lapb_keuangan_pinjaman extends OperatorController {
 			<th style="width:20%; vertical-align: middle; text-align:center"> Barang  </th>
 			<th style="width:20%; vertical-align: middle; text-align:center"> Jumlah  </th>
 		</tr>';
-
-		$no = 1;
-		$simpanan_arr = array();
-
 		$jumlah_konsumtif = 0;
-
 		$jumlah_berjangka = 0;
-
 		$jumlah_barang = 0;
-
 		$total_jumlah = 0;
-		foreach ($simpanan as $value) {
-			$jumlah = $value['konsumtif'] + $value['berjangka'] + $value['barang'];
-			$jumlah_konsumtif += $value['konsumtif'];
-			$jumlah_berjangka += $value['berjangka'];
-			$jumlah_barang += $value['barang'];
-			$total_jumlah += $jumlah;
+		$i = 0;
+		if($data){
+			foreach ($data as $key => $r) {
+				$i++;
+				$berjangka = 0;
+				$konsumtif = 0;
+				$barang = 0;
+				$jumlah = 0;
+				foreach($r as $nominal){
+					if(isset($nominal['jenis_pinjaman'])){
+						if($nominal['jenis_pinjaman'] == 'Pinjaman Berjangka'){
+							$berjangka = $nominal['jumlah_pinjaman'];
+							$jumlah_berjangka = $jumlah_berjangka + $nominal['jumlah_pinjaman'];
+						}else if($nominal['jenis_pinjaman'] == 'Pinjaman Konsumtif'){
+							$konsumtif = $nominal['jumlah_pinjaman'];
+							$jumlah_konsumtif = $jumlah_konsumtif + $nominal['jumlah_pinjaman'];
+						}else{
+							$barang = $nominal['jumlah_pinjaman'];
+							$jumlah_barang = $jumlah_barang + $nominal['jumlah_pinjaman'];
+						}
 
-			$html .= '
-			<tr>
-				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $bulan[$value['bulan']].'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif']).'</td>
-				<td class="h_kanan">'. number_format($value['berjangka']).'</td>
-				<td class="h_kanan">'. number_format($value['barang']).'</td>
-				<td class="h_kanan">'. number_format($jumlah).'</td>
-			</tr>';
+						$jumlah = $jumlah + $nominal['jumlah_pinjaman'];
+					}
+				}
+				$total_jumlah = $total_jumlah + $jumlah;
+				//array keys ini = attribute 'field' di view nya
+				$html .= '
+				<tr>
+					<td class="h_tengah">'.$i.'</td>
+					<td>'. ucfirst($key).'</td>
+					<td class="h_kanan">'. 'Rp. '.number_format($konsumtif).'</td>
+					<td class="h_kanan">'. 'Rp. '.number_format($berjangka).'</td>
+					<td class="h_kanan">'. 'Rp. '.number_format($barang).'</td>
+					<td class="h_kanan">'. 'Rp. '.number_format($jumlah).'</td>
+				</tr>';
+			}
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_konsumtif).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_berjangka).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_barang).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($total_jumlah).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
