@@ -711,7 +711,7 @@ class Lap_simpanan_m extends CI_Model {
 		$where = "";
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
-				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
+				$where .=" and pinjaman.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
 			}
 		}
 		$sql .= $where;
@@ -803,7 +803,7 @@ class Lap_simpanan_m extends CI_Model {
 		$where = "";
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
-				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
+				$where .=" and pinjaman.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
 			}
 		}
 		$sql .= $where;
@@ -894,7 +894,7 @@ class Lap_simpanan_m extends CI_Model {
 		$where = "";
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
-				$where .=" and trans.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
+				$where .=" and pinjaman.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
 			}
 		}
 		$sql .= $where;
