@@ -69,7 +69,8 @@ class Lapb_keuangan_rekap_sukarela extends OperatorController {
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
-		
+		// $datas = $this->lap_simpanan_m->lap_keuangan_rekap_sukarela(1,100);
+		// print_r($datas);
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rekap_sukarela', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
