@@ -685,9 +685,7 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY anggota.tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 32
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -777,9 +775,7 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY anggota.tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 32
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -868,9 +864,7 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY anggota.tgl_daftar desc 
 		LIMIT ".$limit.",".$offset."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 32
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
