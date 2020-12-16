@@ -69,42 +69,89 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
-		
+
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rekap_simpanan_total', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
 	}
 
-	function cetak() {
-		$simpanan = array(
-			array(
-				"nama" => 'Alimin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
-			array(
-				"nama" => 'Endin',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
-			array(
-				"nama" => '	Empat Siti Fatimah',
-				"pokok" => 1000000,
-				"wajib" => 14322341,
-				"sukarela" => 14322341,
-				"khusus" => 14322341,
-				"yang_diambil" => 14322341,
-				"saldo_disimpan" => 14322341,
-			),
+
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$search = array(
+			'tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_samp
 		);
+		$offset = ($offset-1)*$limit;
+		$data   = $this->lap_simpanan_m->lap_keuangan_simpanan_total($offset,$limit,$search);
+		$i	= 0;
+		$rows   = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+
+				$rows[$i]['id_anggota'] = $r['id_anggota'];
+				$rows[$i]['no'] = $i+1;
+				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
+				$rows[$i]['simpananwajib'] = 'Rp.'.number_format($r['simpananwajib']);
+				$rows[$i]['simpananpokok'] = 'Rp.'.number_format($r['simpananpokok']);
+				$rows[$i]['simpanansukarela'] = 'Rp.'.number_format($r['simpanansukarela']);
+				$rows[$i]['simpanankhusus'] = 'Rp.'.number_format($r['simpanankhusus']);
+				$rows[$i]['jumlah_total'] = 'Rp.'.number_format($r['jumlah_total']);
+				$rows[$i]['yang_diambil'] = 'Rp.'.number_format($r['yang_diambil']);
+				$rows[$i]['saldo_simpanan'] = 'Rp.'.number_format($r['saldo_simpanan']);
+				// $rows[$i]['nota'] = '<p></p><p>
+				// <a href="'.site_url('cetak_simpanan').'/cetak/' . $r->id . '"  title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
+	function cetak() {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$q = array(
+			'tgl_dari' => $tgl_dari, 
+			'tgl_samp' => $tgl_samp, 
+		);
+		$simpanan   = $this->lap_simpanan_m->lap_keuangan_simpanan_total(200,200, $q);
+
+		// $simpanan = array(
+		// 	array(
+		// 		"nama" => 'Alimin',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// 	array(
+		// 		"nama" => 'Endin',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// 	array(
+		// 		"nama" => '	Empat Siti Fatimah',
+		// 		"pokok" => 1000000,
+		// 		"wajib" => 14322341,
+		// 		"sukarela" => 14322341,
+		// 		"khusus" => 14322341,
+		// 		"yang_diambil" => 14322341,
+		// 		"saldo_disimpan" => 14322341,
+		// 	),
+		// );
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -161,13 +208,13 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 		$jumlah_yang_diambil = 0; 
 		$jumlah_saldo_disimpan = 0; 
 		$total_jumlah = 0;
-		foreach ($simpanan as $jenis) {
+		foreach ($simpanan["rows"] as $jenis) {
 			$jumlah = $jenis['pokok'] + $jenis['wajib'] + $jenis['sukarela'] + $jenis['khusus'] ;
 
-			$jumlah_pokok += $jenis['pokok'];
-			$jumlah_wajib += $jenis['wajib'];
-			$jumlah_sukarela += $jenis['sukarela'];
-			$jumlah_khusus += $jenis['khusus'];
+			$jumlah_pokok += $jenis['simpananpokok'];
+			$jumlah_wajib += $jenis['simpananwajib'];
+			$jumlah_sukarela += $jenis['simpanansukarela'];
+			$jumlah_khusus += $jenis['simpanankhusus'];
 			$jumlah_yang_diambil += $jenis['yang_diambil'];
 			$jumlah_saldo_disimpan += $jenis['saldo_disimpan'];
 			$total_jumlah += $jumlah;
@@ -176,10 +223,10 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
 				<td>'. $jenis['nama'].'</td>
-				<td class="h_kanan">'. number_format($jenis['pokok']).'</td>
-				<td class="h_kanan">'. number_format($jenis['wajib']).'</td>
-				<td class="h_kanan">'. number_format($jenis['sukarela']).'</td>
-				<td class="h_kanan">'. number_format($jenis['khusus']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpananpokok']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpananwajib']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpanansukarela']).'</td>
+				<td class="h_kanan">'. number_format($jenis['simpanankhusus']).'</td>
 				<td class="h_kanan">'. number_format($jumlah).'</td>
 				<td class="h_kanan">'. number_format($jenis['yang_diambil']).'</td>
 				<td class="h_kanan">'. number_format($jenis['saldo_disimpan']).'</td>
@@ -198,6 +245,6 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
+		$pdf->Output('lap_keuangan_rekap_simpanan_total'.date('Ymd_His') . '.pdf', 'I');
 	}
 }

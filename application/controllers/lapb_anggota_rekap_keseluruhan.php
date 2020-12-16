@@ -219,6 +219,6 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
+		$pdf->Output('lap_anggota_rekap_keseluruhan'.date('Ymd_His') . '.pdf', 'I');
 	}
 }
