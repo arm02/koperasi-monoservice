@@ -29,16 +29,12 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_seluruh_anggota($offset = 200, $limit = 200, $q = "") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar desc 
+		ORDER BY anggota.nama asc 
 		LIMIT ".$offset.",".$limit."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -95,16 +91,12 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_anggota_pokok($limit, $offset,$q = "") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 40
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.tgl_daftar desc 
+		ORDER BY anggota.nama asc 
 		LIMIT ".$limit.",".$offset."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= 40
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -197,14 +189,12 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_anggota_wajib($offset, $limit,$q = "") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar desc 
+		ORDER BY anggota.nama asc 
 		LIMIT ".$offset.",".$limit."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=41
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -298,16 +288,12 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_rekap_anggota_perbulan($offset, $limit, $q="") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar desc 
+		ORDER BY anggota.nama asc 
 		LIMIT ".$offset.",".$limit."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -966,19 +952,13 @@ class Lap_simpanan_m extends CI_Model {
 	function lap_keuangan_rekap_sukarela($offset, $limit,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar";
-
-		$paging = "";
-
-		if($limit || $offset){
-			$paging = " desc LIMIT ".$limit.",".$offset."";			
-		}
+		ORDER BY anggota.nama asc 
+		LIMIT ".$offset.",".$limit."";
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=32
 		GROUP BY anggota.id";
 
-		$sql.=$paging;
 		$execute = $this->db->query($sql);
 
 		$data = array();
@@ -1070,24 +1050,14 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 	function lap_keuangan_simpanan_total($offset = 200, $limit = 200, $q = "") {
-		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY tgl_daftar";
+		ORDER BY anggota.nama asc 
+		LIMIT ".$offset.",".$limit."";
 
-		$paging = "";
-
-		if($limit || $offset){
-			$paging = " desc LIMIT ".$limit.",".$offset."";			
-		}
-
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, simpan.id as id_jenis_simpanan,simpan.jns_simpan as jenis_simpanan, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id
-		INNER JOIN jns_simpan simpan ON simpan.id= trans.jenis_id 
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
-		$sql.=$paging;
 		$execute = $this->db->query($sql);
 
 		$data = array();
