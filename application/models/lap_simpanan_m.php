@@ -668,12 +668,12 @@ class Lap_simpanan_m extends CI_Model {
 	function lap_koperasi_pinjaman_barang($limit = 0, $offset = 0,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
 		GROUP BY anggota.id
-		ORDER BY anggota.tgl_daftar";
+		ORDER BY anggota.nama";
 
 		$paging = "";
 
 		if($limit || $offset){
-			$paging = " desc LIMIT ".$limit.",".$offset."";			
+			$paging = " asc LIMIT ".$limit.",".$offset."";			
 		}
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -763,12 +763,12 @@ class Lap_simpanan_m extends CI_Model {
 	function lap_koperasi_pinjaman_berjangka($limit = 0, $offset = 0,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
 		GROUP BY anggota.id
-		ORDER BY anggota.tgl_daftar";
+		ORDER BY anggota.nama";
 
 		$paging = "";
 
 		if($limit || $offset){
-			$paging = " desc LIMIT ".$limit.",".$offset."";			
+			$paging = " asc LIMIT ".$limit.",".$offset."";			
 		}
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -857,12 +857,12 @@ class Lap_simpanan_m extends CI_Model {
 	function lap_koperasi_pinjaman_konsumtif($limit = 0, $offset = 0,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
 		GROUP BY anggota.id
-		ORDER BY anggota.tgl_daftar";
+		ORDER BY anggota.nama";
 
 		$paging = "";
 
 		if($limit || $offset){
-			$paging = " desc LIMIT ".$limit.",".$offset."";			
+			$paging = " asc LIMIT ".$limit.",".$offset."";			
 		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
