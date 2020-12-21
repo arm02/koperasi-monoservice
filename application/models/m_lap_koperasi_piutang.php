@@ -8,7 +8,7 @@ class M_lap_koperasi_piutang extends CI_Model {
 
 
 	//panggil data db untuk esyui
-	function get_data_db_ajax($offset, $limit, $q='', $sort, $order, $status) {
+	function get_data_db_ajax($offset = 0, $limit = 0, $q='', $sort = 0, $order = 0, $status) {
 
     if($status=="all"){
       $sql = "SELECT tbl_pinjaman_h.* FROM tbl_pinjaman_h";
@@ -20,8 +20,12 @@ class M_lap_koperasi_piutang extends CI_Model {
 
 		$sql .= $where;
 		$result['count'] = $this->db->query($sql)->num_rows();
-		$sql .=" ORDER BY {$sort} {$order} ";
-		$sql .=" LIMIT {$offset},{$limit} ";
+		if($sort || $order){
+			$sql .=" ORDER BY {$sort} {$order} ";
+		}
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 		$result['data'] = $this->db->query($sql)->result();
 		return $result;
 	}

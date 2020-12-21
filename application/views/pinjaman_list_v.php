@@ -165,9 +165,6 @@ striped="true">
 							<td>Bunga (%)</td>
 							<td>:</td>
 							<td>
-								<?php /*
-								<input type="hidden" name="bunga" id="bunga" />
-								*/ ?>
 								<input type="text" id="bunga" name="bunga" style="border-width:1; width:195px; height:23px" />
 							</td>	
 						</tr>
@@ -175,9 +172,6 @@ striped="true">
 							<td>Biaya Admin</td>
 							<td>:</td>
 							<td>
-								<?php /*
-								<input type="hidden" name="biaya_adm" id="biaya_adm" />
-								*/ ?>
 								<input type="text" id="biaya_adm" name="biaya_adm" style="border-width:1; width:195px; height:23px" />
 							</td>	
 						</tr>
@@ -428,7 +422,7 @@ function save() {
 			timeout:2000,
 			showType:'slide'
 		});
-		$("#barang_id").focus();
+		$("#jumlah").focus();
 		return false;
 	}
 

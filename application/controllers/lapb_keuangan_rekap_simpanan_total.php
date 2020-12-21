@@ -70,6 +70,9 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
 
+		// $data   = $this->lap_simpanan_m->lap_keuangan_simpanan_total(0,0);
+		// print_r($data);
+		// exit();
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rekap_simpanan_total', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 

@@ -22,7 +22,7 @@ class Pemasukan_m extends CI_Model {
 		}
 	}
 
-//panggil data jenis kas
+	//panggil data jenis kas
 	function get_jenis_kas($id) {
 		$this->db->select('*');
 		$this->db->from('nama_kas_tbl');

@@ -7,6 +7,7 @@ class Lapb_koperasi_piutang extends OperatorController {
 		$this->load->helper('fungsi');
 		$this->load->model('general_m');
 		$this->load->model('lap_simpanan_m');
+		$this->load->model('m_lap_koperasi_piutang');
 	}	
 
 	public function index() {
@@ -66,6 +67,10 @@ class Lapb_koperasi_piutang extends OperatorController {
 		if($offset > 0) {
 			$offset = ($offset * $config['per_page']) - $config['per_page'];
 		}
+
+		// $data = $this->m_lap_koperasi_piutang->get_data_db_ajax(0,0,0,0,0,1); // banyak data
+		// print_r($data);
+		// exit();
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;

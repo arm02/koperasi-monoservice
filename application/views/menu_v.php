@@ -17,7 +17,7 @@
 <!-- Menu Transaksi -->
 <?php if($level != 'pinjaman') { ?>
 <li  class="treeview <?php 
-	 $menu_trans_arr= array('pemasukan_kas','pengeluaran_kas', 'transfer_kas');
+	 $menu_trans_arr= array('pemasukan_kas','pengeluaran_kas', 'transfer_kas', 'biaya_umum');
 	 if(in_array($this->uri->segment(1), $menu_trans_arr)) {echo "active";}?>">
 
 	<a href="#">
@@ -31,6 +31,8 @@
 		<li class="<?php if ($this->uri->segment(1) == 'pengeluaran_kas') { echo 'active'; } ?>"><a href="<?php echo base_url(); ?>pengeluaran_kas"> <i class="fa fa-folder-open-o"></i> Pengeluaran </a></li>
 
 		<li class="<?php if ($this->uri->segment(1) == 'transfer_kas') { echo 'active'; } ?>"><a href="<?php echo base_url(); ?>transfer_kas"> <i class="fa fa-folder-open-o"></i> Transfer </a></li>
+
+		<li class="<?php if ($this->uri->segment(1) == 'biaya_umum') { echo 'active'; } ?>"><a href="<?php echo base_url(); ?>biaya_umum"> <i class="fa fa-folder-open-o"></i> Biaya Umum </a></li>
 	</ul>
 </li>
 <?php } ?>

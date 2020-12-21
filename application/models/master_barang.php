@@ -18,9 +18,9 @@ class Master_barang extends CI_Model {
 			// 'merk' => $merk
     	);
 		if(is_array($q)) {
-			if($q['nm_barang'] != '') {
-				$where .="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' ";
-			} 
+			// if($q['nm_barang'] != '') {
+			// 	$where .="WHERE tbl_barang.nm_barang LIKE '%".$q['nm_barang']."%' ";
+			// } 
 			// else if($q['type'] != '') {
 			// 	$where .="WHERE tbl_barang.type = '".$q['type']."' ";
 			// } else {

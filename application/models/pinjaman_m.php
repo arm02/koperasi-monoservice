@@ -268,7 +268,6 @@ class Pinjaman_m extends CI_Model {
 		return $row->angsuran_ke;
 	}
 
-
 	function pengajuan_aksi() {
 		$status = $this->input->post('aksi');
 		$id = $this->input->post('id');

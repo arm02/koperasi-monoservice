@@ -122,6 +122,7 @@ class Simpanan_m extends CI_Model {
 	// 	$query = $this->db->get();
 	// 	return $query->row();
 	// }
+	
 	//hitung jumlah total simpanan
 	function get_jml_simpanan() {
 		$this->db->select('*');
