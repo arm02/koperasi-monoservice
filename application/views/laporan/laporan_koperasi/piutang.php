@@ -25,12 +25,22 @@
 </style>
 
 <?php 
-	$tahun = date('Y');
+
+if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+	$tgl_dari = $_REQUEST['tgl_dari'];
+	$tgl_samp = $_REQUEST['tgl_samp'];
+} else {
+	$tgl_dari = null;
+	$tgl_samp = null;
+}
+$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 ?>
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Saldo Piutang</h3>
+		<h3 class="box-title">Saldo Piutang</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -40,11 +50,16 @@
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
+				<input type="hidden" name="tgl_dari" id="tgl_dari">
+				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
+								<button class="btn btn-default" id="daterange-btn">
+									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
+									<i class="fa fa-caret-down"></i>
+								</button>
 							</div>
 						</td>
 						<td>
@@ -61,29 +76,33 @@
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Saldo Piutang </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Nama </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" colspan="3"> Pinjaman </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Jumlah </th>
-	</tr>
-	<tr class="header_kolom">
-		<th style="width:20%; vertical-align: middle; text-align:center"> Konsumtif  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Berjangka  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Barang  </th>
+<table
+id="dg"
+class="easyui-datagrid"
+title="Data Saldo Piutang"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_koperasi_piutang/ajax_list'); ?>"
+pagination="true" rownumbers="false"
+fitColumns="true" singleSelect="true" collapsible="true"
+sortName="nama_anggota" sortOrder="desc"
+toolbar="#tb"
+striped="true">
+<thead>
+	<tr>
+		<th data-options="field:'no',width:'10', halign:'center', align:'center'" rowspan="2"> No</th>
+		<th data-options="field:'nama_anggota',width:'30', halign:'center', align:'center'" rowspan="2">Nama </th>
+		<th colspan="3">Pinjaman</th>
+		<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'right'" rowspan="2"> Jumlah </th>
 	</tr>
 	<tr>
-		<td>1</td>
-		<td>Alimin</td>
-		<td>0</td>
-		<td>550000</td>
-		<td>0</td>
-		<td>550000</td>
+		<th data-options="field:'pinjaman_konsumtif',width:'17', halign:'center', align:'right'"> Konsumtif  </th>
+		<th data-options="field:'pinjaman_berjangka',width:'17', halign:'center', align:'right'"> Berjangka  </th>
+		<th data-options="field:'pinjaman_barang',width:'17', halign:'center', align:'right'"> Barang  </th>
+
 	</tr>
+</thead>
+</table>
 </div>
 </div>
 	
@@ -110,19 +129,15 @@ function fm_filter_tgl() {
 		<?php 
 			if(isset($tgl_dari) && isset($tgl_samp)) {
 				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
+					tgl_dari: '".$tgl_dari."',
+					tgl_samp: '".$tgl_samp."'
 				";
 			}
 		?>
 	},
 
 	function (start, end) {
+		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
 		doSearch();
 	});
 }
@@ -134,15 +149,20 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_koperasi_piutang'); ?>');
-	$('#fmCari').submit();	
+	$('#dg').datagrid('load',{
+		tgl_dari: tgl_dari,
+		tgl_samp: tgl_samp,
+	});		
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak/?tahun=' + tahun +'"); ?>');
+	var tgl_dari = $('input[name=daterangepicker_start]').val();
+	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	if($('#reportrange').text() != 'Tanggal'){
+		var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+	}else{
+		var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {

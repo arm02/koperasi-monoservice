@@ -8,7 +8,7 @@ class M_lap_koperasi_piutang extends CI_Model {
 
 
 	//panggil data db untuk esyui
-	function get_data_db_ajax($offset = 200, $limit = 200, $q='', $sort = 'kode_barang', $order = 200, $tahun) {
+	function get_data_db_ajax($offset = null, $limit = null, $q='', $sort) {
 
 		$sql = "SELECT anggota.nama AS nama_anggota,
 		(CASE barang.kode_barang WHEN 'PBRJ' then SUM(pinjaman_header.jumlah) end) AS pinjaman_berjangka,
@@ -22,16 +22,17 @@ class M_lap_koperasi_piutang extends CI_Model {
 		if(is_array($q)) {
 			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
 				$where .=" WHERE pinjaman_header.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' GROUP BY anggota.nama ORDER BY anggota.nama ASC";
-			}else{
-				$where .=" GROUP BY anggota.nama ORDER BY anggota.nama ASC";
 			}
 		}
 
 		$sql .= $where;
 		$result['count'] = $this->db->query($sql)->num_rows();
-		$sql .=" ORDER BY {$sort} asc ";
-		$sql .=" LIMIT {$offset},{$limit} ";
-		$result['data'] = $this->db->query($sql)->result();
+		$sql .=" GROUP BY anggota.nama ORDER BY ${sort} ASC ";
+		if($offset && $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
+
+		$result['rows'] = $this->db->query($sql)->result();
 		return $result;
 	}
 }

@@ -125,36 +125,6 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 			'tgl_samp' => $tgl_samp, 
 		);
 		$simpanan   = $this->lap_simpanan_m->lap_keuangan_simpanan_total(200,200, $q);
-
-		// $simpanan = array(
-		// 	array(
-		// 		"nama" => 'Alimin',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// 	array(
-		// 		"nama" => 'Endin',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// 	array(
-		// 		"nama" => '	Empat Siti Fatimah',
-		// 		"pokok" => 1000000,
-		// 		"wajib" => 14322341,
-		// 		"sukarela" => 14322341,
-		// 		"khusus" => 14322341,
-		// 		"yang_diambil" => 14322341,
-		// 		"saldo_disimpan" => 14322341,
-		// 	),
-		// );
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');

@@ -68,9 +68,9 @@ class Lapb_koperasi_piutang extends OperatorController {
 			$offset = ($offset * $config['per_page']) - $config['per_page'];
 		}
 
-		$data = $this->m_lap_koperasi_piutang->get_data_db_ajax(200,200,0,'kode_barang',200,1); // banyak data
-		print_r($data);
-		exit();
+		// $data = $this->m_lap_koperasi_piutang->get_data_db_ajax(1,1,0,'nama_anggota',200,1); // banyak data
+		// print_r($data);
+		// exit();
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;
@@ -78,6 +78,44 @@ class Lapb_koperasi_piutang extends OperatorController {
 		$this->data['isi'] = $this->load->view('laporan/laporan_koperasi/piutang', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
+	}
+
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$sort = isset($_POST['sort']) ? $_POST['sort'] : 'nama_anggota';
+		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		$search = array(
+			'tgl_dari' => $tgl_dari,
+			'tgl_samp' => $tgl_samp
+		);
+		$offset = ($offset-1)*$limit;
+		$data   = $this->m_lap_koperasi_piutang->get_data_db_ajax($offset,$limit,$search,$sort);
+
+		$i	= 0;
+		$rows   = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				// print_r($r->nama_anggota);
+				// exit();
+				//array keys ini = attribute 'field' di view nya
+				$jumlah = $r->pinjaman_konsumtif + $r->pinjaman_berjangka + $r->pinjaman_barang;
+
+				// $rows[$i]['id_anggota'] = $r->id_anggota;
+				$rows[$i]['no'] = $i+1;
+				$rows[$i]['nama_anggota'] = $r->nama_anggota;
+				$rows[$i]['pinjaman_konsumtif'] = 'Rp.'.number_format($r->pinjaman_konsumtif);
+				$rows[$i]['pinjaman_berjangka'] = 'Rp.'.number_format($r->pinjaman_berjangka);
+				$rows[$i]['pinjaman_barang'] = 'Rp.'.number_format($r->pinjaman_barang);
+				$rows[$i]['jumlah_total'] = 'Rp.'.number_format($jumlah);
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
 	}
 
 	function cetak() {
@@ -90,12 +128,32 @@ class Lapb_koperasi_piutang extends OperatorController {
 				"shu" => 73100,
 			),
 		);
-		if($simpanan == FALSE) {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'nama_anggota';
+		$search = array(
+			'tgl_dari' => $tgl_dari, 
+			'tgl_samp' => $tgl_samp, 
+		);
+		$data   = $this->m_lap_koperasi_piutang->get_data_db_ajax(null,null,$search,$sort);
+
+		if($data == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
 			exit();
 		}
 		
+		if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+			$tgl_dari = $_REQUEST['tgl_dari'];
+			$tgl_samp = $_REQUEST['tgl_samp'];
+		} else {
+			$tgl_dari = date('Y') . '-01-01';
+			$tgl_samp = date('Y') . '-12-31';
+		}
+		$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+		$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+		$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
+
 		$this->load->library('Pdf');
 
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -109,7 +167,7 @@ class Lapb_koperasi_piutang extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rincian Berdasarkan Jasa Pinjaman Tahun Buku '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rincian Berdasarkan Jasa Pinjaman Periode '.$tgl_periode_txt.' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
@@ -131,20 +189,20 @@ class Lapb_koperasi_piutang extends OperatorController {
 		$jumlah_barang = 0;
 		$total_jumlah = 0;
 
-		foreach ($simpanan as $value) {
-			$jumlah = $value['konsumtif'] + $value['berjangka'] + $value['barang'];
-			$jumlah_konsumtif += $value['konsumtif'];
-			$jumlah_berjangka += $value['berjangka'];
-			$jumlah_barang += $value['barang'];
+		foreach ($data['data'] as $value) {
+			$jumlah = $value['pinjaman_konsumtif'] + $value['pinjaman_berjangka'] + $value['pinjaman_barang'];
+			$jumlah_konsumtif += $value['pinjaman_konsumtif'];
+			$jumlah_berjangka += $value['pinjaman_berjangka'];
+			$jumlah_barang += $value['pinjaman_barang'];
 			$total_jumlah += $jumlah;
 
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $value['nama'].'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif']).'</td>
-				<td class="h_kanan">'. number_format($value['berjangka']).'</td>
-				<td class="h_kanan">'. number_format($value['barang']).'</td>
+				<td>'. $value['nama_anggota'].'</td>
+				<td class="h_kanan">'. number_format($value['pinjaman_konsumtif']).'</td>
+				<td class="h_kanan">'. number_format($value['pinjaman_berjangka']).'</td>
+				<td class="h_kanan">'. number_format($value['pinjaman_barang']).'</td>
 				<td class="h_kanan">'. number_format($jumlah).'</td>
 			</tr>';
 		}
