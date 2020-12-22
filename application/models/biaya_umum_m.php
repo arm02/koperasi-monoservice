@@ -9,6 +9,8 @@ class Biaya_umum_m extends CI_Model {
 	//panggil data simpanan untuk laporan
 	function lap_data_biaya_umum() {
 		$uraian = isset($_REQUEST['uraian']) ? $_REQUEST['uraian'] : '';
+		$untuk_kas = isset($_REQUEST['untuk_kas']) ? $_REQUEST['untuk_kas'] : '';
+		$dari_akun = isset($_REQUEST['dari_akun']) ? $_REQUEST['dari_akun'] : '';
 		$sql = "SELECT biaya_umum.* FROM biaya_umum ";
 		$where = "";
 		$q = array(

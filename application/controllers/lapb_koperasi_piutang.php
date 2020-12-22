@@ -68,9 +68,9 @@ class Lapb_koperasi_piutang extends OperatorController {
 			$offset = ($offset * $config['per_page']) - $config['per_page'];
 		}
 
-		// $data = $this->m_lap_koperasi_piutang->get_data_db_ajax(0,0,0,0,0,1); // banyak data
-		// print_r($data);
-		// exit();
+		$data = $this->m_lap_koperasi_piutang->get_data_db_ajax(200,200,0,'kode_barang',200,1); // banyak data
+		print_r($data);
+		exit();
 		$this->data["data_jns_simpanan"] = $this->lap_simpanan_m->get_data_jenis_simpan($config["per_page"], $offset); // panggil seluruh data aanggota
 		$this->data["halaman"] = $this->pagination->create_links();
 		$this->data["offset"] = $offset;

@@ -18,7 +18,7 @@ td, div {
 </style>
 
 <!-- Data Grid -->
-<table   id="dg" 
+<table id="dg" 
 class="easyui-datagrid"
 title="Data Master Jenis Simpanan" 
 style="width:auto; height: auto;" 

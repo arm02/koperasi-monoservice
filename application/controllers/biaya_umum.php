@@ -129,9 +129,11 @@ class Biaya_umum extends OperatorController {
 	}
 
 	function cetak_laporan() {
-		$simpanan = $this->biaya_umum_m->lap_data_biaya_umum();
-		if($simpanan == FALSE) {
-			//redirect('simpanan');
+		$biaya_umum = $this->biaya_umum_m->lap_data_biaya_umum();
+		$kas_id = $this->pinjaman_m->get_data_kas();
+		$akun_id = $this->pemasukan_m->get_data_akun();
+
+		if($biaya_umum == FALSE) {
 			echo 'DATA KOSONG<br>Pastikan Filter Tanggal dengan benar.';
 			exit();
 		}
@@ -150,7 +152,7 @@ class Biaya_umum extends OperatorController {
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 			.txt_content {font-size: 10pt; font-style: arial;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Jenis Pinjaman <br></span>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Biaya Umum <br></span>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
 		<table width="100%" cellspacing="0" cellpadding="3" border="1" border-collapse= "collapse">
 		<tr class="header_kolom">
 			<th class="h_tengah" style="width:10%;" > No. </th>
@@ -158,15 +160,27 @@ class Biaya_umum extends OperatorController {
 		</tr>';
 
 		$no =1;
-		foreach ($simpanan as $r) {
-			// '.'AG'.sprintf('%04d', $row->anggota_id).'
+		foreach ($biaya_umum as $r) {
+			$kas = "";
+			$akun = "";
+			foreach($kas_id as $kas_value){
+				if($kas_value->id == $r->untuk_kas){
+					$kas = $kas_value->nama;
+				}	
+			}
+
+			foreach($akun_id as $akun_value){
+				if($akun_value->id == $r->dari_akun){
+					$akun = $akun_value->jns_trans;
+				}	
+			}
 			$html .= '
 			<tr>
 				<td class="h_tengah" >'.$no++.'</td>
 				<td class="h_tengah"> '.$r->uraian.'</td>
 				<td class="h_tengah"> '.$r->tanggal.'</td>
-				<td class="h_tengah"> '.$r->kas.'</td>
-				<td class="h_tengah"> '.$r->akun.'</td>
+				<td class="h_tengah"> '.$kas.'</td>
+				<td class="h_tengah"> '.$akun.'</td>
 				<td class="h_tengah"> '.$r->jumlah.'</td>
 			</tr>';
 		}
