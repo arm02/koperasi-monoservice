@@ -24,20 +24,6 @@
 }	
 </style>
 
-<?php 
-
-if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
-	$tgl_dari = $_REQUEST['tgl_dari'];
-	$tgl_samp = $_REQUEST['tgl_samp'];
-} else {
-	$tgl_dari = null;
-	$tgl_samp = null;
-}
-$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
-$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
-$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
-?>
-
 <div class="box box-solid box-primary">
 	<div class="box-header">
 		<h3 class="box-title">Saldo Piutang</h3>
@@ -50,19 +36,14 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
-				<input type="hidden" name="tgl_dari" id="tgl_dari">
-				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
-							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<button class="btn btn-default" id="daterange-btn">
-									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
-									<i class="fa fa-caret-down"></i>
-								</button>
-							</div>
+							<input type="number" class="form-control" name="tahun" id="tahun_cari" value="<?php echo date("Y")?>">
 						</td>
 						<td>
+							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
+
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -107,59 +88,21 @@ striped="true">
 </div>
 	
 <script type="text/javascript">
-$(document).ready(function() {
-	fm_filter_tgl();
-}); // ready
-
-function fm_filter_tgl() {
-	$('#daterange-btn').daterangepicker({
-		ranges: {
-			'Hari ini': [moment(), moment()],
-			'Kemarin': [moment().subtract('days', 1), moment().subtract('days', 1)],
-			'7 Hari yang lalu': [moment().subtract('days', 6), moment()],
-			'30 Hari yang lalu': [moment().subtract('days', 29), moment()],
-			'Bulan ini': [moment().startOf('month'), moment().endOf('month')],
-			'Bulan kemarin': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
-			'Tahun ini': [moment().startOf('year').startOf('month'), moment().endOf('year').endOf('month')],
-			'Tahun kemarin': [moment().subtract('year', 1).startOf('year').startOf('month'), moment().subtract('year', 1).endOf('year').endOf('month')]
-		},
-		locale: 'id',
-		showDropdowns: true,
-		format: 'YYYY-MM-DD',
-		<?php 
-			if(isset($tgl_dari) && isset($tgl_samp)) {
-				echo "
-					tgl_dari: '".$tgl_dari."',
-					tgl_samp: '".$tgl_samp."'
-				";
-			}
-		?>
-	},
-
-	function (start, end) {
-		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
-		doSearch();
-	});
-}
-
 function clearSearch(){
 	window.location.href = '<?php echo site_url("lapb_koperasi_piutang"); ?>';
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	var tahun = $('#tahun_cari').val();
 	$('#dg').datagrid('load',{
-		tgl_dari: tgl_dari,
-		tgl_samp: tgl_samp,
+		tahun: tahun,
 	});		
 }
 
 function cetak () {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	var tahun = $('#tahun_cari').val();
 	if($('#reportrange').text() != 'Tanggal'){
-		var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+		var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak?tahun=' + tahun + '"); ?>');
 	}else{
 		var win = window.open('<?php echo site_url("lapb_koperasi_piutang/cetak"); ?>');
 	}

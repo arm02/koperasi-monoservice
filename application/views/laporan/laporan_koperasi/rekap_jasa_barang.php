@@ -26,7 +26,16 @@
 
 <?php 
 
-$tahun = date('Y');
+if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+	$tgl_dari = $_REQUEST['tgl_dari'];
+	$tgl_samp = $_REQUEST['tgl_samp'];
+} else {
+	$tgl_dari = null;
+	$tgl_samp = null;
+}
+$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 ?>
 
 <div class="box box-solid box-primary">
@@ -41,11 +50,16 @@ $tahun = date('Y');
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
+				<input type="hidden" name="tgl_dari" id="tgl_dari">
+				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
+								<button class="btn btn-default" id="daterange-btn">
+									<i class="fa fa-calendar"></i> <span id="reportrange">Tanggal</span>
+									<i class="fa fa-caret-down"></i>
+								</button>
 							</div>
 						</td>
 						<td>
@@ -62,78 +76,39 @@ $tahun = date('Y');
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Rekapitulasi Jasa Pinjaman Barang </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="vertical-align: middle; text-align:center"> No. </th>
-		<th style="vertical-align: middle; text-align:center"> Nama </th>
-		<th style="vertical-align: middle; text-align:center"> Jan  </th>
-		<th style="vertical-align: middle; text-align:center"> Feb  </th>
-		<th style="vertical-align: middle; text-align:center"> Mar  </th>
-		<th style="vertical-align: middle; text-align:center"> Apr  </th>
-		<th style="vertical-align: middle; text-align:center"> Mei  </th>
-		<th style="vertical-align: middle; text-align:center"> Jun  </th>
-		<th style="vertical-align: middle; text-align:center"> Jul  </th>
-		<th style="vertical-align: middle; text-align:center"> Agust  </th>
-		<th style="vertical-align: middle; text-align:center"> Sept  </th>
-		<th style="vertical-align: middle; text-align:center"> Okt  </th>
-		<th style="vertical-align: middle; text-align:center"> Nov  </th>
-		<th style="vertical-align: middle; text-align:center"> Des  </th>
-		<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
-	</tr>
-	<tr>
-		<td>1</td>
-		<td>Alimin</td>
-		<td>100000</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>100000</td>
-		<td>1000000</td>
-	</tr>
-	<tr>
-		<td>2</td>
-		<td>Endin</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>100000</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>1000000</td>
-	</tr>
-	<tr>
-		<td>3</td>
-		<td>Empat Siti Fatimah</td>
-		<td>100000</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>100000</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>1000000</td>
-	</tr>
+<table
+id="dg"
+class="easyui-datagrid"
+title="Data Rekap Jasa Barang"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_koperasi_rekap_jasa_barang/ajax_list'); ?>"
+pagination="true" rownumbers="false"
+fitColumns="true" singleSelect="false" collapsible="true"
+sortName="nama_anggota" sortOrder="desc"
+toolbar="#tb"
+striped="true">
+	<thead>
+		<tr class="header_kolom">
+			<th data-options="field:'id_anggota',width:'17', halign:'center', align:'center'" hidden="true"> ID Anggota</th>
+			<th data-options="field:'no',width:'17', halign:'center', align:'center'"> ID Anggota</th>
+			<th data-options="field:'nama_anggota',width:'30', halign:'center', align:'center'">Nama </th>
+			<th data-options="field:'januari',width:'17', halign:'right', align:'right'"> Januari  </th>
+			<th data-options="field:'februari',width:'17', halign:'right', align:'right'"> Februari  </th>
+			<th data-options="field:'maret',width:'17', halign:'right', align:'right'"> Maret  </th>
+			<th data-options="field:'april',width:'17', halign:'right', align:'right'"> April  </th>
+			<th data-options="field:'mei',width:'17', halign:'right', align:'right'"> Mei  </th>
+			<th data-options="field:'juni',width:'17', halign:'right', align:'right'"> Juni  </th>
+			<th data-options="field:'juli',width:'17', halign:'right', align:'right'"> Juli  </th>
+			<th data-options="field:'agustus',width:'17', halign:'right', align:'right'"> Agustus  </th>
+			<th data-options="field:'september',width:'17', halign:'right', align:'right'"> September  </th>
+			<th data-options="field:'oktober',width:'17', halign:'right', align:'right'"> Oktober  </th>
+			<th data-options="field:'november',width:'17', halign:'right', align:'right'"> November  </th>
+			<th data-options="field:'desember',width:'17', halign:'right', align:'right'"> Desember  </th>
+			<th data-options="field:'jumlah',width:'17', halign:'right', align:'right'"> Jumlah  </th>
+		</tr>
+	</thead>
+</table>
 </div>
 </div>
 	
@@ -160,19 +135,15 @@ function fm_filter_tgl() {
 		<?php 
 			if(isset($tgl_dari) && isset($tgl_samp)) {
 				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
+					tgl_dari: '".$tgl_dari."',
+					tgl_samp: '".$tgl_samp."'
 				";
 			}
 		?>
 	},
 
 	function (start, end) {
+		$('#reportrange').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
 		doSearch();
 	});
 }
@@ -184,15 +155,20 @@ function clearSearch(){
 function doSearch() {
 	var tgl_dari = $('input[name=daterangepicker_start]').val();
 	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_koperasi_rekap_jasa_barang'); ?>');
-	$('#fmCari').submit();	
+	$('#dg').datagrid('load',{
+		tgl_dari: tgl_dari,
+		tgl_samp: tgl_samp,
+	});	
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_koperasi_rekap_jasa_barang/cetak/?tahun=' + tahun +'"); ?>');
+	var tgl_dari = $('input[name=daterangepicker_start]').val();
+	var tgl_samp = $('input[name=daterangepicker_end]').val();
+	if($('#reportrange').text() != 'Tanggal'){
+		var win = window.open('<?php echo site_url("lapb_koperasi_rekap_jasa_barang/cetak?tgl_dari=' + tgl_dari + '&tgl_samp=' + tgl_samp + '"); ?>');
+	}else{
+		var win = window.open('<?php echo site_url("lapb_koperasi_rekap_jasa_barang/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {

@@ -184,7 +184,7 @@ class Lapb_koperasi_pinjaman_berjangka extends OperatorController {
 			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Pinjaman Berjangka Tahun Buku </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Rekap Jasa Berjangka Tahun Buku </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
 			<th style="vertical-align: middle; text-align:center"> No. </th>
