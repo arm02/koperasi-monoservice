@@ -71,8 +71,162 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		$this->data["pembagian_shu_anggota"] = $this->m_pembagian_shu_labarugi->get_by_type_pembagian_shu_labarugi(2);
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
-		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_pembagian_shu(1000000)));
 
+	}
+
+	function ajax_list_pendapatan() {
+		/*Default request pager params dari jeasyUI*/
+		$year = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		$data   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
+		$i	= 0;
+		$rows   = array();
+		$total_pendapatan = 0;
+		if($data){
+			foreach ($data['pendapatan'] as $key => $r) {
+				$total_pendapatan = $total_pendapatan + $r['jasa'];
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $key + 1;
+				$rows[$i]['tipe'] = $r['tipe'];
+				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jasa']);
+				$rows[$i]['jasa_nominal'] = $r['jasa'];
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'tipe' => 'Sub Total',
+				'jasa' => 'Rp. '.number_format($total_pendapatan),
+				'jasa_nominal' => $total_pendapatan,
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
+	}
+	function ajax_list_pendapatan_lain_lain() {
+		/*Default request pager params dari jeasyUI*/
+		$year = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		$data   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
+		$i	= 0;
+		$no	= 1;
+		$rows   = array();
+		$total_pendapatan = 0;
+		if($data){
+			foreach ($data['pendapatanlainlain'] as $key => $r) {
+				$nominal = 0;
+				foreach($r as $value){
+					$nominal = $nominal + $value['total'];
+					$total_pendapatan = $total_pendapatan + $value['total'];
+				}
+				$tipe = ucwords(str_replace("_"," ",$key));
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $no++;
+				$rows[$i]['tipe'] = $tipe;
+				$rows[$i]['jasa'] = 'Rp. '.number_format($nominal);
+				$rows[$i]['jasa_nominal'] = $nominal;
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'tipe' => 'Sub Total',
+				'jasa' => 'Rp. '.number_format($total_pendapatan),
+				'jasa_nominal' => $total_pendapatan,
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
+	}
+	function ajax_list_pengeluaran() {
+		/*Default request pager params dari jeasyUI*/
+		$year = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		$data   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
+		$i	= 0;
+		$no	= 1;
+		$rows   = array();
+		$total_pengeluaran = 0;
+		if($data){
+			foreach ($data['pengeluaranbiayaumum'] as $key => $r) {
+				$total_pengeluaran = $total_pengeluaran + $r['jumlah'];
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $no++;
+				$rows[$i]['tipe'] = $r['uraian'];
+				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jumlah']);
+				$rows[$i]['jasa_nominal'] = $r['jumlah'];
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'tipe' => 'Total Pengeluaran',
+				'jasa' => 'Rp. '.number_format($total_pengeluaran),
+				'jasa_nominal' => $total_pengeluaran,
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
+	}
+
+	function ajax_list_pembagian_shu() {
+		/*Default request pager params dari jeasyUI*/
+		$nominal = isset($_POST['nominal']) ? $_POST['nominal'] : 0;
+		$data   = $this->lap_simpanan_m->lap_keuangan_pembagian_shu($nominal);
+		
+		$i	= 0;
+		$no	= 1;
+		$rows   = array();
+		$total = 0;
+		if($data){
+			foreach ($data['pembagiansisahasilusaha'] as $key => $r) {
+				$total = $total + $r['jumlah'];
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $no++;
+				$rows[$i]['tipe'] = $r['nama'];
+				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jumlah']);
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'tipe' => 'Jumlah',
+				'jasa' => 'Rp. '.number_format($total),
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
+	}
+
+	function ajax_list_pembagian_shu_anggota() {
+		/*Default request pager params dari jeasyUI*/
+		$nominal = isset($_POST['nominal']) ? $_POST['nominal'] : 0;
+		$data   = $this->lap_simpanan_m->lap_keuangan_pembagian_shu($nominal);
+		
+		$i	= 0;
+		$no	= 1;
+		$rows   = array();
+		$total = 0;
+		if($data){
+			foreach ($data['pembagianshubagiananggota'] as $key => $r) {
+				$total = $total + $r['jumlah'];
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $no++;
+				$rows[$i]['tipe'] = $r['nama'];
+				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jumlah']);
+				$i++;
+			}
+		}
+		$footer = array(
+			array(
+				'tipe' => 'Jumlah',
+				'jasa' => 'Rp. '.number_format($total),
+			)
+		);
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows,'footer'=> $footer);
+		echo json_encode($result); //return nya json
 	}
 
 	function cetak() {
