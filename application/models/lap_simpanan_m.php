@@ -1111,7 +1111,46 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
+	function lap_keuangan_perhitungan_rugi_laba($year) {
 
+		$pendapatan = $this->db->query("SELECT jenis.nm_barang as tipe, FLOOR(sum(pinjaman.jumlah * FLOOR(pinjaman.bunga) / 100)) as jasa FROM tbl_pinjaman_h pinjaman 
+		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year."
+		GROUP BY barang_id");
+
+		$provisi_anggota = $this->db->query("SELECT sum(pinjaman.biaya_adm) as total FROM tbl_pinjaman_h pinjaman 
+		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year);
+
+		$pengeluaranbiayaumum = $this->db->query("SELECT *FROM biaya_umum umum 
+		WHERE YEAR(umum.tanggal) = ".$year);
+
+		$data = array(
+			"pendapatan"=> $pendapatan->result_array(),
+			"pendapatanlainlain"=> array(
+				"provisi_anggota" => $provisi_anggota->result_array(),
+			),
+			"pengeluaranbiayaumum"=> $pengeluaranbiayaumum->result_array()
+		);
+		return $data;
+	}
+
+	function lap_keuangan_pembagian_shu($shu) {
+
+		$pembagiansisahasilusaha = $this->db->query("SELECT pembagihanshu.type as tipe, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
+		WHERE pembagihanshu.type = 1
+		GROUP BY pembagihanshu.id");
+
+		$pembagianshubagiananggota = $this->db->query("SELECT pembagihanshu.type as tipe, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
+		WHERE pembagihanshu.type = 2
+		GROUP BY pembagihanshu.id");
+
+		$data = array(
+			"shu"=> $shu,
+			"pembagiansisahasilusaha"=> $pembagiansisahasilusaha->result_array(),
+			"pembagianshubagiananggota"=> $pembagianshubagiananggota->result_array()
+		);
+		return $data;
+	}
 
 
 }

@@ -69,9 +69,9 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		}
 		$this->data["pembagian_shu"] = $this->m_pembagian_shu_labarugi->get_by_type_pembagian_shu_labarugi(1);
 		$this->data["pembagian_shu_anggota"] = $this->m_pembagian_shu_labarugi->get_by_type_pembagian_shu_labarugi(2);
-		
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
+		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_pembagian_shu(1000000)));
 
 	}
 
