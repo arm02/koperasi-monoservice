@@ -104,7 +104,7 @@ showFooter="true">
 
 <table  class="table table-borderless" style="margin-top: 1%;margin-bottom: 1%">
 	<tr>
-		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pendapatan <?php echo date("Y");?></td>
+		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pendapatan <label class="year"><?php echo date("Y");?></label></td>
 		<td style="font-weight: bold;text-align:center" id="jumlah-pendapatan"></td>
 	</tr>
 </table>
@@ -131,21 +131,29 @@ showFooter="true">
 
 <table  class="table table-borderless" style="margin-top: 1%;margin-bottom: 1%">
 	<tr>
-		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pengeluaran <?php echo date("Y");?></td>
+		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pengeluaran <label class="year"><?php echo date("Y");?></label></td>
 		<td style="font-weight: bold;text-align:center" id="jumlah-pengeluaran"></td>
 	</tr>
 	<tr>
-		<td style="font-weight: bold;vertical-align: middle;text-align:center;">SHU TAHUN BUKU <?php echo date("Y");?></td>
+		<td style="font-weight: bold;vertical-align: middle;text-align:center;">SHU TAHUN BUKU <label class="year"><?php echo date("Y");?></label></td>
 		<td style="font-weight: bold;text-align:center;" id="jumlah-pembagian-shu"></td>
 	</tr>
 </table>
 
-<p style="padding-right:90px; text-align:right; font-size: 12pt;"> <br>Bekasi, <?php echo date('d F Y'); ?>  <br> </p>
+<p style="padding-right:90px; text-align:right; font-size: 12pt;"> <br>Bekasi, <?php echo date('d F'); ?> <label class="year"><?php echo date("Y");?></label>  <br> </p>
 <p style="padding-bottom:20px; text-align:center; font-size: 15pt; font-weight: bold;"> <br>PENGURUS KOPERASI PEGAWAI PRS BEKASI <br> </p>
 <table  class="table table-borderless">
 	<tr>
-		<th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
-		<th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+	</tr>
+	<tr>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd1.png'; ?>"> 
+		</th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd2.jpg'; ?>"> 
+		</th>
 	</tr>
 	<tr>
 		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
@@ -154,7 +162,7 @@ showFooter="true">
 </table>
 
 <p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> PEMBAGIAN SHU TAHUN BUKU <?php echo date("Y");?> </p>
+<p style="text-align:center; font-size: 15pt; font-weight: bold;"> PEMBAGIAN SHU TAHUN BUKU <label class="year"><?php echo date("Y");?></label> </p>
 
 <table
 id="dg-pembagian-shu"
@@ -199,8 +207,16 @@ showFooter="true">
 <p style="padding-bottom:20px; text-align:center; font-size: 15pt; font-weight: bold;"> <br>PENGURUS KOPERASI PEGAWAI PRS BEKASI <br> </p>
 <table  class="table table-borderless">
 	<tr>
-		<th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
-		<th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+	</tr>
+	<tr>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd1.png'; ?>"> 
+		</th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd2.jpg'; ?>"> 
+		</th>
 	</tr>
 	<tr>
 		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
@@ -271,6 +287,7 @@ function doSearch() {
 		tahun: tahun
 	});
 
+	$('.year').text(tahun)
 	setTimeout(function(){
 		var totalPendapatan = getTotalPendapatan()
 		var totalPengeluaran = getTotalPengeluaran()
@@ -279,6 +296,7 @@ function doSearch() {
 
 		loadDataPembagianShu(totalShu)
 		$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
+		$('#jumlah-pengeluaran').text("Rp. " + addCommas(totalPengeluaran))
 		$('#jumlah-pembagian-shu').text("Rp. " + addCommas(totalShu))
 
 	}, 2000);
