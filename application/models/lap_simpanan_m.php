@@ -1136,11 +1136,11 @@ class Lap_simpanan_m extends CI_Model {
 
 	function lap_keuangan_pembagian_shu($shu) {
 
-		$pembagiansisahasilusaha = $this->db->query("SELECT pembagihanshu.type as tipe, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
+		$pembagiansisahasilusaha = $this->db->query("SELECT pembagihanshu.type as tipe, pembagihanshu.persentase as persentase, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
 		WHERE pembagihanshu.type = 1
 		GROUP BY pembagihanshu.id");
 
-		$pembagianshubagiananggota = $this->db->query("SELECT pembagihanshu.type as tipe, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
+		$pembagianshubagiananggota = $this->db->query("SELECT pembagihanshu.type as tipe,pembagihanshu.persentase as persentase, pembagihanshu.nama as nama, FLOOR(sum(".$shu." * FLOOR(pembagihanshu.persentase) / 100)) as jumlah FROM pembagian_shu_labarugi pembagihanshu 
 		WHERE pembagihanshu.type = 2
 		GROUP BY pembagihanshu.id");
 

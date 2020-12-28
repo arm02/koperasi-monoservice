@@ -104,7 +104,7 @@ showFooter="true">
 
 <table  class="table table-borderless" style="margin-top: 1%;margin-bottom: 1%">
 	<tr>
-		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pendapatan</td>
+		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pendapatan <?php echo date("Y");?></td>
 		<td style="font-weight: bold;text-align:center" id="jumlah-pendapatan"></td>
 	</tr>
 </table>
@@ -130,6 +130,10 @@ showFooter="true">
 </table>
 
 <table  class="table table-borderless" style="margin-top: 1%;margin-bottom: 1%">
+	<tr>
+		<td style="font-weight: bold;vertical-align: middle;text-align:center;">Total Pengeluaran <?php echo date("Y");?></td>
+		<td style="font-weight: bold;text-align:center" id="jumlah-pengeluaran"></td>
+	</tr>
 	<tr>
 		<td style="font-weight: bold;vertical-align: middle;text-align:center;">SHU TAHUN BUKU <?php echo date("Y");?></td>
 		<td style="font-weight: bold;text-align:center;" id="jumlah-pembagian-shu"></td>
@@ -166,6 +170,7 @@ showFooter="true">
 <thead>
 		<th data-options="field:'no',width:'3', align:'center'"></th>
 		<th data-options="field:'tipe',width:'40', align:'left'"> </th>
+		<th data-options="field:'persentase',width:'40', align:'right'"> </th>
 		<th data-options="field:'jasa',width:'40', align:'right'">  </th>
 	</tr>
 </thead>
@@ -185,6 +190,7 @@ showFooter="true">
 <thead>
 		<th data-options="field:'no',width:'3', align:'center'"></th>
 		<th data-options="field:'tipe',width:'40', align:'left'"> </th>
+		<th data-options="field:'persentase',width:'40', align:'right'"> </th>
 		<th data-options="field:'jasa',width:'40', align:'right'">  </th>
 	</tr>
 </thead>
@@ -205,18 +211,17 @@ showFooter="true">
 </div>
 	
 <script type="text/javascript">
-$(document).ready(function() {	
-})
-	setTimeout(function(){
-		var totalPendapatan = getTotalPendapatan()
-		var totalPengeluaran = getTotalPengeluaran()
+setTimeout(function(){
+	var totalPendapatan = getTotalPendapatan()
+	var totalPengeluaran = getTotalPengeluaran()
 
-		var totalShu = totalPendapatan - totalPengeluaran
+	var totalShu = totalPendapatan - totalPengeluaran
 
-		loadDataPembagianShu(totalShu)
-		$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
-		$('#jumlah-pembagian-shu').text("Rp. " + addCommas(totalShu))
-	}, 200);
+	loadDataPembagianShu(totalShu)
+	$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
+	$('#jumlah-pengeluaran').text("Rp. " + addCommas(totalPengeluaran))
+	$('#jumlah-pembagian-shu').text("Rp. " + addCommas(totalShu))
+}, 2000);
 
 function getTotalPendapatan() {
 	var dataPendapatan = $('#dg-pendapatan').datagrid("getData")
@@ -276,7 +281,7 @@ function doSearch() {
 		$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
 		$('#jumlah-pembagian-shu').text("Rp. " + addCommas(totalShu))
 
-	}, 200);
+	}, 2000);
 }
 
 function cetak () {

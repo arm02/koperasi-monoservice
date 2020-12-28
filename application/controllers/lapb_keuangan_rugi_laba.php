@@ -71,6 +71,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		$this->data["pembagian_shu_anggota"] = $this->m_pembagian_shu_labarugi->get_by_type_pembagian_shu_labarugi(2);
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
+		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_pembagian_shu(2020)));
 
 	}
 
@@ -86,7 +87,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 				$total_pendapatan = $total_pendapatan + $r['jasa'];
 				//array keys ini = attribute 'field' di view nya
 				$rows[$i]['no'] = $key + 1;
-				$rows[$i]['tipe'] = $r['tipe'];
+				$rows[$i]['tipe'] = 'Jasa '.$r['tipe'];
 				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jasa']);
 				$rows[$i]['jasa_nominal'] = $r['jasa'];
 				$i++;
@@ -159,7 +160,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		}
 		$footer = array(
 			array(
-				'tipe' => 'Total Pengeluaran',
+				'tipe' => 'Sub Total',
 				'jasa' => 'Rp. '.number_format($total_pengeluaran),
 				'jasa_nominal' => $total_pengeluaran,
 			)
@@ -184,6 +185,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 				//array keys ini = attribute 'field' di view nya
 				$rows[$i]['no'] = $no++;
 				$rows[$i]['tipe'] = $r['nama'];
+				$rows[$i]['persentase'] = $r['persentase'].'%';
 				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jumlah']);
 				$i++;
 			}
@@ -214,6 +216,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 				//array keys ini = attribute 'field' di view nya
 				$rows[$i]['no'] = $no++;
 				$rows[$i]['tipe'] = $r['nama'];
+				$rows[$i]['persentase'] = $r['persentase'].'%';
 				$rows[$i]['jasa'] = 'Rp. '.number_format($r['jumlah']);
 				$i++;
 			}
