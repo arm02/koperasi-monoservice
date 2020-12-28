@@ -49,7 +49,7 @@
 						<td>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="getTotalPendapatan()">Hapus Filter</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
 						</td>
 					</tr>
 				</table>
@@ -209,14 +209,13 @@ $(document).ready(function() {
 })
 	setTimeout(function(){
 		var totalPendapatan = getTotalPendapatan()
-		var totalPengeluaran = getTotalPendapatan()
+		var totalPengeluaran = getTotalPengeluaran()
 
-		var totalShu = totalPendapatan + totalPengeluaran
+		var totalShu = totalPendapatan - totalPengeluaran
 
 		loadDataPembagianShu(totalShu)
 		$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
 		$('#jumlah-pembagian-shu').text("Rp. " + addCommas(totalShu))
-
 	}, 200);
 
 function getTotalPendapatan() {
@@ -233,7 +232,7 @@ function getTotalPendapatan() {
 }
 
 function getTotalPengeluaran() {
-	var dataPengeluaran = $('#dg-pendapatan').datagrid("getData")
+	var dataPengeluaran = $('#dg-pengeluaran').datagrid("getData")
 	var total = dataPengeluaran.footer[0].jasa_nominal
 	return total
 
@@ -269,9 +268,9 @@ function doSearch() {
 
 	setTimeout(function(){
 		var totalPendapatan = getTotalPendapatan()
-		var totalPengeluaran = getTotalPendapatan()
+		var totalPengeluaran = getTotalPengeluaran()
 
-		var totalShu = totalPendapatan + totalPengeluaran
+		var totalShu = totalPendapatan - totalPengeluaran
 
 		loadDataPembagianShu(totalShu)
 		$('#jumlah-pendapatan').text("Rp. " + addCommas(totalPendapatan))
