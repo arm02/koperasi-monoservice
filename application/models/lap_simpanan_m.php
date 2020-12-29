@@ -613,12 +613,12 @@ class Lap_simpanan_m extends CI_Model {
 		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 11
 		GROUP BY barang_id");
 
-		$desember_tagihan = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(pinjaman.jumlah) as pokok, FLOOR(sum(pinjaman.jumlah * FLOOR(pinjaman.bunga) / 100)) as jasa FROM tbl_pinjaman_h pinjaman 
+		$desember_tagihan = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, sum(pinjaman.jumlah) as pokok, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as jasa FROM tbl_pinjaman_h pinjaman 
 		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
 		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 12
 		GROUP BY barang_id");
 
-		$desember_pelunasan = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran)) as pokok, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100) + pinjaman.biaya_adm) as jasa FROM tbl_pinjaman_d pelunasan
+		$desember_pelunasan = $this->db->query("SELECT jenis.nm_barang as jenis_pinjaman, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran)) as pokok, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100) + sum(pinjaman.biaya_adm)) as jasa FROM tbl_pinjaman_d pelunasan
 		INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id = pelunasan.pinjam_id 
 		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
 		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year." AND  MONTH(pinjaman.tgl_pinjam) = 12

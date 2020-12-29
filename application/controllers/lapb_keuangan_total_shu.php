@@ -73,7 +73,13 @@ class Lapb_keuangan_total_shu extends OperatorController {
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/total_shu', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
-		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_dana_cadangan(1,10,2020, 222750)));
+		// $tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		// $tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		// $search = array(
+		// 	'tgl_dari' => $tgl_dari,
+		// 	'tgl_samp' => $tgl_samp
+		// );
+		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_shu_total(1,10,2020, 270875, 270875)));
 
 	}
 
