@@ -159,6 +159,6 @@ class Lapb_keuangan_dana_cadangan extends OperatorController {
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
+		$pdf->Output('lap_keuangan_dana_cadangan_'.date('Ymd_His') . '.pdf', 'I');
 	}
 }
