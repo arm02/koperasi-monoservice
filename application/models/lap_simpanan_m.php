@@ -31,8 +31,11 @@ class Lap_simpanan_m extends CI_Model {
 	function lap_rekap_seluruh_anggota($offset = 200, $limit = 200, $q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+		
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -90,11 +93,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_pokok($limit, $offset,$q = "") {
+	function lap_rekap_anggota_pokok($limit = null, $offset = null,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$limit.",".$offset."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -188,11 +194,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_wajib($offset, $limit,$q = "") {
+	function lap_rekap_anggota_wajib($offset = null, $limit = null,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -287,11 +296,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_rekap_anggota_perbulan($offset, $limit, $q="") {
+	function lap_rekap_anggota_perbulan($offset = null, $limit = null, $q="") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -949,11 +961,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_keuangan_rekap_sukarela($offset, $limit,$q = "") {
+	function lap_keuangan_rekap_sukarela($offset = null, $limit = null,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -1048,11 +1063,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_keuangan_simpanan_total($offset = 200, $limit = 200, $q = "") {
+	function lap_keuangan_simpanan_total($offset = null, $limit = null, $q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -1151,11 +1169,14 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_keuangan_shu_pinjaman($offset = 200, $limit = 200, $q = "", $shu_pinjaman) {
+	function lap_keuangan_shu_pinjaman($offset = null, $limit = null, $year, $shu_pinjaman) {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -1167,29 +1188,21 @@ class Lap_simpanan_m extends CI_Model {
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSHUPinjaman($row['anggota_id'],$row["nama"], $q, $execute_send_params_seluruh_pinjaman, $shu_pinjaman);
+			$data[] = $this->getListSHUPinjaman($row['anggota_id'],$row["nama"], $year, $execute_send_params_seluruh_pinjaman, $shu_pinjaman);
 		endforeach;
 		$result["count"] = $this->db->query($count)->num_rows();	
 		$result["rows"] = $data;
 		return $result;		
 	}
 
-	function getListSHUPinjaman($id,$nama_anggota,$q = "", $seluruh_pinjaman, $shu_pinjaman) {
+	function getListSHUPinjaman($id,$nama_anggota,$year, $seluruh_pinjaman, $shu_pinjaman) {
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$sql = "SELECT anggota.nama as nama ,jenisP.nm_barang as inisial, sum(pinjaman.jumlah) as jumlah FROM tbl_anggota anggota 
 		INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id = anggota.id
-		INNER JOIN tbl_barang jenisP ON jenisP.id = pinjaman.barang_id where anggota.id = ".$id."";
+		INNER JOIN tbl_barang jenisP ON jenisP.id = pinjaman.barang_id where anggota.id = ".$id." 
+		AND YEAR(pinjaman.tgl_pinjam) = ".$year." group by pinjaman.barang_id";
 
-		$where = "";
-		if(is_array($q)) {
-			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
-				$where .=" and pinjaman.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by pinjaman.barang_id";
-			}else{
-				$where .=" group by pinjaman.barang_id";
-			}
-		}
-		$sql .= $where;
 
 		$execute = $this->db->query($sql);
 
@@ -1214,11 +1227,14 @@ class Lap_simpanan_m extends CI_Model {
 	}
 
 
-	function lap_keuangan_shu_simpanan($offset = 200, $limit = 200, $q = "", $shu_simpanan) {
+	function lap_keuangan_shu_simpanan($offset = null, $limit = null, $year, $shu_simpanan) {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
-		ORDER BY anggota.nama asc 
-		LIMIT ".$offset.",".$limit."";
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
@@ -1230,26 +1246,20 @@ class Lap_simpanan_m extends CI_Model {
 
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListSHUSimpanan($row['anggota_id'],$row["nama"], $q, $execute_send_params_seluruh_simpanan, $shu_simpanan);
+			$data[] = $this->getListSHUSimpanan($row['anggota_id'],$row["nama"], $year, $execute_send_params_seluruh_simpanan, $shu_simpanan);
 		endforeach;
 		$result["count"] = $this->db->query($count)->num_rows();	
 		$result["rows"] = $data;
 		return $result;		
 	}
 
-	function getListSHUSimpanan($id,$nama_anggota,$q = "", $seluruh_simpanan, $shu_simpanan) {
+	function getListSHUSimpanan($id,$nama_anggota,$year, $seluruh_simpanan, $shu_simpanan) {
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$sql = "SELECT anggota.nama as nama, sum(simpanan.jumlah) as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp simpanan ON simpanan.anggota_id = anggota.id where anggota.id = ".$id."";
+		INNER JOIN tbl_trans_sp simpanan ON simpanan.anggota_id = anggota.id where anggota.id = ".$id."
+		AND YEAR(simpanan.tgl_transaksi) = ".$year."";
 
-		$where = "";
-		if(is_array($q)) {
-			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
-				$where .=" and simpanan.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
-			}
-		}
-		$sql .= $where;
 
 		$execute = $this->db->query($sql);
 
@@ -1264,6 +1274,70 @@ class Lap_simpanan_m extends CI_Model {
 			$data["nama_anggota"] = $value["nama"];	 
 			$data["jumlah_total"] += $value["jumlah"];
 			$data["shu"] = $data["jumlah_total"] / $seluruh_simpanan * $shu_simpanan;
+		endforeach; 
+
+		return $data;
+	}
+
+	function lap_keuangan_shu_total($offset = null, $limit = null, $year, $shu_pinjaman, $shu_simpanan) {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
+
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id";
+
+		$execute = $this->db->query($sql);
+
+		$seluruh_pinjaman = "SELECT sum(pinjaman.jumlah) as seluruh_pinjaman FROM tbl_pinjaman_h pinjaman";
+		$execute_send_params_seluruh_pinjaman = $this->db->query($seluruh_pinjaman)->row()->seluruh_pinjaman;
+
+		$seluruh_simpanan = "SELECT sum(simpanan.jumlah) as seluruh_simpanan FROM tbl_trans_sp simpanan";
+		$execute_send_params_seluruh_simpanan = $this->db->query($seluruh_simpanan)->row()->seluruh_simpanan;
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListSHUTotal($row['anggota_id'],$row["nama"], $year, $execute_send_params_seluruh_pinjaman,$execute_send_params_seluruh_simpanan, $shu_pinjaman, $shu_simpanan);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
+		$result["rows"] = $data;
+		return $result;		
+	}
+
+	function getListSHUTotal($id,$nama_anggota,$year, $seluruh_pinjaman,$seluruh_simpanan, $shu_pinjaman, $shu_simpanan) {
+
+		$sql = "SELECT anggota.nama as nama ,(case when year(pinjaman.tgl_pinjam) = ".$year." then sum(pinjaman.jumlah) else 0 end) jumlah_pinjaman, (case when year(simpanan.tgl_transaksi) = ".$year." then sum(simpanan.jumlah) else 0 end) jumlah_simpanan FROM tbl_anggota anggota 
+		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id = anggota.id
+		LEFT JOIN tbl_trans_sp simpanan ON simpanan.anggota_id = anggota.id where anggota.id = ".$id."";
+
+
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"simpanan"=>0,
+			"total_simpanan"=>0,
+			"pinjaman"=>0,
+			"total_pinjaman"=>0,
+			"shu_simpanan"=>0,
+			"shu_pinjaman"=>0,
+			"jumlah_total" => 0
+		);
+
+		foreach ($execute->result_array() as $row => $value):  
+			$data["nama_anggota"] = $value["nama"];	 
+			$data["simpanan"] = $value["jumlah_simpanan"];
+			$data["total_simpanan"] = $seluruh_simpanan;
+			$data["pinjaman"] = $value["jumlah_pinjaman"];
+			$data["total_pinjaman"] = $seluruh_pinjaman;
+			$data["shu_simpanan"] = $value["jumlah_simpanan"] / $seluruh_simpanan * $shu_simpanan;
+			$data["shu_pinjaman"] = $value["jumlah_pinjaman"] / $seluruh_pinjaman * $shu_pinjaman;
+			$data["jumlah_total"] = $data["shu_simpanan"] + $data["shu_pinjaman"];
 		endforeach; 
 
 		return $data;
