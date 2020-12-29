@@ -955,8 +955,7 @@ class Lap_simpanan_m extends CI_Model {
 		ORDER BY anggota.nama asc 
 		LIMIT ".$offset.",".$limit."";
 
-		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama, trans.jumlah as jumlah FROM tbl_anggota anggota 
-		INNER JOIN tbl_trans_sp trans ON trans.anggota_id=anggota.id AND trans.jenis_id=32
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
 		$execute = $this->db->query($sql);
@@ -1151,6 +1150,125 @@ class Lap_simpanan_m extends CI_Model {
 		);
 		return $data;
 	}
+
+	function lap_keuangan_shu_pinjaman($offset = 200, $limit = 200, $q = "", $shu_pinjaman) {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id
+		ORDER BY anggota.nama asc 
+		LIMIT ".$offset.",".$limit."";
+
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id";
+
+		$execute = $this->db->query($sql);
+
+		$seluruh_pinjaman = "SELECT sum(pinjaman.jumlah) as seluruh_pinjaman FROM tbl_pinjaman_h pinjaman";
+		$execute_send_params_seluruh_pinjaman = $this->db->query($seluruh_pinjaman)->row()->seluruh_pinjaman;
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListSHUPinjaman($row['anggota_id'],$row["nama"], $q, $execute_send_params_seluruh_pinjaman, $shu_pinjaman);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
+		$result["rows"] = $data;
+		return $result;		
+	}
+
+	function getListSHUPinjaman($id,$nama_anggota,$q = "", $seluruh_pinjaman, $shu_pinjaman) {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$sql = "SELECT anggota.nama as nama ,jenisP.nm_barang as inisial, sum(pinjaman.jumlah) as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id = anggota.id
+		INNER JOIN tbl_barang jenisP ON jenisP.id = pinjaman.barang_id where anggota.id = ".$id."";
+
+		$where = "";
+		if(is_array($q)) {
+			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
+				$where .=" and pinjaman.tgl_pinjam between '".$q['tgl_dari']."' and '".$q['tgl_samp']."' group by pinjaman.barang_id";
+			}else{
+				$where .=" group by pinjaman.barang_id";
+			}
+		}
+		$sql .= $where;
+
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"Pinjaman Konsumtif"=>0,
+			"Pinjaman Berjangka"=>0,
+			"Pinjaman Barang"=>0,
+			"jumlah_total" => 0,
+			"shu"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):  
+			$data["nama_anggota"] = $value["nama"];	 
+			$data[$value["inisial"]] = $value["jumlah"];
+			$data["jumlah_total"] += $value["jumlah"];
+			$data["shu"] = $data["jumlah_total"] / $seluruh_pinjaman * $shu_pinjaman;
+		endforeach; 
+
+		return $data;
+	}
+
+
+	function lap_keuangan_shu_simpanan($offset = 200, $limit = 200, $q = "", $shu_simpanan) {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id
+		ORDER BY anggota.nama asc 
+		LIMIT ".$offset.",".$limit."";
+
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id";
+
+		$execute = $this->db->query($sql);
+
+		$seluruh_simpanan = "SELECT sum(simpanan.jumlah) as seluruh_simpanan FROM tbl_trans_sp simpanan";
+		$execute_send_params_seluruh_simpanan = $this->db->query($seluruh_simpanan)->row()->seluruh_simpanan;
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListSHUSimpanan($row['anggota_id'],$row["nama"], $q, $execute_send_params_seluruh_simpanan, $shu_simpanan);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
+		$result["rows"] = $data;
+		return $result;		
+	}
+
+	function getListSHUSimpanan($id,$nama_anggota,$q = "", $seluruh_simpanan, $shu_simpanan) {
+		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
+		$tgl_sampai = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
+		$sql = "SELECT anggota.nama as nama, sum(simpanan.jumlah) as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp simpanan ON simpanan.anggota_id = anggota.id where anggota.id = ".$id."";
+
+		$where = "";
+		if(is_array($q)) {
+			if($q['tgl_dari'] != '' && $q['tgl_samp'] != '') {
+				$where .=" and simpanan.tgl_transaksi between '".$q['tgl_dari']."' and '".$q['tgl_samp']."'";
+			}
+		}
+		$sql .= $where;
+
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"jumlah_total" => 0,
+			"shu"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):  
+			$data["nama_anggota"] = $value["nama"];	 
+			$data["jumlah_total"] += $value["jumlah"];
+			$data["shu"] = $data["jumlah_total"] / $seluruh_simpanan * $shu_simpanan;
+		endforeach; 
+
+		return $data;
+	}
+
 
 
 }
