@@ -83,7 +83,9 @@ class Lapb_keuangan_tagihan extends OperatorController {
 
 				$jumlah_pelunasan = 0;
 				$jumlah_tagihan = 0;
+
 				foreach($r['tagihan'] as $nominal){
+				
 					if(isset($nominal['jenis_pinjaman'])){
 						if($nominal['jenis_pinjaman'] == 'Pinjaman Berjangka'){
 							if(isset($nominal['pokok'])){
@@ -117,10 +119,6 @@ class Lapb_keuangan_tagihan extends OperatorController {
 								$jumlah_barang_jasa = $jumlah_barang_jasa + $nominal['jasa'];
 							}
 						}
-						if(isset($nominal['pokok']) && isset($nominal['jasa'])){
-							$jumlah_tagihan = $nominal['pokok'];
-						}
-
 					}
 				}
 
@@ -157,20 +155,20 @@ class Lapb_keuangan_tagihan extends OperatorController {
 								$jumlah_barang_jasa = $jumlah_barang_jasa + $nominal['jasa'];
 							}
 						}
-						if(isset($nominal['pokok']) && isset($nominal['jasa'])){
-							$jumlah_pelunasan = $nominal['pokok'];
-						}
 					}
 				}
+				$jumlah_tagihan = ($berjangka_pokok - $pelunasan_berjangka_pokok) + ($berjangka_jasa - $pelunasan_berjangka_jasa) + ($konsumtif_pokok - $pelunasan_konsumtif_pokok) + ($konsumtif_jasa - $pelunasan_konsumtif_jasa) + ($barang_jasa - $pelunasan_barang_jasa) + ($barang_pokok - $pelunasan_barang_pokok);
+				
+				$jumlah_pelunasan = $pelunasan_berjangka_pokok + $pelunasan_berjangka_jasa + $pelunasan_konsumtif_pokok + $pelunasan_konsumtif_jasa + $pelunasan_barang_jasa + $pelunasan_barang_pokok;
 				//array keys ini = attribute 'field' di view nya
 				$rows[$i]['bulan'] = ucfirst($key);
 
-				$rows[$i]['konsumtif_pokok'] = 'Rp. ' . number_format($konsumtif_pokok);
-				$rows[$i]['konsumtif_jasa'] = 'Rp. ' . number_format($konsumtif_jasa);
-				$rows[$i]['berjangka_pokok'] = 'Rp. ' . number_format($berjangka_pokok);
-				$rows[$i]['berjangka_jasa'] = 'Rp. ' . number_format($berjangka_jasa);
-				$rows[$i]['barang_jasa'] = 'Rp. ' . number_format($barang_jasa);
-				$rows[$i]['barang_pokok'] = 'Rp. ' . number_format($barang_pokok);
+				$rows[$i]['berjangka_pokok'] = 'Rp. ' . number_format($berjangka_pokok - $pelunasan_berjangka_pokok);
+				$rows[$i]['berjangka_jasa'] = 'Rp. ' . number_format($berjangka_jasa - $pelunasan_berjangka_jasa);
+				$rows[$i]['konsumtif_pokok'] = 'Rp. ' . number_format($konsumtif_pokok - $pelunasan_konsumtif_pokok);
+				$rows[$i]['konsumtif_jasa'] = 'Rp. ' . number_format($konsumtif_jasa - $pelunasan_konsumtif_jasa);
+				$rows[$i]['barang_jasa'] = 'Rp. ' . number_format($barang_jasa - $pelunasan_barang_jasa);
+				$rows[$i]['barang_pokok'] = 'Rp. ' . number_format($barang_pokok - $pelunasan_barang_pokok);
 
 				$rows[$i]['children'] = array(
 					array(
@@ -186,16 +184,15 @@ class Lapb_keuangan_tagihan extends OperatorController {
 				);
 
 				$rows[$i]['jumlah_tagihan'] = 'Rp. ' . number_format($jumlah_tagihan);
-				$rows[$i]['jumlah_pelunasan'] = 'Rp. ' . number_format($jumlah_pelunasan);
 
 				$i++;
 
-				$total_berjangka_pokok = $total_berjangka_pokok + $berjangka_pokok + $pelunasan_berjangka_pokok;
-				$total_berjangka_jasa = $total_berjangka_jasa + $berjangka_jasa + $pelunasan_berjangka_jasa;
-				$total_konsumtif_pokok = $total_konsumtif_pokok + $konsumtif_pokok + $pelunasan_konsumtif_pokok;
-				$total_konsumtif_jasa = $total_konsumtif_jasa + $konsumtif_jasa + $pelunasan_konsumtif_jasa;
-				$total_barang_pokok = $total_barang_pokok + $barang_pokok + $pelunasan_barang_pokok;
-				$total_barang_jasa = $total_barang_jasa + $barang_jasa + $pelunasan_barang_jasa;
+				$total_berjangka_pokok = $total_berjangka_pokok + $berjangka_pokok;
+				$total_berjangka_jasa = $total_berjangka_jasa + $berjangka_jasa;
+				$total_konsumtif_pokok = $total_konsumtif_pokok + $konsumtif_pokok;
+				$total_konsumtif_jasa = $total_konsumtif_jasa + $konsumtif_jasa;
+				$total_barang_pokok = $total_barang_pokok + $barang_pokok;
+				$total_barang_jasa = $total_barang_jasa + $barang_jasa;
 				$total_jumlah = $total_jumlah + $jumlah_tagihan + $jumlah_pelunasan;
 			}
 		}
@@ -298,9 +295,6 @@ class Lapb_keuangan_tagihan extends OperatorController {
 								$jumlah_barang_jasa = $jumlah_barang_jasa + $nominal['jasa'];
 							}
 						}
-						if(isset($nominal['pokok']) && isset($nominal['jasa'])){
-							$jumlah_tagihan = $nominal['pokok'];
-						}
 
 					}
 				}
@@ -338,11 +332,11 @@ class Lapb_keuangan_tagihan extends OperatorController {
 								$jumlah_barang_jasa = $jumlah_barang_jasa + $nominal['jasa'];
 							}
 						}
-						if(isset($nominal['pokok']) && isset($nominal['jasa'])){
-							$jumlah_pelunasan = $nominal['pokok'];
-						}
 					}
 				}
+				$jumlah_tagihan = ($berjangka_pokok - $pelunasan_berjangka_pokok) + ($berjangka_jasa - $pelunasan_berjangka_jasa) + ($konsumtif_pokok - $pelunasan_konsumtif_pokok) + ($konsumtif_jasa - $pelunasan_konsumtif_jasa) + ($barang_jasa - $pelunasan_barang_jasa) + ($barang_pokok - $pelunasan_barang_pokok);
+				
+				$jumlah_pelunasan = $pelunasan_berjangka_pokok + $pelunasan_berjangka_jasa + $pelunasan_konsumtif_pokok + $pelunasan_konsumtif_jasa + $pelunasan_barang_jasa + $pelunasan_barang_pokok;
 				//array keys ini = attribute 'field' di view nya
 				$tagihan[$i]['bulan'] = ucfirst($key);
 
@@ -369,12 +363,12 @@ class Lapb_keuangan_tagihan extends OperatorController {
 
 				$i++;
 
-				$total_berjangka_pokok = $total_berjangka_pokok + $berjangka_pokok + $pelunasan_berjangka_pokok;
-				$total_berjangka_jasa = $total_berjangka_jasa + $berjangka_jasa + $pelunasan_berjangka_jasa;
-				$total_konsumtif_pokok = $total_konsumtif_pokok + $konsumtif_pokok + $pelunasan_konsumtif_pokok;
-				$total_konsumtif_jasa = $total_konsumtif_jasa + $konsumtif_jasa + $pelunasan_konsumtif_jasa;
-				$total_barang_pokok = $total_barang_pokok + $barang_pokok + $pelunasan_barang_pokok;
-				$total_barang_jasa = $total_barang_jasa + $barang_jasa + $pelunasan_barang_jasa;
+				$total_berjangka_pokok = $total_berjangka_pokok + $berjangka_pokok;
+				$total_berjangka_jasa = $total_berjangka_jasa + $berjangka_jasa;
+				$total_konsumtif_pokok = $total_konsumtif_pokok + $konsumtif_pokok;
+				$total_konsumtif_jasa = $total_konsumtif_jasa + $konsumtif_jasa;
+				$total_barang_pokok = $total_barang_pokok + $barang_pokok;
+				$total_barang_jasa = $total_barang_jasa + $barang_jasa;
 				$total_jumlah = $total_jumlah + $jumlah_tagihan + $jumlah_pelunasan;
 			}
 		}
@@ -420,29 +414,19 @@ class Lapb_keuangan_tagihan extends OperatorController {
 
 		$no = 1;
 
-		$jumlah_konsumtif_pokok = 0;
-		$jumlah_konsumtif_jasa = 0;
-
-		$jumlah_berjangka_pokok = 0;
-		$jumlah_berjangka_jasa = 0;
-
-		$jumlah_barang_pokok = 0;
-		$jumlah_barang_jasa = 0;
-
-		$total_jumlah = 0;
 		foreach ($tagihan as $value) {
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
 				<td>'. $value['bulan'].'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_jasa']).'</td>
+				<td class="h_kanan">'. number_format($value['konsumtif_pokok'] - $value['pelunasan']['konsumtif_pokok']).'</td>
+				<td class="h_kanan">'. number_format($value['konsumtif_jasa'] - $value['pelunasan']['konsumtif_jasa']).'</td>
 
-				<td class="h_kanan">'. number_format($value['berjangka_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['berjangka_jasa']).'</td>
+				<td class="h_kanan">'. number_format($value['berjangka_pokok'] - $value['pelunasan']['berjangka_pokok']).'</td>
+				<td class="h_kanan">'. number_format($value['berjangka_jasa'] - $value['pelunasan']['berjangka_jasa']).'</td>
 
-				<td class="h_kanan">'. number_format($value['barang_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['barang_jasa']).'</td>
+				<td class="h_kanan">'. number_format($value['barang_pokok'] - $value['pelunasan']['barang_pokok']).'</td>
+				<td class="h_kanan">'. number_format($value['barang_jasa'] - $value['pelunasan']['barang_jasa']).'</td>
 
 				<td class="h_kanan">'. number_format($value['jumlah_tagihan']).'</td>
 			</tr>';

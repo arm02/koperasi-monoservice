@@ -184,37 +184,37 @@ class Lapb_koperasi_pinjaman_barang extends OperatorController {
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
 				<td>'. $value['nama'].'</td>
-				<td class="h_kanan">'. number_format($value['januari']).'</td>
-				<td class="h_kanan">'. number_format($value['februari']).'</td>
-				<td class="h_kanan">'. number_format($value['maret']).'</td>
-				<td class="h_kanan">'. number_format($value['april']).'</td>
-				<td class="h_kanan">'. number_format($value['mei']).'</td>
-				<td class="h_kanan">'. number_format($value['juni']).'</td>
-				<td class="h_kanan">'. number_format($value['juli']).'</td>
-				<td class="h_kanan">'. number_format($value['agustus']).'</td>
-				<td class="h_kanan">'. number_format($value['september']).'</td>
-				<td class="h_kanan">'. number_format($value['oktober']).'</td>
-				<td class="h_kanan">'. number_format($value['november']).'</td>
-				<td class="h_kanan">'. number_format($value['desember']).'</td>
-				<td class="h_kanan">'. number_format($value['jumlah']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['januari']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['februari']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['maret']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['april']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['mei']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['juni']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['juli']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['agustus']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['september']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['oktober']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['november']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['desember']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['jumlah']).'</td>
 			</tr>';
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah Total</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_januari).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_februari).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_maret).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_april).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_mei).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_juni).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_juli).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_agustus).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_september).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_oktober).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_november).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_desember).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_januari).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_februari).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_maret).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_april).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_mei).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_juni).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_juli).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_agustus).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_september).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_oktober).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_november).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($jumlah_desember).'</strong></td>
+			<td class="h_kanan"><strong>Rp .'.number_format($total_jumlah).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 
