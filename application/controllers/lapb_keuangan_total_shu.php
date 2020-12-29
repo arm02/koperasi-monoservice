@@ -79,7 +79,7 @@ class Lapb_keuangan_total_shu extends OperatorController {
 		// 	'tgl_dari' => $tgl_dari,
 		// 	'tgl_samp' => $tgl_samp
 		// );
-		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_shu_total(1,10,2020, 270875, 270875)));
+		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_tagihan(2020)));
 
 	}
 
