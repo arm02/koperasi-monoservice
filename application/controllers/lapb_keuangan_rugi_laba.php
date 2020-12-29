@@ -233,216 +233,18 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 	}
 
 	function cetak() {
-		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-		$simpanan = array(
-			array(
-				"bulan" => 0,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 1,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 2,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 3,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 4,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 5,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 6,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 7,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 8,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 9,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 10,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 11,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-		);
-		if($simpanan == FALSE) {
+		$year = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
+		$nominal = isset($_REQUEST['nominal']) ? $_REQUEST['nominal'] : 0;
+		$data_perhitungan   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
+
+		$i	= 0;
+		$total_pendapatan = 0;
+		$total_pendapatan_lain_lain = 0;
+		$total_pengeluaran = 0;
+		$html = "";
+
+		if($data_perhitungan == FALSE) {
 			echo 'DATA KOSONG';
-			//redirect('lap_simpanan');
 			exit();
 		}
 		
@@ -456,100 +258,208 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 			.h_tengah {text-align: center;}
 			.h_kiri {text-align: left;}
 			.h_kanan {text-align: right;}
-			.txt_judul {font-size: 12pt; font-weight: bold; padding-bottom: 15px;}
+			.txt_judul {font-size: 12pt; font-weight: bold;}
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 		</style>
-		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Tagihan Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
+		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Laba Rugi Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
-			<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
-			<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2">Bulan </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Konsumtif  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Berjangka  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Barang  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" rowspan="2"> Jumlah  </th>
-		</tr>
-		<tr class="header_kolom">
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
-
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
-
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
+			<th style="width:100%; vertical-align: middle; text-align:left" colspan="2"> Pendapatan </th>
 		</tr>';
 
-		$no = 1;
-		$simpanan_arr = array();
-
-		$jumlah_konsumtif_pokok = 0;
-		$jumlah_konsumtif_jasa = 0;
-
-		$jumlah_berjangka_pokok = 0;
-		$jumlah_berjangka_jasa = 0;
-
-		$jumlah_barang_pokok = 0;
-		$jumlah_barang_jasa = 0;
-
-		$total_jumlah = 0;
-		foreach ($simpanan as $value) {
-			$jumlah = ($value['konsumtif_pokok'] + $value['konsumtif_jasa']) + ($value['berjangka_pokok'] + $value['berjangka_jasa']) + ($value['barang_pokok'] + $value['barang_jasa']);
-			$jumlah_pelunasan = ($value['pelunasan']['konsumtif_pokok'] + $value['pelunasan']['konsumtif_jasa']) + ($value['pelunasan']['berjangka_pokok'] + $value['pelunasan']['berjangka_jasa']) + ($value['pelunasan']['barang_pokok'] + $value['pelunasan']['barang_jasa']);
-
-			$jumlah_konsumtif_pokok += $value['konsumtif_pokok'] + $value['pelunasan']['konsumtif_pokok'];
-			$jumlah_konsumtif_jasa += $value['konsumtif_jasa'] + $value['pelunasan']['konsumtif_jasa'];
-			$jumlah_berjangka_pokok += $value['berjangka_pokok'] + $value['pelunasan']['berjangka_pokok'];
-			$jumlah_berjangka_jasa += $value['berjangka_jasa'] + $value['pelunasan']['berjangka_jasa'];
-			$jumlah_barang_pokok += $value['barang_pokok'] + $value['pelunasan']['barang_pokok'];
-			$jumlah_barang_jasa += $value['barang_jasa'] + $value['pelunasan']['barang_jasa'];
-			$total_jumlah += $jumlah;
-
+		// PENDAPATAN
+		if($data_perhitungan){
+			foreach ($data_perhitungan['pendapatan'] as $key => $r) {
+						// <td class="h_tengah">'.$no++.'</td>
+				$html .= '
+					<tr>
+						<td> Jasa '.$r['tipe'].'</td>
+						<td class="h_kanan"> Rp. '. number_format($r['jasa']).'</td>
+					</tr>';
+				$total_pendapatan = $total_pendapatan + $r['jasa'];
+			}
 			$html .= '
 			<tr>
-				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $bulan[$value['bulan']].'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['berjangka_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['berjangka_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['barang_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['barang_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($jumlah).'</td>
-			</tr>';
-
-			$html .= '
-			<tr>
-				<td class="h_tengah"></td>
-				<td>Pelunasan</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['konsumtif_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['konsumtif_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['pelunasan']['berjangka_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['berjangka_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['pelunasan']['barang_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['barang_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($jumlah_pelunasan).'</td>
+				<td> Sub Total </td>
+				<td class="h_kanan"> Rp. '. number_format($total_pendapatan).'</td>
 			</tr>';
 		}
-		$html .= '
+		$html .= '</table>';
+
+		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
-			<td colspan="2" class="h_tengah"><strong>Jumlah</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
+			<th style="width:100%; vertical-align: middle; text-align:left" colspan="2"> Pendapatan Lain-Lain</th>
+		</tr>';
+		// END PENDAPATAN
+
+		// PENDAPATAN LAIN LAIN
+		foreach ($data_perhitungan['pendapatanlainlain'] as $key => $r) {
+			$nominal_lain_lain = 0;
+			$tipe = ucwords(str_replace("_"," ",$key));
+			foreach($r as $value){
+				$nominal_lain_lain = $nominal_lain_lain + $value['total'];
+				$total_pendapatan_lain_lain = $total_pendapatan_lain_lain + $value['total'];
+			}
+					// <td class="h_tengah">'.$no++.'</td>
+			$html .= '
+				<tr>
+					<td> Jasa '.$tipe.'</td>
+					<td class="h_kanan"> Rp. '. number_format($nominal_lain_lain).'</td>
+				</tr>';
+		}
+		$html .= '
+		<tr>
+			<td> Sub Total </td>
+			<td class="h_kanan"> Rp. '. number_format($total_pendapatan_lain_lain).'</td>
+		</tr>';
+
+		// TOTAL PENDAPATAN
+		$html .= '
+		<tr>
+			<td style="text-align: center"> Total Pendapatan </td>
+			<td class="h_kanan"> <b> Rp. '. number_format($total_pendapatan + $total_pendapatan_lain_lain).'</b></td>
+		</tr>';
+		$html .= '</table> <br/> <br/>';
+		// END PENDAPATAN LAIN LAIN
+
+		// PENGELUARAN
+		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
+		<tr class="header_kolom">
+			<th style="width:100%; vertical-align: middle; text-align:left" colspan="2"> Pengeluaran </th>
+		</tr>';
+		foreach ($data_perhitungan['pengeluaranbiayaumum'] as $key => $r) {
+			$total_pengeluaran = $total_pengeluaran + $r['jumlah'];
+			$html .= '
+				<tr>
+					<td> Jasa '.$r['uraian'].'</td>
+					<td class="h_kanan"> Rp. '. number_format($r['jumlah']).'</td>
+				</tr>';
+		}
+		$html .= '
+		<tr>
+			<td> Sub Total </td>
+			<td class="h_kanan"> Rp. '. number_format($total_pendapatan_lain_lain).'</td>
+		</tr>';
+
+		// TOTAL PENGELUARAN
+		$html .= '
+		<tr>
+			<td style="text-align: center"> Total Pengeluaran </td>
+			<td class="h_kanan"> <b> Rp. '. number_format($total_pengeluaran).'</b></td>
+		</tr>';
+
+		$html .= '
+		<tr>
+			<td style="text-align: center"> SHU TAHUN BUKU '.$year.' </td>
+			<td class="h_kanan"> <b> Rp. '. number_format(($total_pendapatan + $total_pendapatan_lain_lain) - $total_pengeluaran).'</b></td>
 		</tr>';
 		$html .= '</table>';
+		// END PENGELUARAN
+
+		$html .= '
+			<p style="padding-right:90px; text-align:right; font-size: 12pt;"> <br>Bekasi, '.date('d F').' <label class="year">'.$year.'</label>  <br> </p>
+			<p style="padding-bottom:20px; text-align:center; font-size: 15pt; font-weight: bold;"> <br>PENGURUS KOPERASI PEGAWAI PRS BEKASI <br> </p>
+			<table  class="table table-borderless">
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+				</tr>
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+						<img height="100" src="assets/asset/images/ttd/ttd1.png"> 
+					</th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+						<img height="100" src="assets/asset/images/ttd/ttd2.jpg"> 
+					</th>
+				</tr>
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> DIYAH ROCHYANI </th>
+				</tr>
+			</table>
+
+			<p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p>
+			<p style="text-align:center; font-size: 15pt; font-weight: bold;top: 1000"> PEMBAGIAN SHU TAHUN BUKU <label class="year">'.$year.'</label> </p>
+		';
+
+		$nominal = ($total_pendapatan + $total_pendapatan_lain_lain) - $total_pengeluaran;
+		$data_pembagian_shu  = $this->lap_simpanan_m->lap_keuangan_pembagian_shu($nominal);
+
+		// PEMBAGIAN SHU
+		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
+		<tr class="header_kolom">
+			<th style="width:100%; vertical-align: middle; text-align:left" colspan="3"> Perincian Pembagian Sisa Hasil Usaha ( SHU ) </th>
+		</tr>';
+
+		$total_pembagian_shu = 0;
+		if($data_pembagian_shu){
+			foreach ($data_pembagian_shu['pembagiansisahasilusaha'] as $key => $r) {
+				$html .= '
+					<tr>
+						<td>'.$r['nama'].'</td>
+						<td>'.$r['persentase'].'%</td>
+						<td class="h_kanan"> Rp. '. number_format($r['jumlah']).'</td>
+					</tr>';
+				$total_pembagian_shu = $total_pembagian_shu + $r['jumlah'];
+			}
+			$html .= '
+					<tr>
+						<td colspan="2" class="h_tengah"> Jumlah</td>
+						<td class="h_kanan"><b> Rp. '. number_format($total_pembagian_shu).'</b></td>
+					</tr>';
+		}else{
+			echo 'DATA KOSONG';
+			exit();
+		}
+		$html .= '</table>';
+		// END PEMBAGIAN SHU
+
+
+		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
+		<tr class="header_kolom">
+			<th style="width:100%; vertical-align: middle; text-align:left" colspan="3"> PEMBAGIAN SHU BAGIAN ANGGOTA BERDASARKAN : </th>
+		</tr>';
+		$total_pembagian_anggota = 0;
+		foreach ($data_pembagian_shu['pembagianshubagiananggota'] as $key => $r) {
+			$html .= '
+				<tr>
+					<td>'.$r['nama'].'</td>
+					<td>'.$r['persentase'].'%</td>
+					<td class="h_kanan"> Rp. '. number_format($r['jumlah']).'</td>
+				</tr>';
+			$total_pembagian_anggota = $total_pembagian_anggota + $r['jumlah'];
+		}
+		$html .= '
+				<tr>
+					<td colspan="2" class="h_tengah"> Jumlah </td>
+					<td class="h_kanan"><b> Rp. '. number_format($total_pembagian_anggota).'</b></td>
+				</tr>';
+		$html .= '</table>';
+
+		$html .= '
+			<p style="padding-right:90px; text-align:right; font-size: 12pt;"> <br>Bekasi, '.date('d F').' <label class="year">'.$year.'</label>  <br> </p>
+			<p style="padding-bottom:20px; text-align:center; font-size: 15pt; font-weight: bold;"> <br>PENGURUS KOPERASI PEGAWAI PRS BEKASI <br> </p>
+			<table  class="table table-borderless">
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+				</tr>
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+						<img height="100" src="assets/asset/images/ttd/ttd1.png"> 
+					</th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+						<img height="100" src="assets/asset/images/ttd/ttd2.jpg"> 
+					</th>
+				</tr>
+				<tr>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
+					<th style="border:none; width:50%; vertical-align: middle; text-align:center" Colspan="2"> DIYAH ROCHYANI </th>
+				</tr>
+			</table>
+		';
+		// END PEMBAGIAN SHU
 		$pdf->nsi_html($html);
-		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
+		$pdf->Output('lapb_keuangan_rugi_laba_'.date('d-F-y') . '.pdf', 'I');
 	}
 }
