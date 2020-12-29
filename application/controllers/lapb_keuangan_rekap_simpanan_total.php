@@ -80,7 +80,7 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 			'tgl_dari' => $tgl_dari, 
 			'tgl_samp' => $tgl_samp, 
 		);
-		$simpanan   = $this->lap_simpanan_m->lap_keuangan_simpanan_total(200,200, $q);
+		$simpanan   = $this->lap_simpanan_m->lap_keuangan_simpanan_total(null,null, $q);
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -135,30 +135,30 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 		$jumlah_sukarela = 0; 
 		$jumlah_khusus = 0; 
 		$jumlah_yang_diambil = 0; 
-		$jumlah_saldo_disimpan = 0; 
+		$jumlah_saldo_simpanan = 0; 
 		$total_jumlah = 0;
 		foreach ($simpanan["rows"] as $jenis) {
-			$jumlah = $jenis['pokok'] + $jenis['wajib'] + $jenis['sukarela'] + $jenis['khusus'] ;
+			$jumlah = $jenis['simpananpokok'] + $jenis['simpananwajib'] + $jenis['simpanansukarela'] + $jenis['simpanankhusus'] ;
 
 			$jumlah_pokok += $jenis['simpananpokok'];
 			$jumlah_wajib += $jenis['simpananwajib'];
 			$jumlah_sukarela += $jenis['simpanansukarela'];
 			$jumlah_khusus += $jenis['simpanankhusus'];
 			$jumlah_yang_diambil += $jenis['yang_diambil'];
-			$jumlah_saldo_disimpan += $jenis['saldo_disimpan'];
+			$jumlah_saldo_simpanan += $jenis['saldo_simpanan'];
 			$total_jumlah += $jumlah;
 
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $jenis['nama'].'</td>
+				<td>'. $jenis['nama_anggota'].'</td>
 				<td class="h_kanan">'. number_format($jenis['simpananpokok']).'</td>
 				<td class="h_kanan">'. number_format($jenis['simpananwajib']).'</td>
 				<td class="h_kanan">'. number_format($jenis['simpanansukarela']).'</td>
 				<td class="h_kanan">'. number_format($jenis['simpanankhusus']).'</td>
 				<td class="h_kanan">'. number_format($jumlah).'</td>
 				<td class="h_kanan">'. number_format($jenis['yang_diambil']).'</td>
-				<td class="h_kanan">'. number_format($jenis['saldo_disimpan']).'</td>
+				<td class="h_kanan">'. number_format($jenis['saldo_simpanan']).'</td>
 			</tr>';
 		}
 		$html .= '
@@ -170,7 +170,7 @@ class Lapb_keuangan_rekap_simpanan_total extends OperatorController {
 			<td class="h_kanan"><strong>'.number_format($jumlah_khusus).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
 			<td class="h_kanan"><strong>'.number_format($jumlah_yang_diambil).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_saldo_disimpan).'</strong></td>
+			<td class="h_kanan"><strong>'.number_format($jumlah_saldo_simpanan).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);

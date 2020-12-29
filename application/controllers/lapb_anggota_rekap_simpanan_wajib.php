@@ -83,6 +83,8 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 
 	function cetak() {
 		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$q = array(
@@ -168,8 +170,8 @@ class Lapb_anggota_rekap_simpanan_wajib extends OperatorController {
 				<td class="h_kanan"> Rp.'.number_format($value['november']).'</td>
 				<td class="h_kanan"> Rp.'.number_format($value['desember']).'</td>
 				<td class="h_kanan"> Rp.'.number_format($jumlah).'</td>
-				<td class="h_kanan"> Rp.'.number_format($value['saldo18']).'</td>
-				<td class="h_kanan"> Rp.'.number_format($value['saldo19']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo'.$saldo2]).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo'.$saldo1]).'</td>
 			</tr>';
 		}
 		$html .= '

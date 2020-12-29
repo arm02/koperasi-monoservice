@@ -40,16 +40,9 @@ class Lapb_keuangan_shu_simpanan extends OperatorController {
 		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
-		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
-		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
-
-		$search = array(
-			'tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_samp
-		);
 		$offset = ($offset-1)*$limit;
 		$nominal_simpanan_shu = $this->getNominalShuSimpanan($tahun);
-		$data   = $this->lap_simpanan_m->lap_keuangan_shu_simpanan($offset,$limit,$search,$nominal_simpanan_shu);
+		$data   = $this->lap_simpanan_m->lap_keuangan_shu_simpanan($offset,$limit,$tahun,$nominal_simpanan_shu);
 		$i	= 0;
 		$no = 1;
 		$sum_jumlah_total = 1;
@@ -102,16 +95,9 @@ class Lapb_keuangan_shu_simpanan extends OperatorController {
 	}
 	function cetak() {
 		$tahun = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
-		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
-		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
-
-		$search = array(
-			'tgl_dari' => $tgl_dari,
-			'tgl_samp' => $tgl_samp
-		);
 
 		$nominal_simpanan_shu = $this->getNominalShuSimpanan($tahun);
-		$data   = $this->lap_simpanan_m->lap_keuangan_shu_simpanan(200,200,$search,$nominal_simpanan_shu);
+		$data   = $this->lap_simpanan_m->lap_keuangan_shu_simpanan(null,null,$tahun,$nominal_simpanan_shu);
 		$i	= 0;
 		$no = 1;
 		$simpanan   = array();
