@@ -866,25 +866,23 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
-	function lap_koperasi_pinjaman_konsumtif($limit = 0, $offset = 0,$q = "") {
+	function lap_koperasi_pinjaman_konsumtif($limit = null, $offset = null,$q = "") {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
 		GROUP BY anggota.id
 		ORDER BY anggota.nama";
 
-		$paging = "";
 
 		if($limit || $offset){
-			$paging = " asc LIMIT ".$limit.",".$offset."";			
+			$sql .= " asc LIMIT ".$limit.",".$offset."";			
 		}
 
 		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id";
 
-		$sql.=$paging;
 		$execute = $this->db->query($sql);
 		$data = array();
 		foreach ($execute->result_array() as $row):   
-			$data[] = $this->getListPinjamanBerjangka($row['anggota_id'],$row["nama"], $q);
+			$data[] = $this->getListPinjamanKonsumtif($row['anggota_id'],$row["nama"], $q);
 		endforeach;
 		$result["count"] = $this->db->query($count)->num_rows();	
 		$result["rows"] = $data; 
@@ -1130,12 +1128,12 @@ class Lap_simpanan_m extends CI_Model {
 
 	function lap_keuangan_perhitungan_rugi_laba($year) {
 
-		$pendapatan = $this->db->query("SELECT jenis.nm_barang as tipe, FLOOR(sum(pinjaman.jumlah * FLOOR(pinjaman.bunga) / 100)) as jasa FROM tbl_pinjaman_h pinjaman 
+		$pendapatan = $this->db->query("SELECT jenis.nm_barang as tipe, FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as jasa FROM tbl_pinjaman_h pinjaman 
 		INNER JOIN tbl_barang jenis ON jenis.id=pinjaman.barang_id
 		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year."
 		GROUP BY barang_id");
 
-		$provisi_anggota = $this->db->query("SELECT sum(pinjaman.biaya_adm) as total FROM tbl_pinjaman_h pinjaman 
+		$provisi_anggota = $this->db->query("SELECT sum(pinjaman.biaya_adm * pinjaman.lama_angsuran) as total FROM tbl_pinjaman_h pinjaman 
 		WHERE YEAR(pinjaman.tgl_pinjam) = ".$year);
 
 		$pengeluaranbiayaumum = $this->db->query("SELECT *FROM biaya_umum umum 
