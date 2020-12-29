@@ -29,43 +29,6 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 
-		$config = array();
-		$config["base_url"] = base_url() . "lapb_keuangan_rugi_laba/index/halaman";
-		$config["total_rows"] = $this->lap_simpanan_m->get_jml_data_simpan(); // banyak data
-		$config["per_page"] = 10;
-		$config["uri_segment"] = 4;
-		$config['use_page_numbers'] = TRUE;
-
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-
-		$config['first_link'] = '&laquo; First';
-		$config['first_tag_open'] = '<li class="prev page">';
-		$config['first_tag_close'] = '</li>';
-
-		$config['last_link'] = 'Last &raquo;';
-		$config['last_tag_open'] = '<li class="next page">';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_link'] = 'Next &rarr;';
-		$config['next_tag_open'] = '<li class="next page">';
-		$config['next_tag_close'] = '</li>';
-
-		$config['prev_link'] = '&larr; Previous';
-		$config['prev_tag_open'] = '<li class="prev page">';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class="active"><a href="">';
-		$config['cur_tag_close'] = '</a></li>';
-
-		$config['num_tag_open'] = '<li class="page">';
-		$config['num_tag_close'] = '</li>';
-
-		$this->pagination->initialize($config);
-		$offset = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-		if($offset > 0) {
-			$offset = ($offset * $config['per_page']) - $config['per_page'];
-		}
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_pembagian_shu(2020)));
