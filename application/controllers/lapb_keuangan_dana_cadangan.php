@@ -34,18 +34,82 @@ class Lapb_keuangan_dana_cadangan extends OperatorController {
 
 	}
 
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		$offset = ($offset-1)*$limit;
+		$nominal_dana_cadangan_shu = $this->getNominalShuDanaCadangan($tahun);
+		$data   = $this->lap_simpanan_m->lap_keuangan_dana_cadangan($offset,$limit,$tahun,$nominal_dana_cadangan_shu);
+		
+		$i	= 0;
+		$no = 1;
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+				$rows[$i]['no'] = $no++;
+				$rows[$i]['id_anggota'] = $r['id_anggota'];
+				$rows[$i]['nama_anggota'] = $r['nama_anggota'];
+				$rows[$i]['jumlah_simpanan'] = 'Rp.'.number_format($r['jumlah_total']);
+				$rows[$i]['shu'] = 'Rp.'.number_format($r['shu_dana_cadangan']);
+				$i++;
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('total'=>$data['count'],'rows'=>$rows);
+		echo json_encode($result); //return nya json
+	}
+
+	function getNominalShuDanaCadangan($tahun){
+		$data_nominal_shu   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($tahun);
+		$nominal_shu = 0; 
+		if($data_nominal_shu){
+			$total_pendapatan = 0;
+			$total_pengeluaran = 0;
+			foreach ($data_nominal_shu['pendapatan'] as $key => $r) {
+				$total_pendapatan = $total_pendapatan + $r['jasa'];
+			}
+			foreach ($data_nominal_shu['pendapatanlainlain'] as $key => $r) {
+				foreach($r as $value){
+					$total_pendapatan = $total_pendapatan + $value['total'];
+				}
+			}
+			foreach ($data_nominal_shu['pengeluaranbiayaumum'] as $key => $r) {
+				$total_pengeluaran = $total_pengeluaran + $r['jumlah'];
+			}
+			$nominal_shu = $total_pendapatan - $total_pengeluaran;
+		}
+		$data_pembagian_shu   = $this->lap_simpanan_m->lap_keuangan_pembagian_shu($nominal_shu);
+		$nominal_dana_cadangan_shu = 0;
+		if($data_pembagian_shu){
+			foreach ($data_pembagian_shu['pembagiansisahasilusaha'] as $key => $r) {
+				if($r['nama'] == 'Dana Cadangan'){
+					$nominal_dana_cadangan_shu = $r['jumlah'];
+				}
+			}
+		}
+
+		return $nominal_dana_cadangan_shu;
+	}
 	function cetak() {
-		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-		$simpanan = array(
-			array(
-				"nama" => 'Alimin',
-				"jumlah_simpanan" => 14322341,
-				"shu" => 1000000,
-			),
-		);
-		if($simpanan == FALSE) {
+		$tahun = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
+		$nominal_dana_cadangan_shu = $this->getNominalShuDanaCadangan($tahun);
+		$data   = $this->lap_simpanan_m->lap_keuangan_dana_cadangan(null,null,$tahun,$nominal_dana_cadangan_shu);
+		$i	= 0;
+		$no = 1;
+		$simpanan = array();
+		if($data){
+			foreach ($data["rows"] as $r) {
+				//array keys ini = attribute 'field' di view nya
+				$simpanan[$i]['no'] = $no++;
+				$simpanan[$i]['nama_anggota'] = $r['nama_anggota'];
+				$simpanan[$i]['jumlah_simpanan'] = $r['jumlah_total'];
+				$simpanan[$i]['shu'] = $r['shu_dana_cadangan'];
+				$i++;
+			}
+		}else{
 			echo 'DATA KOSONG';
-			//redirect('lap_simpanan');
 			exit();
 		}
 		
@@ -82,16 +146,16 @@ class Lapb_keuangan_dana_cadangan extends OperatorController {
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $value['nama'].'</td>
-				<td class="h_kanan">'. number_format($value['jumlah_simpanan']).'</td>
-				<td class="h_kanan">'. number_format($value['shu']).'</td>
+				<td>'. $value['nama_anggota'].'</td>
+				<td class="h_kanan">Rp. '.number_format($value['jumlah_simpanan']).'</td>
+				<td class="h_kanan">Rp. '.number_format($value['shu']).'</td>
 			</tr>';
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah Total</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah_simpanan).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_shu).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($total_jumlah_simpanan).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($total_shu).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
