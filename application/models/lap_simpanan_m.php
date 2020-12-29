@@ -32,7 +32,7 @@ class Lap_simpanan_m extends CI_Model {
 		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
 		GROUP BY anggota.id
 		ORDER BY anggota.nama asc";
-		
+
 		if($offset || $limit){
 			$sql .=" LIMIT {$offset},{$limit} ";
 		}
@@ -1343,6 +1343,60 @@ class Lap_simpanan_m extends CI_Model {
 		return $data;
 	}
 
+
+function lap_keuangan_dana_cadangan($offset = null, $limit = null, $year, $dana_cadangan) {
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id
+		ORDER BY anggota.nama asc";
+
+		if($offset || $limit){
+			$sql .=" LIMIT {$offset},{$limit} ";
+		}
+
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
+		GROUP BY anggota.id";
+
+		$execute = $this->db->query($sql);
+
+		$seluruh_simpanan = "SELECT sum(simpanan.jumlah) as seluruh_simpanan FROM tbl_trans_sp simpanan";
+		$execute_send_params_seluruh_simpanan = $this->db->query($seluruh_simpanan)->row()->seluruh_simpanan;
+
+		$data = array();
+		foreach ($execute->result_array() as $row):   
+			$data[] = $this->getListDanaCadangan($row['anggota_id'],$row["nama"], $year, $execute_send_params_seluruh_simpanan, $dana_cadangan);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();	
+		$result["rows"] = $data;
+		return $result;		
+	}
+
+	function getListDanaCadangan($id,$nama_anggota,$year, $seluruh_simpanan, $dana_cadangan) {
+		$sql = "SELECT anggota.nama as nama, sum(simpanan.jumlah) as jumlah FROM tbl_anggota anggota 
+		INNER JOIN tbl_trans_sp simpanan ON simpanan.anggota_id = anggota.id where anggota.id = ".$id."
+		AND YEAR(simpanan.tgl_transaksi) = ".$year."";
+
+
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"jumlah_total" => 0,
+			"seluruh_simpanan" => 0,
+			"kalkulasi_persentasi_danacadangan" => 0,
+			"shu_dana_cadangan"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):  
+			$data["nama_anggota"] = $value["nama"];	 
+			$data["jumlah_total"] += $value["jumlah"];
+			$data["seluruh_simpanan"] = $seluruh_simpanan;
+			$data["kalkulasi_persentasi_danacadangan"] = $dana_cadangan;
+			$data["shu_dana_cadangan"] = $data["jumlah_total"] / $seluruh_simpanan * $dana_cadangan;
+		endforeach; 
+
+		return $data;
+	}
 
 
 }
