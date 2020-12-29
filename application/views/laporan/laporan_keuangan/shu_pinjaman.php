@@ -24,13 +24,9 @@
 }	
 </style>
 
-<?php 
-	$tahun = date('Y');
-?>
-
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Simpanan</h3>
+		<h3 class="box-title">RINCIAN SHU BERDASARKAN JASA PINJAMAN</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -43,11 +39,11 @@
 				<table>
 					<tr>
 						<td>
-							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
-							</div>
+							<input type="number" class="form-control" name="tahun" id="tahun_cari" value="<?php echo date("Y")?>">
 						</td>
 						<td>
+							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
+
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -61,90 +57,55 @@
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> RINCIAN SHU BERDASARKAN JASA  PINJAMAN </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> Nama </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" colspan="4"> Jasa Pinjaman </th>
-		<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2"> SHU </th>
-	</tr>
-	<tr class="header_kolom">
-		<th style="width:20%; vertical-align: middle; text-align:center"> Konsumtif  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Berjangka  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> Barang  </th>
-		<th style="width:15%; vertical-align: middle; text-align:center"> Jumlah  </th>
+<table
+id="dg"
+class="easyui-datagrid"
+title="DATA RINCIAN SHU BERDASARKAN JASA PINJAMAN"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_keuangan_shu_pinjaman/ajax_list'); ?>"
+pagination="true" rownumbers="false"
+fitColumns="true" singleSelect="true" collapsible="true"
+sortName="nama_anggota" sortOrder="desc"
+toolbar="#tb"
+striped="true">
+<thead>
+	<tr>
+		<th data-options="field:'no',width:'10', halign:'center', align:'center'" rowspan="2"> No</th>
+		<th data-options="field:'nama_anggota',width:'30', halign:'center', align:'center'" rowspan="2">Nama </th>
+		<th colspan="4">Pinjaman</th>
+		<th data-options="field:'shu',width:'17', halign:'center', align:'right'" rowspan="2"> SHU </th>
 	</tr>
 	<tr>
-		<td>1</td>
-		<td>Alimin</td>
-		<td>0</td>
-		<td>550000</td>
-		<td>0</td>
-		<td>550000</td>
-		<td>73100</td>
+		<th data-options="field:'pinjaman_konsumtif',width:'17', halign:'center', align:'right'"> Konsumtif  </th>
+		<th data-options="field:'pinjaman_berjangka',width:'17', halign:'center', align:'right'"> Berjangka  </th>
+		<th data-options="field:'pinjaman_barang',width:'17', halign:'center', align:'right'"> Barang  </th>
+		<th data-options="field:'jumlah_total',width:'17', halign:'center', align:'right'"> Jumlah  </th>
 	</tr>
+</thead>
+</table>
 </div>
 </div>
 	
 <script type="text/javascript">
-$(document).ready(function() {
-	fm_filter_tgl();
-}); // ready
-
-function fm_filter_tgl() {
-	$('#daterange-btn').daterangepicker({
-		ranges: {
-			'Hari ini': [moment(), moment()],
-			'Kemarin': [moment().subtract('days', 1), moment().subtract('days', 1)],
-			'7 Hari yang lalu': [moment().subtract('days', 6), moment()],
-			'30 Hari yang lalu': [moment().subtract('days', 29), moment()],
-			'Bulan ini': [moment().startOf('month'), moment().endOf('month')],
-			'Bulan kemarin': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
-			'Tahun ini': [moment().startOf('year').startOf('month'), moment().endOf('year').endOf('month')],
-			'Tahun kemarin': [moment().subtract('year', 1).startOf('year').startOf('month'), moment().subtract('year', 1).endOf('year').endOf('month')]
-		},
-		locale: 'id',
-		showDropdowns: true,
-		format: 'YYYY-MM-DD',
-		<?php 
-			if(isset($tgl_dari) && isset($tgl_samp)) {
-				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
-				";
-			}
-		?>
-	},
-
-	function (start, end) {
-		doSearch();
-	});
-}
-
 function clearSearch(){
 	window.location.href = '<?php echo site_url("lapb_keuangan_shu_pinjaman"); ?>';
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_keuangan_shu_pinjaman'); ?>');
-	$('#fmCari').submit();	
+	var tahun = $('#tahun_cari').val();
+	$('#dg').datagrid('load',{
+		tahun: tahun,
+	});		
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_keuangan_shu_pinjaman/cetak/?tahun=' + tahun +'"); ?>');
+	var tahun = $('#tahun_cari').val();
+	if($('#reportrange').text() != 'Tanggal'){
+		var win = window.open('<?php echo site_url("lapb_keuangan_shu_pinjaman/cetak?tahun=' + tahun + '"); ?>');
+	}else{
+		var win = window.open('<?php echo site_url("lapb_keuangan_shu_pinjaman/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {

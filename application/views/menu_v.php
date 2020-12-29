@@ -148,7 +148,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 <li  class="treeview <?php 
 	 $menu_lap_arr= array(
 	 	'Lapb_anggota_rekap_keseluruhan','lapb_anggota_rekap_simpanan_pokok', 'lapb_anggota_rekap_simpanan_wajib','Lapb_anggota_rekap_perbulan',
-	 	'lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan',
+	 	'lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_simpanan','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan',
 	 	'lapb_koperasi_pinjaman_barang','lapb_koperasi_pinjaman_berjangka','lapb_koperasi_pinjaman_konsumtif','lapb_koperasi_pinjaman_perbulan','lapb_koperasi_piutang','lapb_koperasi_rekap_jasa_barang','lapb_koperasi_rekap_jasa_berjangka','lapb_koperasi_rekap_jasa_konsumtif','lapb_koperasi_tagihan_barang','lapb_koperasi_tagihan_berjangka','lapb_koperasi_tagihan_konsumtif'
 	 );
 	 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
@@ -176,7 +176,7 @@ if(in_array($this->uri->segment(1), $menu_pinjam_arr)) {echo "active";}?>">
 		 	</ul>
 		</li>
 		<li  class="treeview <?php 
-		 $menu_lap_arr= array('lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan');
+		 $menu_lap_arr= array('lapb_keuangan_tagihan','lapb_keuangan_pinjaman','lapb_keuangan_rugi_laba','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_pinjaman','lapb_keuangan_shu_simpanan','lapb_keuangan_neraca','lapb_keuangan_penjelasan_neraca','lapb_keuangan_total_shu','lapb_keuangan_rekap_sukarela','lapb_keuangan_rekap_simpanan_total','lapb_keuangan_dana_cadangan');
 		 if(in_array($this->uri->segment(1), $menu_lap_arr)) {echo "active";}?>">
 			<a href="#">
 				<i class="fa fa-folder-open-o"></i>
