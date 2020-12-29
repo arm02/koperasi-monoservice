@@ -461,5 +461,6 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 		// END PEMBAGIAN SHU
 		$pdf->nsi_html($html);
 		$pdf->Output('lapb_keuangan_rugi_laba_'.date('d-F-y') . '.pdf', 'I');
+		$pdf->Output('lapb_keuangan_rugi_laba_'.date('Ymd_His') . '.pdf', 'I');
 	}
 }
