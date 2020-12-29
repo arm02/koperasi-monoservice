@@ -37,15 +37,16 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 		$saldo1 = date("Y",strtotime("-1 year"));
 		$saldo2 = date("Y",strtotime("-2 year"));
 		/*Default request pager params dari jeasyUI*/
-		$offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
-		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		$limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 1;
+		$offset = isset($_POST['page']) ? intval($_POST['page']) : 10;
 		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
 		$tgl_samp = isset($_POST['tgl_samp']) ? $_POST['tgl_samp'] : '';
+		
 		$search = array(
 			'tgl_dari' => $tgl_dari,
 			'tgl_samp' => $tgl_samp
 		);
-		$offset = ($offset-1)*$limit;
+		$offset = ($limit-1)*$offset;
 		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok($offset,$limit,$search);
 		$i	= 0;
 		$rows   = array();
@@ -83,13 +84,15 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 
 	function cetak() {
 		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_samp = isset($_REQUEST['tgl_samp']) ? $_REQUEST['tgl_samp'] : '';
 		$q = array(
 			'tgl_dari' => $tgl_dari, 
 			'tgl_samp' => $tgl_samp, 
 		);
-		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok(200,200,$q);
+		$data   = $this->lap_simpanan_m->lap_rekap_anggota_pokok(null,null,$q);
 		if($data["rows"] == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
@@ -169,8 +172,8 @@ class Lapb_anggota_rekap_simpanan_pokok extends OperatorController {
 				<td class="h_kanan"> Rp.'.number_format($value['november']).'</td>
 				<td class="h_kanan"> Rp.'.number_format($value['desember']).'</td>
 				<td class="h_kanan"> Rp.'.number_format($jumlah).'</td>
-				<td class="h_kanan"> Rp.'.number_format($value['saldo18']).'</td>
-				<td class="h_kanan"> Rp.'.number_format($value['saldo19']).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo'.$saldo2]).'</td>
+				<td class="h_kanan"> Rp.'.number_format($value['saldo'.$saldo1]).'</td>
 			</tr>';
 		}
 		$html .= '

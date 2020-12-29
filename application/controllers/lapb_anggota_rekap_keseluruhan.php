@@ -79,7 +79,7 @@ class Lapb_anggota_rekap_keseluruhan extends OperatorController {
 			'tgl_dari' => $tgl_dari, 
 			'tgl_samp' => $tgl_samp, 
 		);
-		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(200,200, $q);
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_seluruh_anggota(null,null, $q);
 		if($simpanan == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');

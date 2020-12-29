@@ -77,7 +77,7 @@ class Lapb_anggota_rekap_perbulan extends OperatorController {
 			'tgl_dari' => $tgl_dari, 
 			'tgl_samp' => $tgl_samp, 
 		);
-		$simpanan   = $this->lap_simpanan_m->lap_rekap_anggota_perbulan(200,200, $q);
+		$simpanan   = $this->lap_simpanan_m->lap_rekap_anggota_perbulan(null,null, $q);
 		if($simpanan["rows"] == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
