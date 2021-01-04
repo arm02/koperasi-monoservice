@@ -1396,5 +1396,270 @@ function lap_keuangan_dana_cadangan($offset = null, $limit = null, $year, $dana_
 		return $data;
 	}
 
+	function lap_koperasi_tagihan_berjangka($limit = 0, $offset = 0, $tahun) {
+
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id
+		ORDER BY anggota.nama";
+
+		$paging = "";
+
+		if($limit || $offset){
+			$paging = " asc LIMIT ".$limit.",".$offset."";
+		}
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id";
+
+
+		$sql.=$paging;
+		$execute = $this->db->query($sql);
+		$data = array();
+		foreach ($execute->result_array() as $row):
+			$data[] = $this->getListTagihanBerjangka($row['anggota_id'],$row["nama"], $tahun);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();
+		$result["rows"] = $data;
+		return $result;
+	}
+
+
+	function getListTagihanBerjangka($id,$nama_anggota,$tahun) {
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
+		$sql = "SELECT anggota.nama as nama, anggota.id as anggota_id,pinjaman.lama_angsuran as tenor,pinjaman.id as pinjaman_id,
+		((((pinjaman.bunga/100)*pinjaman.jumlah)+pinjaman.jumlah+pinjaman.biaya_adm)/pinjaman.lama_angsuran) as jumlah,
+		detail.tgl_bayar as tgl_bayar,
+		EXTRACT( MONTH FROM detail.tgl_bayar ) as bulan_transaksi,
+		EXTRACT( YEAR FROM detail.tgl_bayar ) as tahun_transaksi
+		FROM tbl_anggota anggota
+		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=1
+		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
+		where anggota.id = ".$id."";
+
+		$where = "";
+			if($tahun != '') {
+				$where .=" and detail.tgl_bayar between '".$tahun."-01-01 00:00:01' and '".$tahun."-12-31 23:59:59'";
+			}
+		$sql .= $where;
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"januari"=>0,
+			"februari"=>0,
+			"maret"=>0,
+			"april"=>0,
+			"mei"=>0,
+			"juni"=>0,
+			"juli"=>0,
+			"agustus"=>0,
+			"september"=>0,
+			"oktober"=>0,
+			"november"=>0,
+			"desember"=>0,
+			"jumlah"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):
+
+			$count_sisa = "SELECT * FROM tbl_pinjaman_d WHERE pinjam_id = ".$value['pinjaman_id'];
+			$execute_count = $this->db->query($count_sisa)->num_rows();
+
+			$data['januari'] 			=  $value["bulan_transaksi"] == 1? 0 : $value["jumlah"];
+			$data['februari'] 		=  $value["bulan_transaksi"]== 2? 0 : $value["jumlah"];
+			$data['maret'] 				=  $value["bulan_transaksi"]== 3? 0 : $value["jumlah"];
+			$data['april'] 				=  $value["bulan_transaksi"]== 4? 0 : $value["jumlah"];
+			$data['mei'] 					=  $value["bulan_transaksi"]== 5? 0 : $value["jumlah"];
+			$data['juni'] 				=  $value["bulan_transaksi"]== 6? 0 : $value["jumlah"];
+			$data['juli'] 				=  $value["bulan_transaksi"]== 7? 0 : $value["jumlah"];
+			$data['agustus'] 			=  $value["bulan_transaksi"]== 8? 0 : $value["jumlah"];
+			$data['september'] 		=  $value["bulan_transaksi"]== 9? 0 : $value["jumlah"];
+			$data['oktober'] 			=  $value["bulan_transaksi"]== 10? 0 : $value["jumlah"];
+			$data['november'] 		=  $value["bulan_transaksi"]== 11? 0 : $value["jumlah"];
+			$data['desember'] 		=  $value["bulan_transaksi"]== 12? 0 : $value["jumlah"];
+			$data["nama_anggota"] =  $value["nama"];
+			$data["jumlah"] 			=  ($value['tenor'] - $execute_count)*$value['jumlah'];
+		endforeach;
+
+		return $data;
+	}
+
+	function lap_koperasi_tagihan_konsumtif($limit = 0, $offset = 0, $tahun) {
+
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id
+		ORDER BY anggota.nama";
+
+		$paging = "";
+
+		if($limit || $offset){
+			$paging = " asc LIMIT ".$limit.",".$offset."";
+		}
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id";
+
+
+		$sql.=$paging;
+		$execute = $this->db->query($sql);
+		$data = array();
+		foreach ($execute->result_array() as $row):
+			$data[] = $this->getListTagihanKonsumtif($row['anggota_id'],$row["nama"], $tahun);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();
+		$result["rows"] = $data;
+		return $result;
+	}
+
+
+	function getListTagihanKonsumtif($id,$nama_anggota,$tahun) {
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
+		$sql = "SELECT anggota.nama as nama, anggota.id as anggota_id,pinjaman.lama_angsuran as tenor,pinjaman.id as pinjaman_id,
+		((((pinjaman.bunga/100)*pinjaman.jumlah)+pinjaman.jumlah+pinjaman.biaya_adm)/pinjaman.lama_angsuran) as jumlah,
+		detail.tgl_bayar as tgl_bayar,
+		EXTRACT( MONTH FROM detail.tgl_bayar ) as bulan_transaksi,
+		EXTRACT( YEAR FROM detail.tgl_bayar ) as tahun_transaksi
+		FROM tbl_anggota anggota
+		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=5
+		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
+		where anggota.id = ".$id."";
+
+		$where = "";
+			if($tahun != '') {
+				$where .=" and detail.tgl_bayar between '".$tahun."-01-01 00:00:01' and '".$tahun."-12-31 23:59:59'";
+			}
+		$sql .= $where;
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"januari"=>0,
+			"februari"=>0,
+			"maret"=>0,
+			"april"=>0,
+			"mei"=>0,
+			"juni"=>0,
+			"juli"=>0,
+			"agustus"=>0,
+			"september"=>0,
+			"oktober"=>0,
+			"november"=>0,
+			"desember"=>0,
+			"jumlah"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):
+
+			$count_sisa = "SELECT * FROM tbl_pinjaman_d WHERE pinjam_id = ".$value['pinjaman_id'];
+			$execute_count = $this->db->query($count_sisa)->num_rows();
+
+			$data['januari'] 			=  $value["bulan_transaksi"] == 1? 0 : $value["jumlah"];
+			$data['februari'] 		=  $value["bulan_transaksi"]== 2? 0 : $value["jumlah"];
+			$data['maret'] 				=  $value["bulan_transaksi"]== 3? 0 : $value["jumlah"];
+			$data['april'] 				=  $value["bulan_transaksi"]== 4? 0 : $value["jumlah"];
+			$data['mei'] 					=  $value["bulan_transaksi"]== 5? 0 : $value["jumlah"];
+			$data['juni'] 				=  $value["bulan_transaksi"]== 6? 0 : $value["jumlah"];
+			$data['juli'] 				=  $value["bulan_transaksi"]== 7? 0 : $value["jumlah"];
+			$data['agustus'] 			=  $value["bulan_transaksi"]== 8? 0 : $value["jumlah"];
+			$data['september'] 		=  $value["bulan_transaksi"]== 9? 0 : $value["jumlah"];
+			$data['oktober'] 			=  $value["bulan_transaksi"]== 10? 0 : $value["jumlah"];
+			$data['november'] 		=  $value["bulan_transaksi"]== 11? 0 : $value["jumlah"];
+			$data['desember'] 		=  $value["bulan_transaksi"]== 12? 0 : $value["jumlah"];
+			$data["nama_anggota"] =  $value["nama"];
+			$data["jumlah"] 			=  ($value['tenor'] - $execute_count)*$value['jumlah'];
+		endforeach;
+
+		return $data;
+	}
+	function lap_koperasi_tagihan_barang($limit = 0, $offset = 0, $tahun) {
+
+		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id
+		ORDER BY anggota.nama";
+
+		$paging = "";
+
+		if($limit || $offset){
+			$paging = " asc LIMIT ".$limit.",".$offset."";
+		}
+		$count = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota
+		GROUP BY anggota.id";
+
+
+		$sql.=$paging;
+		$execute = $this->db->query($sql);
+		$data = array();
+		foreach ($execute->result_array() as $row):
+			$data[] = $this->getListTagihanBarang($row['anggota_id'],$row["nama"], $tahun);
+		endforeach;
+		$result["count"] = $this->db->query($count)->num_rows();
+		$result["rows"] = $data;
+		return $result;
+	}
+
+
+	function getListTagihanBarang($id,$nama_anggota,$tahun) {
+		$saldo1 = date("Y",strtotime("-1 year"));
+		$saldo2 = date("Y",strtotime("-2 year"));
+		$sql = "SELECT anggota.nama as nama, anggota.id as anggota_id,pinjaman.lama_angsuran as tenor,pinjaman.id as pinjaman_id,
+		((((pinjaman.bunga/100)*pinjaman.jumlah)+pinjaman.jumlah+pinjaman.biaya_adm)/pinjaman.lama_angsuran) as jumlah,
+		detail.tgl_bayar as tgl_bayar,
+		EXTRACT( MONTH FROM detail.tgl_bayar ) as bulan_transaksi,
+		EXTRACT( YEAR FROM detail.tgl_bayar ) as tahun_transaksi
+		FROM tbl_anggota anggota
+		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=4
+		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
+		where anggota.id = ".$id."";
+
+		$where = "";
+			if($tahun != '') {
+				$where .=" and detail.tgl_bayar between '".$tahun."-01-01 00:00:01' and '".$tahun."-12-31 23:59:59'";
+			}
+		$sql .= $where;
+		$execute = $this->db->query($sql);
+
+		$data = array(
+			"id_anggota" => $id,
+			"nama_anggota" => $nama_anggota,
+			"januari"=>0,
+			"februari"=>0,
+			"maret"=>0,
+			"april"=>0,
+			"mei"=>0,
+			"juni"=>0,
+			"juli"=>0,
+			"agustus"=>0,
+			"september"=>0,
+			"oktober"=>0,
+			"november"=>0,
+			"desember"=>0,
+			"jumlah"=>0
+		);
+
+		foreach ($execute->result_array() as $row => $value):
+
+			$count_sisa = "SELECT * FROM tbl_pinjaman_d WHERE pinjam_id = ".$value['pinjaman_id'];
+			$execute_count = $this->db->query($count_sisa)->num_rows();
+
+			$data['januari'] 			=  $value["bulan_transaksi"] == 1? 0 : $value["jumlah"];
+			$data['februari'] 		=  $value["bulan_transaksi"]== 2? 0 : $value["jumlah"];
+			$data['maret'] 				=  $value["bulan_transaksi"]== 3? 0 : $value["jumlah"];
+			$data['april'] 				=  $value["bulan_transaksi"]== 4? 0 : $value["jumlah"];
+			$data['mei'] 					=  $value["bulan_transaksi"]== 5? 0 : $value["jumlah"];
+			$data['juni'] 				=  $value["bulan_transaksi"]== 6? 0 : $value["jumlah"];
+			$data['juli'] 				=  $value["bulan_transaksi"]== 7? 0 : $value["jumlah"];
+			$data['agustus'] 			=  $value["bulan_transaksi"]== 8? 0 : $value["jumlah"];
+			$data['september'] 		=  $value["bulan_transaksi"]== 9? 0 : $value["jumlah"];
+			$data['oktober'] 			=  $value["bulan_transaksi"]== 10? 0 : $value["jumlah"];
+			$data['november'] 		=  $value["bulan_transaksi"]== 11? 0 : $value["jumlah"];
+			$data['desember'] 		=  $value["bulan_transaksi"]== 12? 0 : $value["jumlah"];
+			$data["nama_anggota"] =  $value["nama"];
+			$data["jumlah"] 			=  ($value['tenor'] - $execute_count)*$value['jumlah'];
+		endforeach;
+
+		return $data;
+	}
 
 }
