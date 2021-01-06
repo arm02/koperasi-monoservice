@@ -1434,7 +1434,7 @@ function lap_keuangan_dana_cadangan($offset = null, $limit = null, $year, $dana_
 		FROM tbl_anggota anggota
 		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=1
 		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
-		where anggota.id = ".$id."";
+		where pinjaman.lunas = 'Belum' and anggota.id = ".$id."";
 
 		$where = "";
 			if($tahun != '') {
@@ -1523,7 +1523,7 @@ function lap_keuangan_dana_cadangan($offset = null, $limit = null, $year, $dana_
 		FROM tbl_anggota anggota
 		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=5
 		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
-		where anggota.id = ".$id."";
+		where pinjaman.lunas = 'Belum' and anggota.id = ".$id."";
 
 		$where = "";
 			if($tahun != '') {
@@ -1611,7 +1611,7 @@ function lap_keuangan_dana_cadangan($offset = null, $limit = null, $year, $dana_
 		FROM tbl_anggota anggota
 		LEFT JOIN tbl_pinjaman_h pinjaman ON pinjaman.anggota_id=anggota.id AND pinjaman.barang_id=4
 		LEFT JOIN tbl_pinjaman_d detail ON detail.pinjam_id = pinjaman.id
-		where anggota.id = ".$id."";
+		where pinjaman.lunas = 'Belum' and anggota.id = ".$id."";
 
 		$where = "";
 			if($tahun != '') {
