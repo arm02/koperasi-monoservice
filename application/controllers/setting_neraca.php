@@ -6,7 +6,6 @@ class setting_neraca extends AdminController {
 		parent::__construct();
 		$this->load->helper('fungsi');
 		$this->load->model('m_desc_neraca');
-		$this->load->model('m_type_desc_neraca');
 	}
 
 	public function index() {
@@ -29,7 +28,6 @@ class setting_neraca extends AdminController {
 
 		//number_format
 		$this->data['js_files'][] = base_url() . 'assets/extra/fungsi/number_format.js';
-		$this->data['type_neraca'] = $this->m_type_desc_neraca->get_all_data();
 
 		$this->data['isi'] = $this->load->view('static/setting_neraca', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
@@ -46,7 +44,32 @@ class setting_neraca extends AdminController {
 		$search = array('title' => $title);
 		$offset = ($offset-1)*$limit;
 		$data   = $this->m_desc_neraca->get_data_db_ajax($offset,$limit,$search,$sort,$order);
-		$tipeData = $this->m_type_desc_neraca->get_all_data();
+		$tipeData = array(
+			array(
+				'id' => 1,
+				'title' => 'Harta Lancar'
+			),
+			array(
+				'id' => 2,
+				'title' => 'Penyertaan'
+			),
+			array(
+				'id' => 3,
+				'title' => 'Harga Tetap'
+			),
+			array(
+				'id' => 4,
+				'title' => 'Hutang Jangka Pendek'
+			),
+			array(
+				'id' => 5,
+				'title' => 'Hutang Jangka Panjang'
+			),
+			array(
+				'id' => 6,
+				'title' => 'Modal Sendiri'
+			),
+		);
 		$i	= 0;
 		$rows   = array();
 
@@ -57,11 +80,15 @@ class setting_neraca extends AdminController {
 			$rows[$i]['id'] = $r->id;
 			$rows[$i]['id_type_desc_neraca'] = $r->id_type_desc_neraca;
 			foreach ($tipeData as $key => $tipe) {
-				if($tipe->id == $r->id_type_desc_neraca ){
-					$rows[$i]['type_desc_neraca'] = $tipe->title;
+				if($tipe['id'] == $r->id_type_desc_neraca ){
+					$rows[$i]['type_desc_neraca'] = $tipe['title'];
 				}
 			}
+			$rows[$i]['kode'] = $r->kode;
 			$rows[$i]['title'] = $r->title;
+			$rows[$i]['tahun'] = $r->tahun;
+			$rows[$i]['nominal'] = $r->nominal;
+			$rows[$i]['nominal_format'] = 'Rp. '.number_format($r->nominal);
 			$i++;
 		}
 		//keys total & rows wajib bagi jEasyUI

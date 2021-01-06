@@ -31,7 +31,11 @@ striped="true">
 <thead>
 	<tr>
 		<th data-options="field:'id', sortable:'true',halign:'center', align:'center'" hidden="true">ID</th>
-		<th data-options="field:'title', width:'90', halign:'center', align:'center'">Tipe</th>
+		<th data-options="field:'type_neraca', width:'90', halign:'center', align:'center'">Tipe Neraca</th>
+		<th data-options="field:'kode', width:'90', halign:'center', align:'center'">Kode</th>
+		<th data-options="field:'title', width:'90', halign:'center', align:'center'">Judul</th>
+		<th data-options="field:'tahun', width:'90', halign:'center', align:'center'">Tahun</th>
+		<th data-options="field:'nominal_format', width:'90', halign:'center', align:'center'">Nominal</th>
 	</tr>
 </thead>
 </table>
@@ -51,29 +55,71 @@ striped="true">
 			</button>
 		</div> -->
 		<span>Cari :</span>
-		<input name="title" id="title_cari" size="22" placeholder="[Tipe]" style="line-height:22px;border:1px solid #ccc;">
-
+		<input name="title" id="title_cari" size="22" placeholder="[Judul]" style="line-height:22px;border:1px solid #ccc;">
+		<select id="type_cari" name="type" style="width:195px; height:20px" class="easyui-validatebox" required="true" >
+			<option value="" selected disabled>-- Pilih Tipe --</option>
+			<?php 
+				foreach($type_neraca as $key => $value){
+					echo '<option value='.$value->id.'>'.$value->title.'</option>';
+				}
+			?>
+		</select>
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
-		<!-- <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a> -->
 		<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
 	</div>
 </div>
 
 <!-- Dialog Form -->
-<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:300px; height:200px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
+<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:350px; height:300px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
 	<form id="form" method="post" novalidate>
-	<table style="height:75px" >
+	<table style="height:150px" >
 			<tr>
 				<td>
 					<table>
 						<tr style="height:25px">
-							<td> Tipe </td>
+							<td> Tipe Neraca </td>
+							<td>:</td>
+							<td>
+								<select id="id_type_neraca" name="id_type_neraca" style="width:195px; height:20px" class="easyui-validatebox" required="true" >
+									<option value="" disabled>-- Pilih Tipe --</option>
+									<option value="1" > Harta Lancar </option>
+									<option value="2" > Penyertaan </option>
+									<option value="3" > Harga Tetap </option>
+									<option value="4" > Hutang Jangka Pendek </option>
+									<option value="5" > Hutang Jangka Panjang </option>
+									<option value="6" > Modal Sendiri </option>
+								</select>
+							</td>	
+						</tr>
+						<tr style="height:25px">
+							<td> Kode </td>
+							<td>:</td>
+							<td>
+								<input id="kode" name="kode" style="width:190px;" >
+							</td>	
+						</tr>
+						<tr style="height:25px">
+							<td> Judul </td>
 							<td>:</td>
 							<td>
 								<input id="title" name="title" style="width:190px;" >
 							</td>	
 						</tr>
-				</table>
+						<tr style="height:25px">
+							<td> Tahun </td>
+							<td>:</td>
+							<td>
+								<input id="tahun" name="tahun" style="width:190px;" value="<?php echo date("Y");?>" type="number" >
+							</td>	
+						</tr>
+						<tr style="height:25px">
+							<td> Nominal </td>
+							<td>:</td>
+							<td>
+								<input id="nominal" name="nominal" style="width:190px;" type="number" >
+							</td>	
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
@@ -92,6 +138,7 @@ var url;
 function doSearch(){
 	$('#dg').datagrid('load',{
 		title: $('#title_cari').val(),
+		id_type_neraca: $('#type_cari').val(),
 	});
 }
 
@@ -122,26 +169,48 @@ function save() {
 		$("#kode").focus();
 		return false;
 	}
-	var nama = $("#nama").val();
-	if(nama == 0) {
+	var title = $("#title").val();
+	if(title == 0) {
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Nama Kosong.</div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Judul Kosong.</div>',
 			timeout:2000,
 			showType:'slide'
 		});
-		$("#nama").focus();
+		$("#title").focus();
 		return false;
 	}
-	var type = $("#type").val();
-	if(type == 0) {
+	var tahun = $("#tahun").val();
+	if(tahun == 0) {
+		$.messager.show({
+			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Tahun Kosong.</div>',
+			timeout:2000,
+			showType:'slide'
+		});
+		$("#tahun").focus();
+		return false;
+	}
+	var nominal = $("#nominal").val();
+	if(nominal == 0) {
+		$.messager.show({
+			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
+			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data Nominal Kosong.</div>',
+			timeout:2000,
+			showType:'slide'
+		});
+		$("#nominal").focus();
+		return false;
+	}
+	var id_type_neraca = $("#id_type_neraca").val();
+	if(id_type_neraca == 0) {
 		$.messager.show({
 			title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
 			msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Tipe Kosong.</div>',
 			timeout:2000,
 			showType:'slide'
 		});
-		$("#type").focus();
+		$("#id_type_neraca").focus();
 		return false;
 	}
 
@@ -178,11 +247,6 @@ function save() {
 
 function update(){
 	var row = jQuery('#dg').datagrid('getSelected');
-	if(row.type = 'Perincian Pembagian Sisa Hasil Usaha'){
-		row.type = 1
-	}else{
-		row.type = 2
-	}
 	if(row){
 		jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 		jQuery('#form').form('load',row);
@@ -201,7 +265,7 @@ function update(){
 function hapus(){  
 	var row = $('#dg').datagrid('getSelected');  
 	if (row){ 
-		$.messager.confirm('Konfirmasi','Apakah Anda akan menghapus data kode transaksi : <code>' + row.nama + '</code> ?',function(r){  
+		$.messager.confirm('Konfirmasi','Apakah Anda akan menghapus data kode transaksi : <code>' + row.title + '</code> ?',function(r){  
 			if (r){  
 				$.ajax({
 					type	: "POST",

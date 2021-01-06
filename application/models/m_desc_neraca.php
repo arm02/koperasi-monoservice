@@ -33,7 +33,10 @@ class M_desc_neraca extends CI_Model {
 	public function create() {
 		$data = array(
 			'id_type_desc_neraca'	 =>	$this->input->post('id_type_desc_neraca'),
-			'title'	               =>	$this->input->post('title')
+			'kode'	               =>	$this->input->post('kode'),
+			'title'	               =>	$this->input->post('title'),
+			'tahun'	               =>	$this->input->post('tahun'),
+			'nominal'	               =>	$this->input->post('nominal')
 		);
 		return $this->db->insert('desc_neraca', $data);
 	}
@@ -49,8 +52,11 @@ class M_desc_neraca extends CI_Model {
 		$this->db->where('id', $id);
 
 		return $this->db->update('desc_neraca',array(
-      'id_type_desc_neraca'	 =>	$this->input->post('id_type_desc_neraca'),
-			'title'	               =>	$this->input->post('title')
+      		'id_type_desc_neraca'	 =>	$this->input->post('id_type_desc_neraca'),
+			'kode'	               =>	$this->input->post('kode'),
+			'title'	               =>	$this->input->post('title'),
+			'tahun'	               =>	$this->input->post('tahun'),
+			'nominal'	               =>	$this->input->post('nominal')
 			));
 	}
 

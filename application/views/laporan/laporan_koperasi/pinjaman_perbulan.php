@@ -45,12 +45,27 @@ $tahun = date('Y');
 					<tr>
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
+								<select id="bulan_cari" name="bulan" style="width:195px;">
+									<option value="" disabled selected>-- Pilih Bulan --</option>
+									<option value="1" > Januari </option>
+									<option value="2" > February </option>
+									<option value="3" > Maret </option>
+									<option value="4" > April </option>
+									<option value="5" > Mei </option>
+									<option value="6" > Juni </option>
+									<option value="7" > Juli </option>
+									<option value="8" > Agustus </option>
+									<option value="9" > September </option>
+									<option value="10" > Oktober </option>
+									<option value="11" > November </option>
+									<option value="12" > Desember </option>
+								</select>
 								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
 							</div>
 						</td>
 						<td>
+							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
-
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
 						</td>
 					</tr>
