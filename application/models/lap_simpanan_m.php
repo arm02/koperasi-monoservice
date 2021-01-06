@@ -889,7 +889,7 @@ class Lap_simpanan_m extends CI_Model {
 		return $result;	
 	}
 
-
+	
 	function getListPinjamanKonsumtif($id,$nama_anggota,$q = "") {
 		$saldo1 = date("Y",strtotime("-1 year"));
 		$saldo2 = date("Y",strtotime("-2 year"));
