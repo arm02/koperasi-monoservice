@@ -29,8 +29,9 @@ class Lapb_keuangan_neraca extends OperatorController {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		
-		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca', $this->data, TRUE);
-		$this->load->view('themes/layout_utama_v', $this->data);
+		// $this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca', $this->data, TRUE);
+		// $this->load->view('themes/layout_utama_v', $this->data);
+		print_r(json_encode($this->lap_simpanan_m->lap_neraca(5000000, 2021)));
 
 	}
 

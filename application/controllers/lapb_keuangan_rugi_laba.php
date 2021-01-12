@@ -31,7 +31,7 @@ class Lapb_keuangan_rugi_laba extends OperatorController {
 
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/rugi_laba', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
-		// print_r(json_encode($this->lap_simpanan_m->lap_keuangan_pembagian_shu(2020)));
+		
 
 	}
 
