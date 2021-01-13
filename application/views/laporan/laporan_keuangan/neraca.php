@@ -22,14 +22,33 @@
 	height: 20px;
 	padding: 4px;
 }	
+
+.datagrid-footer .datagrid-row{
+	background: #efefef;
+}
+
+.tree-file, .tree-folder{
+	display: none;
+}
 </style>
+
 <?php 
-	$tahun = date('Y');
+
+if(isset($_REQUEST['tgl_dari']) && isset($_REQUEST['tgl_samp'])) {
+	$tgl_dari = $_REQUEST['tgl_dari'];
+	$tgl_samp = $_REQUEST['tgl_samp'];
+} else {
+	$tgl_dari = null;
+	$tgl_samp = null;
+}
+$tgl_dari_txt = jin_date_ina($tgl_dari, 'p');
+$tgl_samp_txt = jin_date_ina($tgl_samp, 'p');
+$tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 ?>
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Neraca</h3>
+		<h3 class="box-title">Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -39,14 +58,16 @@
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
+				<input type="hidden" name="tgl_dari" id="tgl_dari">
+				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
-							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
-							</div>
+							<input type="number" name="tahun_cari" id="tahun_cari" value='<?php echo date("Y") ?>'>
 						</td>
 						<td>
+							<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
+
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -58,241 +79,93 @@
 	</div>
 </div>
 
-<div class="box box-primary">
-<div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi <br> Per - 31 Desember 2020 </p>
-
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center"> NO </th>
-		<th style="width:25%; vertical-align: middle; text-align:center">URAIAN </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> AKTIVA  </th>
-		<th style="width:5%; vertical-align: middle; text-align:center"> NO  </th>
-		<th style="width:25%; vertical-align: middle; text-align:center"> URAIAN  </th>
-		<th style="width:20%; vertical-align: middle; text-align:center"> PASIVA  </th>
-	</tr>
-	<tr>
-		<td style="vertical-align: middle; text-align:center">I.</td>
-		<td style="font-weight: bold;" colspan="2">Harta Lancar</td>
-        <td style="vertical-align: middle; text-align:center">I.</td>
-		<td style="font-weight: bold;" colspan="2">Hutang Jangka Pendek</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td>Kas</td>
-		<td>Rp. 273,974,769</td>
-		<td>1</td>
-		<td>Simpanan Sukarela</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td>Bank</td>
-		<td>Rp. 273,974,769</td>
-		<td>2</td>
-		<td>Dana Pembangunan</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Giro</td>
-		<td>Rp. 273,974,769</td>
-		<td>3</td>
-		<td>Dana pendidikan</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Piutan Pinjaman Konsumtif</td>
-		<td>Rp. 273,974,769</td>
-		<td>4</td>
-		<td>Dana Sosial</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Piutan Pinjaman Berjangka</td>
-		<td>Rp. 273,974,769</td>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Piutan Pinjaman Barang</td>
-		<td>Rp. 273,974,769</td>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td style="font-weight:bold;">Jumlah Harta Lancar</td>
-		<td style="font-weight:bold;">Rp. 273,974,769</td>
-		<td></td>
-		<td style="font-weight:bold;">Jumlah Hutang Jangka Pendek</td>
-		<td style="font-weight:bold;">Rp. 273,974,769</td>
-	</tr>
-    <tr>
-        <td style="padding:10px;" colspan="6"></td>
-    </tr>
-    <tr>
-		<td style="vertical-align: middle; text-align:center">II.</td>
-		<td style="font-weight: bold;" colspan="2">Penyerataan</td>
-        <td style="vertical-align: middle; text-align:center">II.</td>
-		<td style="font-weight: bold;" colspan="2">Hutang Jangka Panjang</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td>PKPRI Kota Bekasi</td>
-		<td>Rp. 273,974,769</td>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td style="font-weight:bold;">Jumlah Penyerataan</td>
-		<td style="font-weight:bold;">Rp. 273,974,769</td>
-		<td></td>
-		<td style="font-weight:bold;"></td>
-		<td style="font-weight:bold;">Rp. 0</td>
-	</tr>
-    <tr>
-        <td style="padding:10px;" colspan="6"></td>
-    </tr>
-    <tr>
-		<td style="vertical-align: middle; text-align:center">III.</td>
-		<td style="font-weight: bold;" colspan="2">Harga Tetap</td>
-        <td style="vertical-align: middle; text-align:center">III.</td>
-		<td style="font-weight: bold;" colspan="2">Modal Sendiri</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-		<td></td>
-		<td>Simpanan Pokok</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-		<td></td>
-		<td>Simpanan Wajib</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-		<td></td>
-		<td>Simpanan Khusus</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-		<td></td>
-		<td>Dana Cadangan</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td></td>
-		<td>Rp. 0</td>
-		<td></td>
-		<td>SHU Tahun Buku 2020</td>
-		<td>Rp. 273,974,769</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td style="font-weight:bold;"></td>
-		<td style="font-weight:bold;">Rp. 0</td>
-		<td></td>
-		<td style="font-weight:bold;">Jumlah Modal Sendiri</td>
-		<td style="font-weight:bold;">Rp. 273,974,769</td>
-	</tr>
-    <tr class="header_kolom">
-		<th style="vertical-align: middle; text-align:center" colspan="2"> Total </th>
-		<th >Rp. 3,065,898,296 </th>
-        <th style="vertical-align: middle; text-align:center" colspan="2"> Total </th>
-		<th >Rp. 3,065,898,296 </th>
-	</tr>
-    </table>
-    <p style="padding-bottom:20px; text-align:center; font-size: 15pt; font-weight: bold;"> <br>PENGURUS KOPERASI PRS BEKASI <br> </p>
-    <table  class="table table-borderless">
-        <tr>
-            <th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
-            <th style="border:none; padding-bottom:70px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
-        </tr>
-        <tr>
-            <th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
-            <th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> DIYAH ROCHYANI </th>
-        </tr>
-    </table>
+<div class="box box-primary text-center">
+	<div class="box-body row">
+		<div class="col-md-5">
+			<table
+				id="dg-aktiva"
+				class="easyui-treegrid"
+				title="Data Neraca Aktiva"
+				style="width:auto; height: auto;"
+				url="<?php echo site_url('lapb_keuangan_neraca/ajax_list_aktiva'); ?>"
+				pagination="false" rownumbers="false"
+				fitColumns="true"
+				striped="true"
+				showFooter="true"
+				idField= "no",
+				treeField= "uraian"
+			>
+				<thead>
+					<tr>
+						<th data-options="field:'no',width:'1', halign:'center', align:'left'"> No </th>
+						<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
+						<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Aktiva  </th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div class="col-md-6">
+			<table
+				id="dg-pasiva"
+				class="easyui-treegrid"
+				title="Data Neraca Pasiva"
+				style="width:auto; height: auto;"
+				url="<?php echo site_url('lapb_keuangan_neraca/ajax_list_pasiva'); ?>"
+				pagination="false" rownumbers="false"
+				fitColumns="true"
+				striped="true"
+				showFooter="true"
+				idField= "no",
+				treeField= "uraian"
+			>
+				<thead>
+					<tr>
+						<th data-options="field:'no',width:'1', halign:'center', align:'left'"> No </th>
+						<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
+						<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Pasiva  </th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
 </div>
-</div>
+<table  class="table table-borderless">
+	<tr>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> KETUA </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> BENDAHARA </th>
+	</tr>
+	<tr>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd1.png'; ?>"> 
+		</th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> 
+			<img height="100" src="<?php echo base_url().'assets/asset/images/ttd/ttd2.jpg'; ?>"> 
+		</th>
+	</tr>
+	<tr>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
+		<th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> DIYAH ROCHYANI </th>
+	</tr>
+</table>
 	
 <script type="text/javascript">
-$(document).ready(function() {
-	fm_filter_tgl();
-}); // ready
-
-function fm_filter_tgl() {
-	$('#daterange-btn').daterangepicker({
-		ranges: {
-			'Hari ini': [moment(), moment()],
-			'Kemarin': [moment().subtract('days', 1), moment().subtract('days', 1)],
-			'7 Hari yang lalu': [moment().subtract('days', 6), moment()],
-			'30 Hari yang lalu': [moment().subtract('days', 29), moment()],
-			'Bulan ini': [moment().startOf('month'), moment().endOf('month')],
-			'Bulan kemarin': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
-			'Tahun ini': [moment().startOf('year').startOf('month'), moment().endOf('year').endOf('month')],
-			'Tahun kemarin': [moment().subtract('year', 1).startOf('year').startOf('month'), moment().subtract('year', 1).endOf('year').endOf('month')]
-		},
-		locale: 'id',
-		showDropdowns: true,
-		format: 'YYYY-MM-DD',
-		<?php 
-			if(isset($tgl_dari) && isset($tgl_samp)) {
-				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
-				";
-			}
-		?>
-	},
-
-	function (start, end) {
-		doSearch();
-	});
-}
-
 function clearSearch(){
 	window.location.href = '<?php echo site_url("lapb_keuangan_neraca"); ?>';
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_keuangan_neraca'); ?>');
-	$('#fmCari').submit();	
+	var tahuns = $('input[name=tahun_cari]').val();
+	$('#dg-aktiva').treegrid('load',{
+		tahun: tahuns
+	});	
+	$('#dg-pasiva').treegrid('load',{
+		tahun: tahuns
+	});	
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_keuangan_neraca/cetak/?tahun=' + tahun +'"); ?>');
+	var tahun = $('input[name=tahun_cari]').val() || new Date().getFullYear();
+	var win = window.open('<?php echo site_url("lapb_keuangan_neraca/cetak?tahun=' + tahun +'"); ?>');
 	if (win) {
 		win.focus();
 	} else {

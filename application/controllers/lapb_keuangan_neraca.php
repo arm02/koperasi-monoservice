@@ -29,7 +29,7 @@ class Lapb_keuangan_neraca extends OperatorController {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		
-		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca_new', $this->data, TRUE);
+		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 		// print_r(json_encode($this->lap_simpanan_m->lap_neraca(5000000, 2021)));
 
@@ -250,7 +250,7 @@ class Lapb_keuangan_neraca extends OperatorController {
 			<th style="width:45%; vertical-align: middle; text-align:center"> Uraian  </th>
 			<th style="width:45%; vertical-align: middle; text-align:center"> Pasiva  </th>
 		</tr>';
-		
+
 		unset($data_pasiva['hartalancar'],$data_pasiva['penyertaan'],$data_pasiva['hargatetap']);
 		foreach ($data_pasiva as $key => $r) {
 			switch ($key) {
