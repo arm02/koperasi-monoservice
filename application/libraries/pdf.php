@@ -23,6 +23,7 @@ class Pdf extends TCPDF {
     }
 
     public function set_nsi_header($nsi_header) {
+        ob_end_clean();
         if($nsi_header == TRUE) {
             $this->CI->load->model('setting_m');
             $opsi_val_arr = $this->CI->setting_m->get_key_val();

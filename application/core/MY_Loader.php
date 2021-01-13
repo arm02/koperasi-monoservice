@@ -290,6 +290,12 @@ class MY_Loader extends CI_Loader {
     			{
     			$this->model($autoload['model']);
     			}
+
+    			// Autoload controller
+    			if (isset($autoload['controller']))
+    			{
+    			$this->controller($autoload['controller']);
+    			}
     }
 }
 
