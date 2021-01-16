@@ -21,7 +21,10 @@
 .form-control {
 	height: 20px;
 	padding: 4px;
-}	
+}
+.tree-file, .tree-folder{
+	display: none;
+}
 </style>
 <?php 
 	$tahun = date('Y');
@@ -63,7 +66,27 @@
 <p></p>
 <p style="text-align:center; font-size: 15pt; font-weight: bold;"> Penjelasan Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi <br> Per - 31 Desember 2020 </p>
 
-<table  class="table table-bordered">
+<table
+	id="dg-aktiva"
+	class="easyui-treegrid"
+	title="Data Neraca Aktiva"
+	style="width:auto; height: auto;"
+	url="<?php echo site_url('lapb_keuangan_penjelasan_neraca/ajax_list'); ?>"
+	pagination="false" rownumbers="false"
+	fitColumns="true"
+	striped="true"
+	showFooter="true"
+	idField= "uraian"
+	treeField= "uraian"
+>
+	<thead>
+		<tr>
+			<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
+			<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Aktiva  </th>
+		</tr>
+	</thead>
+</table>
+<!-- <table  class="table table-bordered">
 	<tr class="header_kolom">
 		<th style="width:5%; vertical-align: middle; text-align:center"> I. </th>
 		<th style="width:25%;" colspan="5">HARTA LANCAR </th>
@@ -882,7 +905,7 @@
             <th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> ISMAWATI </th>
             <th style="border:none; padding-bottom:30px; width:50%; vertical-align: middle; text-align:center" Colspan="2"> DIYAH ROCHYANI </th>
         </tr>
-    </table>
+    </table> -->
 </div>
 </div>
 	

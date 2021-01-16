@@ -2068,55 +2068,54 @@
 
 
  		$static_neraca_harta_lancar = array(
- 			"kas" => array(
+ 			"Kas Akhir Tahun $year" => array(
  				"kode" => "KHL",
- 				"kasterakhir" => $latest_kas,
- 				"mutasi" => 0,
- 				"penerimaankas" => $kas_pemasukan->result_array()[0]['nominal'],
- 				"jumlah" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'],
- 				"pengeluarankas" => $kas_pengeluaran->result_array()[0]['nominal'],
- 				"saldo" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'] - $kas_pengeluaran->result_array()[0]['nominal']
+ 				"Kas Akhir Tahun $year" => $latest_kas,
+ 				"Mutasi Pasa Tahun $year" => 0,
+ 				"Penerimaan Kas" => $kas_pemasukan->result_array()[0]['nominal'],
+ 				"Jumlah" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'],
+ 				"Pengeluaran Kas" => $kas_pengeluaran->result_array()[0]['nominal'],
+ 				"Saldo Kas Tahun $year" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'] - $kas_pengeluaran->result_array()[0]['nominal']
  			),
- 			"bank" => array(
+ 			"Bank" => array(
  				"kode" => "BANK",
- 				"pemasukan" => $pemasukan_bank->result_array()[0]['nominal'],
- 				"pengeluaran" => $pengeluaran_bank->result_array()[0]['nominal'],
- 				"saldo" => $pemasukan_bank->result_array()[0]['nominal'] - $pengeluaran_bank->result_array()[0]['nominal'],
+ 				"Pemasukan" => $pemasukan_bank->result_array()[0]['nominal'],
+ 				"Pengeluaran" => $pengeluaran_bank->result_array()[0]['nominal'],
+ 				"Saldo" => $pemasukan_bank->result_array()[0]['nominal'] - $pengeluaran_bank->result_array()[0]['nominal'],
  			),
- 			"giro" => array(
+ 			"Giro" => array(
  				"kode" => "GIRO",
- 				"pemasukan" => $pemasukan_giro->result_array()[0]['nominal'],
- 				"pengeluaran" => $pengeluaran_giro->result_array()[0]['nominal'],
- 				"saldo" => $pemasukan_giro->result_array()[0]['nominal'] - $pengeluaran_giro->result_array()[0]['nominal'],
+ 				"Pemasukan" => $pemasukan_giro->result_array()[0]['nominal'],
+ 				"Pengeluaran" => $pengeluaran_giro->result_array()[0]['nominal'],
+ 				"Saldo" => $pemasukan_giro->result_array()[0]['nominal'] - $pengeluaran_giro->result_array()[0]['nominal'],
  			),
- 			"pinjaman" => array (
- 				"komsumtif" => array(
- 					"kode" => "HLPPK",
- 					"saldopiutangterakhir" => $latest_saldo_pinjaman_komsumtif,
- 					"mutasi" => 0,
- 					"pinjaman" => $saldo_pinjaman_komsumtif,
- 					"jumlah" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif,
- 					"penerimaan" => $penerimaan_pinjaman_komsumtif->result_array()[0]['nominal'],
- 					"saldo" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif - $penerimaan_pinjaman_komsumtif->result_array()[0]['nominal']
- 				),
- 				"berjangka" => array(
- 					"kode" => "HLPPB",
- 					"saldopiutangterakhir" => $latest_saldo_pinjaman_berjangka,
- 					"mutasi" => 0,
- 					"pinjaman" => $saldo_pinjaman_berjangka,
- 					"jumlah" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka,
- 					"penerimaan" => $penerimaan_pinjaman_berjangka->result_array()[0]['nominal'],
- 					"saldo" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka - $penerimaan_pinjaman_berjangka->result_array()[0]['nominal']
- 				),
- 				"barang" => array(
- 					"kode" => "HLPPBarang",
- 					"saldopiutangterakhir" => $latest_saldo_pinjaman_barang,
- 					"mutasi" => 0,
- 					"pinjaman" => $saldo_pinjaman_barang,
- 					"jumlah" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang,
- 					"penerimaan" => $penerimaan_pinjaman_barang->result_array()[0]['nominal'],
- 					"saldo" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang - $penerimaan_pinjaman_barang->result_array()[0]['nominal']
- 				),
+ 			
+ 			"Piutang Pinjaman Konsumtif" => array(
+ 				"kode" => "HLPPK",
+ 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_komsumtif,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Pinjaman" => $saldo_pinjaman_komsumtif,
+ 				"Jumlah" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif,
+ 				"Penerimaan" => $penerimaan_pinjaman_komsumtif->result_array()[0]['nominal'],
+ 				"Saldo" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif - $penerimaan_pinjaman_komsumtif->result_array()[0]['nominal']
+ 			),
+ 			"Piutang Pinjaman Berjangka" => array(
+ 				"kode" => "HLPPB",
+ 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_berjangka,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Pinjaman" => $saldo_pinjaman_berjangka,
+ 				"Jumlah" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka,
+ 				"Penerimaan" => $penerimaan_pinjaman_berjangka->result_array()[0]['nominal'],
+ 				"Saldo" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka - $penerimaan_pinjaman_berjangka->result_array()[0]['nominal']
+ 			),
+ 			"Piutang Pinjaman Barang" => array(
+ 				"kode" => "HLPPBarang",
+ 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_barang,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"pinjaman" => $saldo_pinjaman_barang,
+ 				"Jumlah" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang,
+ 				"Penerimaan" => $penerimaan_pinjaman_barang->result_array()[0]['nominal'],
+ 				"Saldo" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang - $penerimaan_pinjaman_barang->result_array()[0]['nominal']
  			)
  		);
 
@@ -2126,14 +2125,14 @@
  		$pengambilan_pkpri = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 120 AND YEAR(kas.tgl_catat) = $year");
 
  		$type_neraca_penyertaan = array(
- 			"pkpri" => array(
+ 			"PKPRI Kota Bekasi" => array(
  				"kode" => "PKPRI",
- 				"saldoterakhir" => $latest_pkpri,
- 				"mutasi" => 0,
- 				"penambahan" => $penambahan_pkpri->result_array()[0]['nominal'],
- 				"jumlah" => $latest_pkpri + $penambahan_pkpri->result_array()[0]['nominal'],
- 				"pengambilan" => $pengambilan_pkpri->result_array()[0]['nominal'],
- 				"saldo" => $latest_pkpri + $penambahan_pkpri->result_array()[0]['nominal'] - $pengambilan_pkpri->result_array()[0]['nominal']
+ 				"Saldo Simpanan Sukarela Tahun $year" => $latest_pkpri,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Penambahan" => $penambahan_pkpri->result_array()[0]['nominal'],
+ 				"Jumlah" => $latest_pkpri + $penambahan_pkpri->result_array()[0]['nominal'],
+ 				"Pengambilan" => $pengambilan_pkpri->result_array()[0]['nominal'],
+ 				"Saldo" => $latest_pkpri + $penambahan_pkpri->result_array()[0]['nominal'] - $pengambilan_pkpri->result_array()[0]['nominal']
  			),
  		);
 
@@ -2303,12 +2302,12 @@
 
 
  		$data = array(
- 			"hartalancar"=> $static_neraca_harta_lancar,
- 			"penyertaan"=> $type_neraca_penyertaan,
- 			"hargatetap"=> $type_neraca_hargatetap->result_array(),
- 			"hutangjangkapendek"=> $type_neraca_hutangjangkapendek,
- 			"hutangjangkapanjang"=> $type_neraca_hutangjangkapanjang,
- 			"modalsendiri"=> $type_neraca_modalsendiri,
+ 			"Harta Lancar"=> $static_neraca_harta_lancar,
+ 			"Penyertaan"=> $type_neraca_penyertaan,
+ 			"Harga Tetap"=> $type_neraca_hargatetap->result_array(),
+ 			"Hutang Jangka Pendek"=> $type_neraca_hutangjangkapendek,
+ 			"Hutang Jangka Panjang"=> $type_neraca_hutangjangkapanjang,
+ 			"Modal  Sendiri"=> $type_neraca_modalsendiri,
  			"sisahasilusaha"=> $shu
  		);
 

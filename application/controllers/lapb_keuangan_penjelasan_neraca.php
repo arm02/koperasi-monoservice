@@ -7,6 +7,7 @@ class Lapb_keuangan_penjelasan_neraca extends OperatorController {
 		$this->load->helper('fungsi');
 		$this->load->model('general_m');
 		$this->load->model('lap_simpanan_m');
+		$this->load->model('master_saldo_kas_m');
 	}	
 
 	public function index() {
@@ -29,9 +30,130 @@ class Lapb_keuangan_penjelasan_neraca extends OperatorController {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		
+		$this->update_saldo_kas();
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/penjelasan_neraca', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
 
+	}
+
+	function update_saldo_kas() {
+		$tahun = date("Y");
+		$latest_year = $tahun - 1;
+
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($tahun);
+		$neraca = $this->lap_simpanan_m->lap_neraca($shu,$latest_shu, $tahun);
+
+		$saldo_tahun_ini = $this->master_saldo_kas_m->get_data_kas_by_year($tahun);		
+		if($saldo_tahun_ini){
+			foreach($neraca as $key => $uraian){
+				foreach ($uraian as $key_uraian => $value) {
+					if(isset($value['kode'])){
+						$saldo_kas_by_type = $this->master_saldo_kas_m->get_data_kas_by_type($value['kode'] , $tahun);
+
+						if($saldo_kas_by_type){
+							$data = array(
+								'tahun' => $tahun, 
+								'type' => $value['kode'],
+								'nominal' => $value['nominal'],
+							);
+							$this->master_saldo_kas_m->update($saldo_kas_by_type[0]->id, $data);
+						}else{
+							$data = array(
+								'tahun' => $tahun, 
+								'type' => $value['kode'],
+								'nominal' => $value['nominal'],
+							);
+							$this->master_saldo_kas_m->create($data);
+						}
+					}
+				}
+			}
+		}else{
+			foreach($neraca as $key => $uraian){
+				foreach ($uraian as $key_uraian => $value) {
+					if(isset($value['kode'])){
+						$data = array(
+							'tahun' => $tahun, 
+							'type' => $value['kode'],
+							'nominal' => $value['nominal'] ? $value['nominal']  :  0,
+						);
+						$this->master_saldo_kas_m->create($data);
+					}
+				}
+			}
+		}
+
+	}
+
+	function getTotalPendapatan($year) {
+		/*Default request pager params dari jeasyUI*/
+		$data   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
+		$i	= 0;
+		$rows   = array();
+		$total_pendapatan = 0;
+		$total_pendapatan_lain_lain = 0;
+		$total_pengeluaran = 0;
+		if($data){
+			foreach ($data['pendapatan'] as $key => $r) {
+				$total_pendapatan = $total_pendapatan + $r['jasa'];
+			}
+			foreach ($data['pendapatanlainlain'] as $key => $r) {
+				foreach($r as $value){
+					$total_pendapatan_lain_lain = $total_pendapatan_lain_lain + $value['total'];
+				}
+			}
+			foreach ($data['pengeluaranbiayaumum'] as $key => $r) {
+				$total_pengeluaran = $total_pengeluaran + $r['jumlah'];
+			}
+		}
+		//keys total & rows wajib bagi jEasyUI
+		return ($total_pendapatan + $total_pendapatan_lain_lain) - $total_pengeluaran;
+	}
+
+	function ajax_list() {
+		/*Default request pager params dari jeasyUI*/  
+		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : 2021;
+		$latest_year = $tahun - 1;
+		
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($latest_year);
+		$data   = $this->lap_simpanan_m->lap_penjelasan_neraca($shu,$latest_shu, $tahun);
+		$i	= 0;
+		$no = 1;
+		$rows = array();
+		$total = 0;
+		if($data){
+			foreach ($data as $key => $r) {
+				print_r(json_encode(count($r)));
+				exit();
+				$children = array();
+				$i_uraian = 0;
+				foreach($r as $key_uraian => $uraian){
+					$sub_children = array();
+					$i_sub_uraian = 0;
+					// foreach($uraian as $key_sub_uraian => $sub_uraian){
+					// 	$sub_children[$i_sub_uraian]['uraian'] = $key_sub_uraian;
+					// 	$sub_children[$i_sub_uraian]['nominal'] = $sub_uraian;
+					// }
+					$children[$i_uraian]['uraian'] = $key_uraian;
+					$children[$i_uraian]['children'] = $sub_children;
+					$i_uraian++;
+				}
+				$rows[$i]['uraian'] = $key;
+				$rows[$i]['children'] = $children;
+				$i++;
+			}
+			// $footer = array(
+			// 	array(
+			// 		'uraian' => '<b> Total </b>', 
+			// 		'nominal' => 'Rp. '. number_format($total)
+			// 	)
+			// );
+		}
+		//keys total & rows wajib bagi jEasyUI
+		$result = array('rows'=>$rows);
+		echo json_encode($result); //return nya json
 	}
 
 	function cetak() {

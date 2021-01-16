@@ -92,12 +92,11 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 				fitColumns="true"
 				striped="true"
 				showFooter="true"
-				idField= "no",
+				idField= "uraian"
 				treeField= "uraian"
 			>
 				<thead>
 					<tr>
-						<th data-options="field:'no',width:'1', halign:'center', align:'left'"> No </th>
 						<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
 						<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Aktiva  </th>
 					</tr>
@@ -115,12 +114,11 @@ $tgl_periode_txt = $tgl_dari_txt . ' - ' . $tgl_samp_txt;
 				fitColumns="true"
 				striped="true"
 				showFooter="true"
-				idField= "no",
+				idField= "uraian"
 				treeField= "uraian"
 			>
 				<thead>
 					<tr>
-						<th data-options="field:'no',width:'1', halign:'center', align:'left'"> No </th>
 						<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
 						<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Pasiva  </th>
 					</tr>
@@ -155,14 +153,12 @@ function clearSearch(){
 
 function doSearch() {
 	var year = parseInt($('input[name=tahun_cari]').val());
-	var aktiva = document.getElementById("dg-aktiva");
 	$('#dg-aktiva').treegrid('load',{
 		tahun: year
 	});	
-		console.log($('#dg-aktiva'));
-	// $('#dg-pasiva').treegrid('load',{
-	// 	tahun: tahuns
-	// });	
+	$('#dg-pasiva').treegrid('load',{
+		tahun: year
+	});	
 }
 
 function cetak () {

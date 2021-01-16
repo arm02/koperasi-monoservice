@@ -127,13 +127,13 @@ class Lapb_keuangan_neraca extends OperatorController {
 				if($i < 3){
 					switch ($key) {
 						case 'hartalancar':
-							$rows[$i]['uraian'] = '<b> Harta Lancar </b>';
+							$rows[$i]['uraian'] = 'Harta Lancar';
 							break;
 						case 'penyertaan':
-							$rows[$i]['uraian'] = '<b> Penyertaan </b>';
+							$rows[$i]['uraian'] = 'Penyertaan';
 							break;
 						case 'hargatetap':
-							$rows[$i]['uraian'] = '<b> Harga Tetap </b>';
+							$rows[$i]['uraian'] = 'Harga Tetap';
 							break;
 					}
 					$children = array();
@@ -143,14 +143,13 @@ class Lapb_keuangan_neraca extends OperatorController {
 						$children[$ir]['nominal'] = 'Rp. '.number_format($value['nominal']);
 					}
 					//array keys ini = attribute 'field' di view nya
-					$rows[$i]['no'] = $no++;
+					// $rows[$i]['no'] = $no++;
 					$rows[$i]['children'] = $children;
 					$i++;
 				}
 			}
 			$footer = array(
 				array(
-					'no' => ' ',
 					'uraian' => '<b> Total </b>', 
 					'nominal' => 'Rp. '. number_format($total)
 				)
@@ -178,31 +177,27 @@ class Lapb_keuangan_neraca extends OperatorController {
 			foreach ($data as $key => $r) {
 					switch ($key) {
 						case 'hutangjangkapendek':
-							$rows[$i]['uraian'] = '<b> Hutang Jangka Pendek </b>';
+							$rows[$i]['uraian'] = 'Hutang Jangka Pendek';
 							break;
 						case 'hutangjangkapanjang':
-							$rows[$i]['uraian'] = '<b> Hutang Jangka Panjang </b>';
+							$rows[$i]['uraian'] = 'Hutang Jangka Panjang';
 							break;
 						case 'modalsendiri':
-							$rows[$i]['uraian'] = '<b> Modal Sendiri </b>';
+							$rows[$i]['uraian'] = 'Modal Sendiri';
 							break;
 					}
 					$children = array();
-					$ir = 0;
-					foreach($r as $value){
+					foreach($r as $ir => $value){
 						$total = $total + $value['nominal'];
 						$children[$ir]['uraian'] = $value['title'];
 						$children[$ir]['nominal'] = 'Rp. '.number_format($value['nominal']);
-						$ir++;
 					}
 					//array keys ini = attribute 'field' di view nya
-					$rows[$i]['no'] = $no++;
 					$rows[$i]['children'] = $children;
 					$i++;
 			}
 			$footer = array(
 				array(
-					'no' => ' ',
 					'uraian' => '<b> Total </b>', 
 					'nominal' => 'Rp. '. number_format($total)
 				)
