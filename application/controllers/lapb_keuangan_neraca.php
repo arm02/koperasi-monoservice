@@ -7,6 +7,7 @@ class Lapb_keuangan_neraca extends OperatorController {
 		$this->load->helper('fungsi');
 		$this->load->model('general_m');
 		$this->load->model('lap_simpanan_m');
+		$this->load->model('master_saldo_kas_m');
 	}	
 
 	public function index() {
@@ -29,15 +30,64 @@ class Lapb_keuangan_neraca extends OperatorController {
 		$this->data['css_files'][] = base_url() . 'assets/theme_admin/css/daterangepicker/daterangepicker-bs3.css';
 		$this->data['js_files'][] = base_url() . 'assets/theme_admin/js/plugins/daterangepicker/daterangepicker.js';
 		
+		$this->update_saldo_kas();
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
-		// print_r(json_encode($this->lap_simpanan_m->lap_neraca(5000000, 2021)));
 
 	}
 
-	function getTotalPendapatan() {
+	function update_saldo_kas() {
+		$tahun = date("Y");
+		$latest_year = $tahun - 1;
+
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($tahun);
+		$neraca = $this->lap_simpanan_m->lap_neraca($shu,$latest_shu, $tahun);
+
+		$saldo_tahun_ini = $this->master_saldo_kas_m->get_data_kas_by_year($tahun);		
+		if($saldo_tahun_ini){
+			foreach($neraca as $key => $uraian){
+				foreach ($uraian as $key_uraian => $value) {
+					if(isset($value['kode'])){
+						$saldo_kas_by_type = $this->master_saldo_kas_m->get_data_kas_by_type($value['kode'] , $tahun);
+
+						if($saldo_kas_by_type){
+							$data = array(
+								'tahun' => $tahun, 
+								'type' => $value['kode'],
+								'nominal' => $value['nominal'],
+							);
+							$this->master_saldo_kas_m->update($saldo_kas_by_type[0]->id, $data);
+						}else{
+							$data = array(
+								'tahun' => $tahun, 
+								'type' => $value['kode'],
+								'nominal' => $value['nominal'],
+							);
+							$this->master_saldo_kas_m->create($data);
+						}
+					}
+				}
+			}
+		}else{
+			foreach($neraca as $key => $uraian){
+				foreach ($uraian as $key_uraian => $value) {
+					if(isset($value['kode'])){
+						$data = array(
+							'tahun' => $tahun, 
+							'type' => $value['kode'],
+							'nominal' => $value['nominal'] ? $value['nominal']  :  0,
+						);
+						$this->master_saldo_kas_m->create($data);
+					}
+				}
+			}
+		}
+
+	}
+
+	function getTotalPendapatan($year) {
 		/*Default request pager params dari jeasyUI*/
-		$year = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
 		$data   = $this->lap_simpanan_m->lap_keuangan_perhitungan_rugi_laba($year);
 		$i	= 0;
 		$rows   = array();
@@ -61,11 +111,13 @@ class Lapb_keuangan_neraca extends OperatorController {
 		return ($total_pendapatan + $total_pendapatan_lain_lain) - $total_pengeluaran;
 	}
 	function ajax_list_aktiva() {
-		/*Default request pager params dari jeasyUI*/
-		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
+		/*Default request pager params dari jeasyUI*/  
+		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : 2021;
+		$latest_year = $tahun - 1;
 		
-		$shu = $this->getTotalPendapatan();
-		$data   = $this->lap_simpanan_m->lap_neraca($shu, $tahun);
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($latest_year);
+		$data   = $this->lap_simpanan_m->lap_neraca($shu,$latest_shu, $tahun);
 		$i	= 0;
 		$no = 1;
 		$rows = array();
@@ -85,12 +137,10 @@ class Lapb_keuangan_neraca extends OperatorController {
 							break;
 					}
 					$children = array();
-					$ir = 0;
-					foreach($r as $value){
+					foreach($r as $ir => $value){
 						$total = $total + $value['nominal'];
 						$children[$ir]['uraian'] = $value['title'];
 						$children[$ir]['nominal'] = 'Rp. '.number_format($value['nominal']);
-						$ir++;
 					}
 					//array keys ini = attribute 'field' di view nya
 					$rows[$i]['no'] = $no++;
@@ -114,9 +164,11 @@ class Lapb_keuangan_neraca extends OperatorController {
 	function ajax_list_pasiva() {
 		/*Default request pager params dari jeasyUI*/
 		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
-		
-		$shu = $this->getTotalPendapatan();
-		$data   = $this->lap_simpanan_m->lap_neraca($shu, $tahun);
+		$latest_year = $tahun - 1;
+
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($latest_year);
+		$data   = $this->lap_simpanan_m->lap_neraca($shu, $latest_shu, $tahun);
 		$i	= 0;
 		$no = 1;
 		$rows = array();
@@ -163,9 +215,11 @@ class Lapb_keuangan_neraca extends OperatorController {
 
 	function cetak() {
 		$tahun = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
-		
-		$shu = $this->getTotalPendapatan();
-		$data   = $this->lap_simpanan_m->lap_neraca($shu, $tahun);
+		$latest_year = $tahun - 1;
+
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($latest_year);
+		$data   = $this->lap_simpanan_m->lap_neraca($shu,$latest_shu, $tahun);
 
 		if($data == FALSE) {
 			echo 'DATA KOSONG';

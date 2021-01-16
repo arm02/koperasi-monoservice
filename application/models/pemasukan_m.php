@@ -71,11 +71,14 @@ class Pemasukan_m extends CI_Model {
 	//panggil data simpanan untuk laporan 
 	function lap_data_pemasukan() {
 		$kode_transaksi = isset($_REQUEST['kode_transaksi']) ? $_REQUEST['kode_transaksi'] : '';
+		$jns_akun = isset($_REQUEST['jns_akun']) ? $_REQUEST['jns_akun'] : 0;
 		$tgl_dari = isset($_REQUEST['tgl_dari']) ? $_REQUEST['tgl_dari'] : '';
 		$tgl_sampai = isset($_REQUEST['tgl_sampai']) ? $_REQUEST['tgl_sampai'] : '';
 		$sql = '';
 		$sql = " SELECT * FROM tbl_trans_kas WHERE akun='Pemasukan' ";
-		$q = array('kode_transaksi' => $kode_transaksi, 
+		$q = array(
+			'kode_transaksi' => $kode_transaksi, 
+			'jns_akun' => $jns_akun, 
 			'tgl_dari' => $tgl_dari, 
 			'tgl_sampai' => $tgl_sampai);
 		if(is_array($q)) {
@@ -83,12 +86,15 @@ class Pemasukan_m extends CI_Model {
 				$q['kode_transaksi'] = str_replace('TKD', '', $q['kode_transaksi']);
 				$q['kode_transaksi'] = $q['kode_transaksi'] * 1;
 				$sql .=" AND id LIKE '".$q['kode_transaksi']."' ";
-			} else {
+			}
 			
-				if($q['tgl_dari'] != '' && $q['tgl_sampai'] != '') {
-					$sql .=" AND DATE(tgl_catat) >= '".$q['tgl_dari']."' ";
-					$sql .=" AND DATE(tgl_catat) <= '".$q['tgl_sampai']."' ";
-				}
+			if($q['tgl_dari'] != '' && $q['tgl_sampai'] != '') {
+				$sql .=" AND DATE(tgl_catat) >= '".$q['tgl_dari']."' ";
+				$sql .=" AND DATE(tgl_catat) <= '".$q['tgl_sampai']."' ";
+			}
+
+			if($q['jns_akun'] != 0) {
+				$sql .=" AND jns_trans = '".$q['jns_akun']."' ";	
 			}
 		}
 		$query = $this->db->query($sql);
@@ -108,11 +114,14 @@ class Pemasukan_m extends CI_Model {
 				$q['kode_transaksi'] = str_replace('TKD', '', $q['kode_transaksi']);
 				$q['kode_transaksi'] = $q['kode_transaksi'] * 1;
 				$sql .=" AND id LIKE '".$q['kode_transaksi']."' ";
-			} else {
-				if($q['tgl_dari'] != '' && $q['tgl_sampai'] != '') {
-					$sql .=" AND DATE(tgl_catat) >= '".$q['tgl_dari']."' ";
-					$sql .=" AND DATE(tgl_catat) <= '".$q['tgl_sampai']."' ";
-				}
+			}
+			if($q['tgl_dari'] != '' && $q['tgl_sampai'] != '') {
+				$sql .=" AND DATE(tgl_catat) >= '".$q['tgl_dari']."' ";
+				$sql .=" AND DATE(tgl_catat) <= '".$q['tgl_sampai']."' ";
+			}
+
+			if($q['jns_akun'] != 0) {
+				$sql .=" AND jns_trans = '".$q['jns_akun']."' ";	
 			}
 		}
 		$result['count'] = $this->db->query($sql)->num_rows();

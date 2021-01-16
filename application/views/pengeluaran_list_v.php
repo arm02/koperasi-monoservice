@@ -67,14 +67,33 @@ striped="true">
 	</div>
 	<div class="pull-right" style="vertical-align: middle;">
 		<div id="filter_tgl" class="input-group" style="display: inline;">
+			<span>Cari :</span>
+			<input type="hidden" name="tgl_dari" id="tgl_dari">
+			<input type="hidden" name="tgl_samp" id="tgl_samp">
 			<button class="btn btn-default" id="daterange-btn" style="line-height:16px;border:1px solid #ccc">
 				<i class="fa fa-calendar"></i> <span id="reportrange"><span>Pilih Tanggal</span></span>
 				<i class="fa fa-caret-down"></i>
 			</button>
+			<input name="kode_transaksi" id="kode_transaksi" size="20" placeholder="[Kode Transaksi]"style="line-height:26px;border:1px solid #ccc">
+			<select id="jns_akun_cari" name="jns_akun_cari" style="width:195px; height:25px">
+				<option value="0"> -- Pilih Jenis Akun --</option>			
+				<?php	
+					foreach ($akun_id as $row) {
+						if(strlen($row->kd_aktiva) != 1){
+							$kode ='';
+							$nama_akun = $row->jns_trans;
+						}else{
+							$kode ='';
+							$nama_akun = $row->jns_trans;
+						}
+						echo '<option value="'.$row->id.'">
+						'.$kode.' '.$nama_akun.'
+						</option>';
+					}
+				?>
+			</select>
 		</div>
 		
-		<span>Cari :</span>
-		<input name="kode_transaksi" id="kode_transaksi" size="20" placeholder="[Kode Transaksi]"style="line-height:26px;border:1px solid #ccc">
 		<a href="javascript:void(0);" id="btn_filter" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
@@ -208,9 +227,10 @@ function fm_filter_tgl() {
 	},
 
 	function(start, end) {
-//$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-$('#reportrange span').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
-doSearch();
+	$('#tgl_dari').val(start.format('YYYY-MM-D'))
+	$('#tgl_samp').val(end.format('YYYY-MM-D'))
+	$('#reportrange span').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
+	// doSearch();
 });
 }
 </script>
@@ -230,11 +250,11 @@ function form_select_clear() {
 }
 
 function doSearch(){
-//alert($('input[name=daterangepicker_start]').val());
 $('#dg').datagrid('load',{
-	kode_transaksi: $('#kode_transaksi').val(),
-	tgl_dari: 	$('input[name=daterangepicker_start]').val(),
-	tgl_sampai: $('input[name=daterangepicker_end]').val()
+		kode_transaksi: $('#kode_transaksi').val(),
+		jns_akun: $('#jns_akun_cari').val(),
+		tgl_dari: 	$('#tgl_dari').val(),
+		tgl_sampai: $('#tgl_samp').val()
 	});
 }
 
@@ -384,10 +404,11 @@ function hapus(){
 
 function cetak () {
 	var kode_transaksi 	= $('#kode_transaksi').val();
-	var tgl_dari			= $('input[name=daterangepicker_start]').val();
-	var tgl_sampai			= $('input[name=daterangepicker_end]').val();
+	var jns_akun 	= $('#jns_akun_cari').val();
+	var tgl_dari			= $('#tgl_dari').val();
+	var tgl_sampai			= $('#tgl_samp').val();
 
-	var win = window.open('<?php echo site_url("pengeluaran_kas/cetak_laporan/?kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai + '"); ?>');
+	var win = window.open('<?php echo site_url("pengeluaran_kas/cetak_laporan/?kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai + '&jns_akun=' + jns_akun + '"); ?>');
 	if (win) {
 		win.focus();
 	} else {

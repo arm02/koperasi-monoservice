@@ -44,9 +44,12 @@ class Pemasukan_kas extends OperatorController {
 		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tgl_transaksi';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$kode_transaksi = isset($_POST['kode_transaksi']) ? $_POST['kode_transaksi'] : '';
+		$jns_akun = isset($_POST['jns_akun']) ? $_POST['jns_akun'] : 0;
 		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
 		$tgl_sampai = isset($_POST['tgl_sampai']) ? $_POST['tgl_sampai'] : '';
-		$search = array('kode_transaksi' => $kode_transaksi, 
+		$search = array(
+			'kode_transaksi' => $kode_transaksi, 
+			'jns_akun' => $jns_akun, 
 			'tgl_dari' => $tgl_dari, 
 			'tgl_sampai' => $tgl_sampai);
 		$offset = ($offset-1)*$limit;
@@ -130,10 +133,10 @@ class Pemasukan_kas extends OperatorController {
 
 	function cetak_laporan() {
 		$pemasukan = $this->pemasukan_m->lap_data_pemasukan();
-		if($pemasukan == FALSE) {
-			redirect('pemasukan_kas');
-			exit();
-		}
+		// if($pemasukan == FALSE) {
+		// 	redirect('pemasukan_kas');
+		// 	exit();
+		// }
 
 		$tgl_dari = $_REQUEST['tgl_dari']; 
 		$tgl_sampai = $_REQUEST['tgl_sampai']; 

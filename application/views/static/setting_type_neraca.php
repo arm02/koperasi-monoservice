@@ -82,12 +82,13 @@ striped="true">
 							<td>
 								<select id="id_type_neraca" name="id_type_neraca" style="width:195px; height:20px" class="easyui-validatebox" required="true" >
 									<option value="" disabled>-- Pilih Tipe --</option>
-									<option value="1" > Harta Lancar </option>
+									<!-- <option value="1" > Harta Lancar </option> -->
+									<option value="1" > Lembaga </option>
 									<option value="2" > Penyertaan </option>
 									<option value="3" > Harga Tetap </option>
-									<option value="4" > Hutang Jangka Pendek </option>
+									<!-- <option value="4" > Hutang Jangka Pendek </option>
 									<option value="5" > Hutang Jangka Panjang </option>
-									<option value="6" > Modal Sendiri </option>
+									<option value="6" > Modal Sendiri </option> -->
 								</select>
 							</td>	
 						</tr>
@@ -95,7 +96,13 @@ striped="true">
 							<td> Kode </td>
 							<td>:</td>
 							<td>
-								<input id="kode" name="kode" style="width:190px;" >
+								<!-- <input id="kode" name="kode" style="width:190px;" > -->
+								<select id="kode" name="kode" style="width:195px; height:20px" class="easyui-validatebox" required="true" >
+									<option value="" disabled>-- Pilih Tipe --</option>
+									<<!-- option value="GIRO" > GIRO </option>
+									<option value="BANK" > BANK </option>
+									<option value="PKPRI" > PKPRI </option> -->
+								</select>
 							</td>	
 						</tr>
 						<tr style="height:25px">
@@ -146,6 +153,35 @@ function clearSearch(){
 	location.reload();
 }
 
+$('#id_type_neraca').on('change', function() {
+	var value = this.value
+	if(value == 1){
+		var data = ['GIRO', 'BANK']
+	  	get_option(data)
+	}
+	if(value == 2){
+		var data = ['PKPRI']
+	  	get_option(data)
+	}
+	if(value == 3){
+		var data = ['HARGA_TETAP']
+	  	get_option(data)
+	}
+})
+
+function get_option(data = []){
+	$('#kode')
+		.empty()
+		.append('<option value="" disabled>-- Pilih Tipe --</option>')
+	;
+	if(data.length != 0){
+		var option = ''
+		for(var value of data){
+			option = option + '<option value="'+ value +'" > '+ value +' </option>'
+		}
+		$('#kode').append(option);
+	}
+}
 function create(){
 	$('#dialog-form').dialog('open').dialog('setTitle','Tambah Data');
 	$('#form').form('clear');

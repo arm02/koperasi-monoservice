@@ -44,9 +44,12 @@ class Pengeluaran_kas extends OperatorController {
 		$sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tgl_transaksi';
 		$order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
 		$kode_transaksi = isset($_POST['kode_transaksi']) ? $_POST['kode_transaksi'] : '';
+		$jns_akun = isset($_POST['jns_akun']) ? $_POST['jns_akun'] : 0;
 		$tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
 		$tgl_sampai = isset($_POST['tgl_sampai']) ? $_POST['tgl_sampai'] : '';
-		$search = array('kode_transaksi' => $kode_transaksi, 
+		$search = array(
+			'kode_transaksi' => $kode_transaksi, 
+			'jns_akun' => $jns_akun, 
 			'tgl_dari' => $tgl_dari, 
 			'tgl_sampai' => $tgl_sampai);
 		$offset = ($offset-1)*$limit;
@@ -115,7 +118,6 @@ class Pengeluaran_kas extends OperatorController {
 			echo json_encode(array('ok' => false, 'msg' => '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Data gagal dihapus </div>'));
 		}
 	}
-
 
 	function cetak_laporan() {
 		$pengeluaran = $this->pengeluaran_m->lap_data_pengeluaran();

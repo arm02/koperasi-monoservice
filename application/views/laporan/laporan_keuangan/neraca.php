@@ -154,13 +154,15 @@ function clearSearch(){
 }
 
 function doSearch() {
-	var tahuns = $('input[name=tahun_cari]').val();
+	var year = parseInt($('input[name=tahun_cari]').val());
+	var aktiva = document.getElementById("dg-aktiva");
 	$('#dg-aktiva').treegrid('load',{
-		tahun: tahuns
+		tahun: year
 	});	
-	$('#dg-pasiva').treegrid('load',{
-		tahun: tahuns
-	});	
+		console.log($('#dg-aktiva'));
+	// $('#dg-pasiva').treegrid('load',{
+	// 	tahun: tahuns
+	// });	
 }
 
 function cetak () {

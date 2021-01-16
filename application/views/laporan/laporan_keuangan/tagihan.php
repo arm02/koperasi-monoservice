@@ -126,7 +126,7 @@ function doSearch() {
 	var tahuns = $('input[name=tahun_cari]').val();
 	$('#dg').treegrid('load',{
 		tahun: tahuns
-	});	
+	});
 }
 
 function cetak () {
