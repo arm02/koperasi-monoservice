@@ -67,7 +67,7 @@
 <div class="box box-primary">
 <div class="box-body">
 <p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Penjelasan Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi <br> Per - 31 Desember 2020 </p>
+<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Penjelasan Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi <br> Per - <?php echo date("d F Y"); ?> </p>
 
 <table
 	id="dg"

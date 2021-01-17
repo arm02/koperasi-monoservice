@@ -44,11 +44,10 @@ class Lapb_koperasi_piutang extends OperatorController {
 
 		$offset = ($offset-1)*$limit;
 		$data   = $this->m_lap_koperasi_piutang->get_data_db_ajax($offset,$limit,$sort,"",$tahun);
-
 		$i	= 0;
 		$rows   = array();
 		if($data){
-			foreach ($data["rows"] as $r) {
+			foreach ($data["data"] as $r) {
 				//array keys ini = attribute 'field' di view nya
 				$jumlah = $r->pinjaman_konsumtif + $r->pinjaman_berjangka + $r->pinjaman_barang;
 
@@ -133,29 +132,29 @@ class Lapb_koperasi_piutang extends OperatorController {
 		$total_jumlah = 0;
 
 		foreach ($data['data'] as $value) {
-			$jumlah = $value['pinjaman_konsumtif'] + $value['pinjaman_berjangka'] + $value['pinjaman_barang'];
-			$jumlah_konsumtif += $value['pinjaman_konsumtif'];
-			$jumlah_berjangka += $value['pinjaman_berjangka'];
-			$jumlah_barang += $value['pinjaman_barang'];
+			$jumlah = $value->pinjaman_konsumtif + $value->pinjaman_berjangka + $value->pinjaman_barang;
+			$jumlah_konsumtif += $value->pinjaman_konsumtif;
+			$jumlah_berjangka += $value->pinjaman_berjangka;
+			$jumlah_barang += $value->pinjaman_barang;
 			$total_jumlah += $jumlah;
 
 			$html .= '
 			<tr>
 				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $value['nama_anggota'].'</td>
-				<td class="h_kanan">'. number_format($value['pinjaman_konsumtif']).'</td>
-				<td class="h_kanan">'. number_format($value['pinjaman_berjangka']).'</td>
-				<td class="h_kanan">'. number_format($value['pinjaman_barang']).'</td>
-				<td class="h_kanan">'. number_format($jumlah).'</td>
+				<td>'. $value->nama_anggota.'</td>
+				<td class="h_kanan">Rp. '. number_format($value->pinjaman_konsumtif).'</td>
+				<td class="h_kanan">Rp. '. number_format($value->pinjaman_berjangka).'</td>
+				<td class="h_kanan">Rp. '. number_format($value->pinjaman_barang).'</td>
+				<td class="h_kanan">Rp. '. number_format($jumlah).'</td>
 			</tr>';
 		}
 		$html .= '
 		<tr class="header_kolom">
 			<td colspan="2" class="h_tengah"><strong>Jumlah Total</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_konsumtif).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_berjangka).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($jumlah_barang).'</strong></td>
+			<td class="h_kanan"><strong>Rp. '.number_format($total_jumlah).'</strong></td>
 		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);

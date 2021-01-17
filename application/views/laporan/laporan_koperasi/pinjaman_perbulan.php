@@ -26,12 +26,18 @@
 
 <?php 
 
-$tahun = date('Y');
+if(isset($_REQUEST['tahun']) && isset($_REQUEST['bulan'])) {
+	$tahun = $_REQUEST['tgl_dari'];
+	$bulan = $_REQUEST['bulan'];
+} else {
+	$tahun = date("Y");
+	$bulan = date("n");
+}
 ?>
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Pinjaman Perbulan</h3>
+		<h3 class="box-title">Cetak Data Pinjaman Konsumtif</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -41,27 +47,27 @@ $tahun = date('Y');
 	<div class="box-body">
 		<div>
 			<form id="fmCari" method="GET">
+				<input type="hidden" name="tgl_dari" id="tgl_dari">
+				<input type="hidden" name="tgl_samp" id="tgl_samp">
 				<table>
 					<tr>
 						<td>
-							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<select id="bulan_cari" name="bulan" style="width:195px;">
-									<option value="" disabled selected>-- Pilih Bulan --</option>
-									<option value="1" > Januari </option>
-									<option value="2" > February </option>
-									<option value="3" > Maret </option>
-									<option value="4" > April </option>
-									<option value="5" > Mei </option>
-									<option value="6" > Juni </option>
-									<option value="7" > Juli </option>
-									<option value="8" > Agustus </option>
-									<option value="9" > September </option>
-									<option value="10" > Oktober </option>
-									<option value="11" > November </option>
-									<option value="12" > Desember </option>
-								</select>
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
-							</div>
+							<select id="bulan_cari" name="bulan" style="width:195px;" value="<?php echo $bulan; ?>">
+								<option value="" disabled selected>-- Pilih Bulan --</option>
+								<option value="1" > Januari </option>
+								<option value="2" > February </option>
+								<option value="3" > Maret </option>
+								<option value="4" > April </option>
+								<option value="5" > Mei </option>
+								<option value="6" > Juni </option>
+								<option value="7" > Juli </option>
+								<option value="8" > Agustus </option>
+								<option value="9" > September </option>
+								<option value="10" > Oktober </option>
+								<option value="11" > November </option>
+								<option value="12" > Desember </option>
+							</select>
+							<input type="number" name="tahun" id="tahun_cari" value="<?php echo $tahun; ?>" placeholder="Isi Tahun">
 						</td>
 						<td>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
@@ -77,169 +83,56 @@ $tahun = date('Y');
 
 <div class="box box-primary">
 <div class="box-body">
-<p></p>
-<p style="text-align:center; font-size: 15pt; font-weight: bold;"> Laporan Bagian Pinjaman Bulan Januari 2020 </p>
 
-<table  class="table table-bordered">
-	<tr class="header_kolom">
-		<th style="width:5%; vertical-align: middle; text-align:center"> No </th>
-		<th style="vertical-align: middle; text-align:center">  </th>
-		<th style="vertical-align: middle; text-align:center"> Pokok  </th>
-		<th style="vertical-align: middle; text-align:center"> Jasa  </th>
-		<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
-		<th style="vertical-align: middle; text-align:center"> Uraian  </th>
-		<th style="vertical-align: middle; text-align:center"> Jumlah  </th>
-	</tr>
-	<tr>
-		<td></td>
-		<td>Saldo Bulan Desember 2019</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Terima Dari Bendahara</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Tagihan Konsumtif</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td>Pinjaman Konsumtif</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Tagihan Berjangka</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td>Pinjaman Berjangka</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Tagihan Barang</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td>Pinjaman Barang</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Pelunasan Berjangka</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Pelunasan Barang</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Provisi</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Total</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td>Total</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
-    <tr>
-		<td></td>
-		<td>Saldo Januari 2020</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-		<td></td>
-		<td style="vertical-align: middle; text-align:right">Rp. 0</td>
-	</tr>
+<table
+id="dg"
+class="easyui-datagrid"
+title="Data Pinjaman Konsumtif"
+style="width:auto; height: auto;"
+url="<?php echo site_url('lapb_koperasi_pinjaman_perbulan/ajax_list'); ?>"
+pagination="true" rownumbers="false"
+fitColumns="true" singleSelect="false" collapsible="true"
+toolbar="#tb"
+striped="true">
+	<thead>
+		<tr class="header_kolom">
+			<th data-options="field:'uraian_1',width:'17', halign:'center', align:'center'"> </th>
+			<th data-options="field:'pokok',width:'17', halign:'center', align:'center'"> Pokok </th>
+			<th data-options="field:'jasa',width:'17', halign:'right', align:'right'"> Jasa  </th>
+			<th data-options="field:'jumlah_1',width:'17', halign:'right', align:'right'"> Jumlah  </th>
+			<th data-options="field:'uraian_2',width:'17', halign:'right', align:'right'"> Uraian  </th>
+			<th data-options="field:'jumlah_2',width:'17', halign:'right', align:'right'"> Jumlah  </th>
+		</tr>
+	</thead>
 </table>
 </div>
 </div>
 	
 <script type="text/javascript">
-$(document).ready(function() {
-	fm_filter_tgl();
-}); // ready
-
-function fm_filter_tgl() {
-	$('#daterange-btn').daterangepicker({
-		ranges: {
-			'Hari ini': [moment(), moment()],
-			'Kemarin': [moment().subtract('days', 1), moment().subtract('days', 1)],
-			'7 Hari yang lalu': [moment().subtract('days', 6), moment()],
-			'30 Hari yang lalu': [moment().subtract('days', 29), moment()],
-			'Bulan ini': [moment().startOf('month'), moment().endOf('month')],
-			'Bulan kemarin': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
-			'Tahun ini': [moment().startOf('year').startOf('month'), moment().endOf('year').endOf('month')],
-			'Tahun kemarin': [moment().subtract('year', 1).startOf('year').startOf('month'), moment().subtract('year', 1).endOf('year').endOf('month')]
-		},
-		locale: 'id',
-		showDropdowns: true,
-		format: 'YYYY-MM-DD',
-		<?php 
-			if(isset($tgl_dari) && isset($tgl_samp)) {
-				echo "
-					startDate: '".$tgl_dari."',
-					endDate: '".$tgl_samp."'
-				";
-			} else {
-				echo "
-					startDate: moment().startOf('year').startOf('month'),
-					endDate: moment().endOf('year').endOf('month')
-				";
-			}
-		?>
-	},
-
-	function (start, end) {
-		doSearch();
-	});
-}
-
 function clearSearch(){
 	window.location.href = '<?php echo site_url("lapb_koperasi_pinjaman_perbulan"); ?>';
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_koperasi_pinjaman_perbulan'); ?>');
-	$('#fmCari').submit();	
+	var bulan = $('#bulan_cari').val();
+	var tahun = $('#tahun_cari').val();
+	$('#dg').datagrid('load',{
+		bulan: bulan,
+		tahun: tahun,
+	});	
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
-	var win = window.open('<?php echo site_url("lapb_koperasi_pinjaman_perbulan/cetak/?tahun=' + tahun +'"); ?>');
+	var bulan = $('#bulan_cari').val();
+	var tahun = $('#tahun_cari').val();
+	if(bulan){
+		var win = window.open('<?php echo site_url("lapb_koperasi_pinjaman_perbulan/cetak?bulan=' + bulan + '&tahun=' + tahun + '"); ?>');
+	}else if(!bulan){
+		var win = window.open('<?php echo site_url("lapb_koperasi_pinjaman_perbulan/cetak?tahun=' + tahun + '"); ?>');
+
+	}else{
+		var win = window.open('<?php echo site_url("lapb_koperasi_pinjaman_perbulan/cetak"); ?>');
+	}
 	if (win) {
 		win.focus();
 	} else {
