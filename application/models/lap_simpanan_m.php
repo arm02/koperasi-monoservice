@@ -2068,9 +2068,9 @@
 
 
  		$static_neraca_harta_lancar = array(
- 			"Kas Akhir Tahun $year" => array(
- 				"kode" => "KHL",
- 				"Kas Akhir Tahun $year" => $latest_kas,
+ 			"Kas" => array(
+ 				// "kode" => "KHL",
+ 				"Kas Akhir Tahun $latest_year" => $latest_kas,
  				"Mutasi Pasa Tahun $year" => 0,
  				"Penerimaan Kas" => $kas_pemasukan->result_array()[0]['nominal'],
  				"Jumlah" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'],
@@ -2078,21 +2078,21 @@
  				"Saldo Kas Tahun $year" => $latest_kas + $kas_pemasukan->result_array()[0]['nominal'] - $kas_pengeluaran->result_array()[0]['nominal']
  			),
  			"Bank" => array(
- 				"kode" => "BANK",
+ 				// "kode" => "BANK",
  				"Pemasukan" => $pemasukan_bank->result_array()[0]['nominal'],
  				"Pengeluaran" => $pengeluaran_bank->result_array()[0]['nominal'],
  				"Saldo" => $pemasukan_bank->result_array()[0]['nominal'] - $pengeluaran_bank->result_array()[0]['nominal'],
  			),
  			"Giro" => array(
- 				"kode" => "GIRO",
+ 				// "kode" => "GIRO",
  				"Pemasukan" => $pemasukan_giro->result_array()[0]['nominal'],
  				"Pengeluaran" => $pengeluaran_giro->result_array()[0]['nominal'],
  				"Saldo" => $pemasukan_giro->result_array()[0]['nominal'] - $pengeluaran_giro->result_array()[0]['nominal'],
  			),
  			
  			"Piutang Pinjaman Konsumtif" => array(
- 				"kode" => "HLPPK",
- 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_komsumtif,
+ 				// "kode" => "HLPPK",
+ 				"Saldo Piutang Pinjaman $latest_year" => $latest_saldo_pinjaman_komsumtif,
  				"Mutasi Pada Tahun $year" => 0,
  				"Pinjaman" => $saldo_pinjaman_komsumtif,
  				"Jumlah" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif,
@@ -2100,8 +2100,8 @@
  				"Saldo" => $latest_saldo_pinjaman_komsumtif + $saldo_pinjaman_komsumtif - $penerimaan_pinjaman_komsumtif->result_array()[0]['nominal']
  			),
  			"Piutang Pinjaman Berjangka" => array(
- 				"kode" => "HLPPB",
- 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_berjangka,
+ 				// "kode" => "HLPPB",
+ 				"Saldo Piutang Pinjaman $latest_year" => $latest_saldo_pinjaman_berjangka,
  				"Mutasi Pada Tahun $year" => 0,
  				"Pinjaman" => $saldo_pinjaman_berjangka,
  				"Jumlah" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka,
@@ -2109,10 +2109,10 @@
  				"Saldo" => $latest_saldo_pinjaman_berjangka + $saldo_pinjaman_berjangka - $penerimaan_pinjaman_berjangka->result_array()[0]['nominal']
  			),
  			"Piutang Pinjaman Barang" => array(
- 				"kode" => "HLPPBarang",
- 				"Saldo Piutang Pinjaman $year" => $latest_saldo_pinjaman_barang,
+ 				// "kode" => "HLPPBarang",
+ 				"Saldo Piutang Pinjaman $latest_year" => $latest_saldo_pinjaman_barang,
  				"Mutasi Pada Tahun $year" => 0,
- 				"pinjaman" => $saldo_pinjaman_barang,
+ 				"Pinjaman" => $saldo_pinjaman_barang,
  				"Jumlah" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang,
  				"Penerimaan" => $penerimaan_pinjaman_barang->result_array()[0]['nominal'],
  				"Saldo" => $latest_saldo_pinjaman_barang + $saldo_pinjaman_barang - $penerimaan_pinjaman_barang->result_array()[0]['nominal']
@@ -2126,7 +2126,7 @@
 
  		$type_neraca_penyertaan = array(
  			"PKPRI Kota Bekasi" => array(
- 				"kode" => "PKPRI",
+ 				// "kode" => "PKPRI",
  				"Saldo Simpanan Sukarela Tahun $year" => $latest_pkpri,
  				"Mutasi Pada Tahun $year" => 0,
  				"Penambahan" => $penambahan_pkpri->result_array()[0]['nominal'],
@@ -2136,9 +2136,7 @@
  			),
  		);
 
- 		$type_neraca_hargatetap = $this->db->query("SELECT neraca.title as title,
- 			CASE neraca.id_type_neraca WHEN 3 THEN 'hargatetap' ELSE 'not registered' END as type , 
- 			neraca.kode as kode, neraca.tahun as tahun, neraca.nominal as nominal FROM type_desc_neraca neraca 
+ 		$type_neraca_hargatetap = $this->db->query("SELECT neraca.nominal as Nominal FROM type_desc_neraca neraca 
  			WHERE neraca.id_type_neraca = 3 AND neraca.tahun = $year");
 
  		//SIMPANAN SUKARELA
@@ -2183,41 +2181,41 @@
 
 
  		$type_neraca_hutangjangkapendek = array(
- 			"simpanansukarela" => array(
- 				"kode" => "HJPSS",
- 				"saldoterakhir" => $latestsimpanansukarela,
- 				"mutasi" => 0,
- 				"penambahan" => $simpanansukarela->result_array()[0]['nominal'],
- 				"jumlah" => $latestsimpanansukarela + $simpanansukarela->result_array()[0]['nominal'],
- 				"pengambilan" => $penarikansukarela->result_array()[0]['nominal'],
- 				"saldosimpanansukarela" => $latestsimpanansukarela + $simpanansukarela->result_array()[0]['nominal'] - $penarikansukarela->result_array()[0]['nominal']
+ 			"Simpanan Sukarela" => array(
+ 				// "kode" => "HJPSS",
+ 				"Saldo Simpanan Sukarela $latest_year" => $latestsimpanansukarela,
+ 				"Mutasi" => 0,
+ 				"Penambahan" => $simpanansukarela->result_array()[0]['nominal'],
+ 				"Jumlah" => $latestsimpanansukarela + $simpanansukarela->result_array()[0]['nominal'],
+ 				"Pengambilan" => $penarikansukarela->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $latestsimpanansukarela + $simpanansukarela->result_array()[0]['nominal'] - $penarikansukarela->result_array()[0]['nominal']
  			),
- 			"danapembangunan" => array(
- 				"kode" => "HJPDP",
- 				"saldoterakhir" => $saldoterakhirdanapembangunan,
- 				"mutasi" => 0,
- 				"penambahan" => $saldodanapembangunan,
- 				"jumlah" => $saldoterakhirdanapembangunan + $saldodanapembangunan,
- 				"pengambilan" => $penarikandanapembangunan->result_array()[0]['nominal'],
- 				"saldo" => $saldoterakhirdanapembangunan + $saldodanapembangunan - $penarikandanapembangunan->result_array()[0]['nominal']
+ 			"Dana Pembangunan" => array(
+ 				// "kode" => "HJPDP",
+ 				"Saldo Dana Pembangunan $latest_year" => $saldoterakhirdanapembangunan,
+ 				"Mutasi" => 0,
+ 				"Penambahan" => $saldodanapembangunan,
+ 				"Jumlah" => $saldoterakhirdanapembangunan + $saldodanapembangunan,
+ 				"Pengambilan" => $penarikandanapembangunan->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $saldoterakhirdanapembangunan + $saldodanapembangunan - $penarikandanapembangunan->result_array()[0]['nominal']
  			),
- 			"danapendidikan" => array(
- 				"kode" => "HJPDPendidikan",
- 				"saldoterakhir" => $saldoterakhirdanapendidikan,
- 				"mutasi" => 0,
- 				"penambahan" => $saldodanapendidikan,
- 				"jumlah" => $saldoterakhirdanapendidikan + $saldodanapendidikan,
- 				"pengambilan" => $penarikandanapendidikan->result_array()[0]['nominal'],
- 				"saldo" => $saldoterakhirdanapendidikan + $saldodanapendidikan - $penarikandanapendidikan->result_array()[0]['nominal']
+ 			"Dana Pendidikan" => array(
+ 				// "kode" => "HJPDPendidikan",
+ 				"Saldo Dana Pendidikan $latest_year" => $saldoterakhirdanapendidikan,
+ 				"Mutasi" => 0,
+ 				"Penambahan" => $saldodanapendidikan,
+ 				"Jumlah" => $saldoterakhirdanapendidikan + $saldodanapendidikan,
+ 				"Pengambilan" => $penarikandanapendidikan->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $saldoterakhirdanapendidikan + $saldodanapendidikan - $penarikandanapendidikan->result_array()[0]['nominal']
  			),
- 			"danasosial" => array(
- 				"kode" => "HJPDS",
- 				"saldoterakhir" => $saldoterakhirdanasosial,
- 				"mutasi" => 0,
- 				"penambahan" => $saldodanasosial,
- 				"jumlah" => $saldoterakhirdanasosial + $saldodanasosial,
- 				"pengambilan" => $penarikandanasosial->result_array()[0]['nominal'],
- 				"saldo" => $saldoterakhirdanasosial + $saldodanasosial - $penarikandanasosial->result_array()[0]['nominal']
+ 			"Dana Sosial" => array(
+ 				// "kode" => "HJPDS",
+ 				"Saldo Dana Sosial $latest_year" => $saldoterakhirdanasosial,
+ 				"Mutasi" => 0,
+ 				"Penambahan" => $saldodanasosial,
+ 				"Jumlah" => $saldoterakhirdanasosial + $saldodanasosial,
+ 				"Pengambilan" => $penarikandanasosial->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $saldoterakhirdanasosial + $saldodanasosial - $penarikandanasosial->result_array()[0]['nominal']
  			),
  		);
 
@@ -2227,14 +2225,12 @@
  		$penambahan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
  		$type_neraca_hutangjangkapanjang = array(
- 			"data" => array(
- 				"kode" => "HJP",
- 				"saldoterakhir" => $latest_hjp,
- 				"penambahan" => $penambahan_hjp->result_array()[0]['nominal'],
- 				"jumlah" => $latest_hjp + $penambahan_hjp->result_array()[0]['nominal'],
- 				"pembayaran" => $pengambilan_hjp->result_array()[0]['nominal'],
- 				"saldo" => $latest_hjp + $penambahan_hjp->result_array()[0]['nominal'] - $pengambilan_hjp->result_array()[0]['nominal']
- 			),
+			// "kode" => "HJP",
+			"Saldo Hutang Jangka Panjang Tahun $latest_year" => $latest_hjp,
+			"Penambahan" => $penambahan_hjp->result_array()[0]['nominal'],
+			"Jumlah" => $latest_hjp + $penambahan_hjp->result_array()[0]['nominal'],
+			"Pembayaran" => $pengambilan_hjp->result_array()[0]['nominal'],
+			"Saldo Tahun $year" => $latest_hjp + $penambahan_hjp->result_array()[0]['nominal'] - $pengambilan_hjp->result_array()[0]['nominal']
  		);
 
  		//MODALSENDIRI
@@ -2262,41 +2258,41 @@
  		$saldodanacadangan = $penambahandanacadangan->result_array()[0]['nominal'] + $danacadangan[0]['jumlah'];
 
  		$type_neraca_modalsendiri = array(
- 			"simpananpokok" => array(
- 				"kode" => "MSSP",
- 				"saldoterakhir" => $latest_simpananpokok,
- 				"mutasi" => 0,
- 				"penambahan" => $penambahan_simpananpokok->result_array()[0]['nominal'],
- 				"jumlah" => $latest_simpananpokok + $penambahan_simpananpokok->result_array()[0]['nominal'],
- 				"pengambilan" => $pengambilan_simpananpokok->result_array()[0]['nominal'],
- 				"saldo" => $latest_simpananpokok + $penambahan_simpananpokok->result_array()[0]['nominal'] - $pengambilan_simpananpokok->result_array()[0]['nominal']
+ 			"Simpanan Pokok" => array(
+ 				// "kode" => "MSSP",
+ 				"Saldo Simpanan Pokok Tahun $latest_year" => $latest_simpananpokok,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Penambahan" => $penambahan_simpananpokok->result_array()[0]['nominal'],
+ 				"Jumlah" => $latest_simpananpokok + $penambahan_simpananpokok->result_array()[0]['nominal'],
+ 				"Pengambilan" => $pengambilan_simpananpokok->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $latest_simpananpokok + $penambahan_simpananpokok->result_array()[0]['nominal'] - $pengambilan_simpananpokok->result_array()[0]['nominal']
  			),
- 			"simpananwajib" => array(
- 				"kode" => "MSSP",
- 				"saldoterakhir" => $latest_simpananwajib,
- 				"mutasi" => 0,
- 				"penambahan" => $penambahan_simpananwajib->result_array()[0]['nominal'],
- 				"jumlah" => $latest_simpananwajib + $penambahan_simpananwajib->result_array()[0]['nominal'],
- 				"pengambilan" => $pengambilan_simpananwajib->result_array()[0]['nominal'],
- 				"saldo" => $latest_simpananwajib + $penambahan_simpananwajib->result_array()[0]['nominal'] - $pengambilan_simpananwajib->result_array()[0]['nominal']
+ 			"Simpanan Wajib" => array(
+ 				// "kode" => "MSSP",
+ 				"Saldo Simpanan Wajib Tahun $latest_year" => $latest_simpananwajib,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Penambahan" => $penambahan_simpananwajib->result_array()[0]['nominal'],
+ 				"Jumlah" => $latest_simpananwajib + $penambahan_simpananwajib->result_array()[0]['nominal'],
+ 				"Pengambilan" => $pengambilan_simpananwajib->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $latest_simpananwajib + $penambahan_simpananwajib->result_array()[0]['nominal'] - $pengambilan_simpananwajib->result_array()[0]['nominal']
  			),
- 			"simpanankhusus" => array(
- 				"kode" => "MSSP",
- 				"saldoterakhir" => $latest_simpanankhusus,
- 				"mutasi" => 0,
- 				"penambahan" => $penambahan_simpanankhusus->result_array()[0]['nominal'],
- 				"jumlah" => $latest_simpanankhusus + $penambahan_simpanankhusus->result_array()[0]['nominal'],
- 				"pengambilan" => $pengambilan_simpanankhusus->result_array()[0]['nominal'],
- 				"saldo" => $latest_simpanankhusus + $penambahan_simpanankhusus->result_array()[0]['nominal'] - $pengambilan_simpanankhusus->result_array()[0]['nominal']
+ 			"Simpanan Khusus" => array(
+ 				// "kode" => "MSSP",
+ 				"Saldo Simpanan Khusus Tahun $latest_year" => $latest_simpanankhusus,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Penambahan" => $penambahan_simpanankhusus->result_array()[0]['nominal'],
+ 				"Jumlah" => $latest_simpanankhusus + $penambahan_simpanankhusus->result_array()[0]['nominal'],
+ 				"Pengambilan" => $pengambilan_simpanankhusus->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $latest_simpanankhusus + $penambahan_simpanankhusus->result_array()[0]['nominal'] - $pengambilan_simpanankhusus->result_array()[0]['nominal']
  			),
- 			"danacadangan" => array(
- 				"kode" => "MSDC",
- 				"saldoterakhir" => $saldoterakhirdanacadangan,
- 				"mutasi" => 0,
- 				"penambahan" => $saldodanacadangan,
- 				"jumlah" => $saldoterakhirdanacadangan + $saldodanacadangan,
- 				"pengambilan" => $penarikandanacadangan->result_array()[0]['nominal'],
- 				"saldo" => $saldoterakhirdanacadangan + $saldodanacadangan - $penarikandanacadangan->result_array()[0]['nominal']
+ 			"Dana Cadangan" => array(
+ 				// "kode" => "MSDC",
+ 				"Saldo Dana Cadangan Tahun $latest_year" => $saldoterakhirdanacadangan,
+ 				"Mutasi Pada Tahun $year" => 0,
+ 				"Penambahan" => $saldodanacadangan,
+ 				"Jumlah" => $saldoterakhirdanacadangan + $saldodanacadangan,
+ 				"Pengambilan" => $penarikandanacadangan->result_array()[0]['nominal'],
+ 				"Saldo Tahun $year" => $saldoterakhirdanacadangan + $saldodanacadangan - $penarikandanacadangan->result_array()[0]['nominal']
  			),
  		);
 
@@ -2304,11 +2300,10 @@
  		$data = array(
  			"Harta Lancar"=> $static_neraca_harta_lancar,
  			"Penyertaan"=> $type_neraca_penyertaan,
- 			"Harga Tetap"=> $type_neraca_hargatetap->result_array(),
+ 			"Harga Tetap"=>  count($type_neraca_hargatetap->result()) == 0 ? [array()] : $type_neraca_hargatetap->result()[0],
  			"Hutang Jangka Pendek"=> $type_neraca_hutangjangkapendek,
  			"Hutang Jangka Panjang"=> $type_neraca_hutangjangkapanjang,
  			"Modal  Sendiri"=> $type_neraca_modalsendiri,
- 			"sisahasilusaha"=> $shu
  		);
 
  		return $data;

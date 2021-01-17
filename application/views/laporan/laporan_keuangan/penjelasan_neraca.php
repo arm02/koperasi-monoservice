@@ -25,6 +25,9 @@
 .tree-file, .tree-folder{
 	display: none;
 }
+.datagrid-body{
+	overflow: hidden;
+}
 </style>
 <?php 
 	$tahun = date('Y');
@@ -46,12 +49,12 @@
 					<tr>
 						<td>
 							<div id="filter_tgl" class="input-group" style="display: inline;">
-								<input type="number" name="tahun" id="tahun" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
+								<input type="number" name="tahun_cari" id="tahun_cari" value='<?php echo $tahun ?>' placeholder="Isi Tahun">
 							</div>
 						</td>
 						<td>
+							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" plain="false" onclick="cetak()">Cetak Laporan</a>
-
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
 						</td>
 					</tr>
@@ -67,9 +70,8 @@
 <p style="text-align:center; font-size: 15pt; font-weight: bold;"> Penjelasan Neraca Koperasi Pegawai DEPSOS RI PRS Bekasi <br> Per - 31 Desember 2020 </p>
 
 <table
-	id="dg-aktiva"
+	id="dg"
 	class="easyui-treegrid"
-	title="Data Neraca Aktiva"
 	style="width:auto; height: auto;"
 	url="<?php echo site_url('lapb_keuangan_penjelasan_neraca/ajax_list'); ?>"
 	pagination="false" rownumbers="false"
@@ -81,8 +83,8 @@
 >
 	<thead>
 		<tr>
-			<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"> Uraian </th>
-			<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"> Aktiva  </th>
+			<th data-options="field:'uraian',width:'10', halign:'center', align:'left'"></th>
+			<th data-options="field:'nominal',width:'10', halign:'center', align:'right'"></th>
 		</tr>
 	</thead>
 </table>
@@ -954,16 +956,14 @@ function clearSearch(){
 }
 
 function doSearch() {
-	var tgl_dari = $('input[name=daterangepicker_start]').val();
-	var tgl_samp = $('input[name=daterangepicker_end]').val();
-	$('input[name=tgl_dari]').val(tgl_dari);
-	$('input[name=tgl_samp]').val(tgl_samp);
-	$('#fmCari').attr('action', '<?php echo site_url('lapb_keuangan_penjelasan_neraca'); ?>');
-	$('#fmCari').submit();	
+	var year = parseInt($('input[name=tahun_cari]').val());
+	$('#dg').treegrid('load',{
+		tahun: year
+	});
 }
 
 function cetak () {
-	var tahun = $('input[name=tahun]').val();
+	var tahun = $('input[name=tahun_cari]').val();
 	var win = window.open('<?php echo site_url("lapb_keuangan_penjelasan_neraca/cetak/?tahun=' + tahun +'"); ?>');
 	if (win) {
 		win.focus();

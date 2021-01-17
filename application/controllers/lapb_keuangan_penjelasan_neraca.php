@@ -113,7 +113,7 @@ class Lapb_keuangan_penjelasan_neraca extends OperatorController {
 
 	function ajax_list() {
 		/*Default request pager params dari jeasyUI*/  
-		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : 2021;
+		$tahun = isset($_POST['tahun']) ? $_POST['tahun'] : date("Y");
 		$latest_year = $tahun - 1;
 		
 		$shu = $this->getTotalPendapatan($tahun);
@@ -125,246 +125,51 @@ class Lapb_keuangan_penjelasan_neraca extends OperatorController {
 		$total = 0;
 		if($data){
 			foreach ($data as $key => $r) {
-				print_r(json_encode(count($r)));
-				exit();
 				$children = array();
 				$i_uraian = 0;
 				foreach($r as $key_uraian => $uraian){
 					$sub_children = array();
 					$i_sub_uraian = 0;
-					// foreach($uraian as $key_sub_uraian => $sub_uraian){
-					// 	$sub_children[$i_sub_uraian]['uraian'] = $key_sub_uraian;
-					// 	$sub_children[$i_sub_uraian]['nominal'] = $sub_uraian;
-					// }
+					
+					if(is_array($uraian)){
+						foreach($uraian as $key_sub_uraian => $sub_uraian){
+							$sub_children[$i_sub_uraian]['uraian'] = $key_sub_uraian;
+							$sub_children[$i_sub_uraian]['nominal'] = 'Rp. ' . number_format($sub_uraian);
+							$i_sub_uraian++;
+						}
+						$children[$i_uraian]['children'] = $sub_children;
+					}else{
+						$children[$i_uraian]['nominal'] = 'Rp. ' . number_format($uraian);
+					}
 					$children[$i_uraian]['uraian'] = $key_uraian;
-					$children[$i_uraian]['children'] = $sub_children;
 					$i_uraian++;
 				}
 				$rows[$i]['uraian'] = $key;
 				$rows[$i]['children'] = $children;
 				$i++;
 			}
-			// $footer = array(
-			// 	array(
-			// 		'uraian' => '<b> Total </b>', 
-			// 		'nominal' => 'Rp. '. number_format($total)
-			// 	)
-			// );
+			$footer = array(
+				array(
+					'uraian' => '<b> SHU TAHUN BUKU '. $tahun .' </b>', 
+					'nominal' => 'Rp. '. number_format($shu)
+				)
+			);
 		}
 		//keys total & rows wajib bagi jEasyUI
-		$result = array('rows'=>$rows);
+		$result = array('rows'=>$rows, 'footer' => $footer);
 		echo json_encode($result); //return nya json
 	}
 
 	function cetak() {
-		$bulan = array("januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember");
-		$simpanan = array(
-			array(
-				"bulan" => 0,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 1,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 2,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 3,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 4,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 5,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 6,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 7,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 8,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 9,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 10,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-			array(
-				"bulan" => 11,
-				"konsumtif_pokok" => 1000000,
-				"konsumtif_jasa" => 14322341,
-				"berjangka_pokok" => 1000000,
-				"berjangka_jasa" => 14322341,
-				"barang_pokok" => 1000000,
-				"barang_jasa" => 14322341,
-				"pelunasan" => array(
-					"konsumtif_pokok" => 0,
-					"konsumtif_jasa" => 0,
-					"berjangka_pokok" => 1000000,
-					"berjangka_jasa" => 14322341,
-					"barang_pokok" => 1000000,
-					"barang_jasa" => 14322341,
-				)
-			),
-		);
-		if($simpanan == FALSE) {
+		$tahun = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
+		$latest_year = $tahun - 1;
+		
+		$shu = $this->getTotalPendapatan($tahun);
+		$latest_shu = $this->getTotalPendapatan($latest_year);
+		$data   = $this->lap_simpanan_m->lap_penjelasan_neraca($shu,$latest_shu, $tahun);
+		// print_r(json_encode($data));
+		// exit();
+		if($data == FALSE) {
 			echo 'DATA KOSONG';
 			//redirect('lap_simpanan');
 			exit();
@@ -386,92 +191,41 @@ class Lapb_keuangan_penjelasan_neraca extends OperatorController {
 		'.$pdf->nsi_box($text = '<span class="txt_judul">Rekapitulasi Tagihan Tahun '.$_REQUEST['tahun'].' </span>', $width = '100%', $spacing = '1', $padding = '1', $border = '0', $align = 'center').'';
 		$html.='<table width="100%" cellspacing="0" cellpadding="3" border="1">
 		<tr class="header_kolom">
-			<th style="width:5%; vertical-align: middle; text-align:center" rowspan="2"> No. </th>
-			<th style="width:15%; vertical-align: middle; text-align:center" rowspan="2">Bulan </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Konsumtif  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Berjangka  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" colspan="2"> Barang  </th>
-			<th style="width:20%; vertical-align: middle; text-align:center" rowspan="2"> Jumlah  </th>
-		</tr>
-		<tr class="header_kolom">
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
-
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
-
-			<th style="width:10%; vertical-align: middle; text-align:center"> Pokok  </th>
-			<th style="width:10%; vertical-align: middle; text-align:center"> Jasa  </th>
+			<th style="width:50%; vertical-align: middle; text-align:center"> </th>
+			<th style="width:50%; vertical-align: middle; text-align:center"> </th>
 		</tr>';
-
 		$no = 1;
-		$simpanan_arr = array();
-
-		$jumlah_konsumtif_pokok = 0;
-		$jumlah_konsumtif_jasa = 0;
-
-		$jumlah_berjangka_pokok = 0;
-		$jumlah_berjangka_jasa = 0;
-
-		$jumlah_barang_pokok = 0;
-		$jumlah_barang_jasa = 0;
-
-		$total_jumlah = 0;
-		foreach ($simpanan as $value) {
-			$jumlah = ($value['konsumtif_pokok'] + $value['konsumtif_jasa']) + ($value['berjangka_pokok'] + $value['berjangka_jasa']) + ($value['barang_pokok'] + $value['barang_jasa']);
-			$jumlah_pelunasan = ($value['pelunasan']['konsumtif_pokok'] + $value['pelunasan']['konsumtif_jasa']) + ($value['pelunasan']['berjangka_pokok'] + $value['pelunasan']['berjangka_jasa']) + ($value['pelunasan']['barang_pokok'] + $value['pelunasan']['barang_jasa']);
-
-			$jumlah_konsumtif_pokok += $value['konsumtif_pokok'] + $value['pelunasan']['konsumtif_pokok'];
-			$jumlah_konsumtif_jasa += $value['konsumtif_jasa'] + $value['pelunasan']['konsumtif_jasa'];
-			$jumlah_berjangka_pokok += $value['berjangka_pokok'] + $value['pelunasan']['berjangka_pokok'];
-			$jumlah_berjangka_jasa += $value['berjangka_jasa'] + $value['pelunasan']['berjangka_jasa'];
-			$jumlah_barang_pokok += $value['barang_pokok'] + $value['pelunasan']['barang_pokok'];
-			$jumlah_barang_jasa += $value['barang_jasa'] + $value['pelunasan']['barang_jasa'];
-			$total_jumlah += $jumlah;
-
-			$html .= '
-			<tr>
-				<td class="h_tengah">'.$no++.'</td>
-				<td>'. $bulan[$value['bulan']].'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['konsumtif_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['berjangka_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['berjangka_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['barang_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['barang_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($jumlah).'</td>
-			</tr>';
-
-			$html .= '
-			<tr>
-				<td class="h_tengah"></td>
-				<td>Pelunasan</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['konsumtif_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['konsumtif_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['pelunasan']['berjangka_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['berjangka_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($value['pelunasan']['barang_pokok']).'</td>
-				<td class="h_kanan">'. number_format($value['pelunasan']['barang_jasa']).'</td>
-
-				<td class="h_kanan">'. number_format($jumlah_pelunasan).'</td>
-			</tr>';
+		$rows = array();
+		$total = 0;
+		if($data){
+			foreach ($data as $key => $r) {
+				$html.= '<tr>';
+					$html .= '<td><b>'. $key.'</b></td>';
+					$html .= '<td></td>';
+				$html.= '</tr>';
+				foreach($r as $key_uraian => $uraian){
+					if(!is_array($uraian)){
+						$html.= '<tr>';
+							$html .= '<td>'. $key_uraian.'</td>';
+							$html .= '<td>Rp. ' .number_format($uraian).'</td>';
+						$html.= '</tr>';
+					}else{
+						foreach($uraian as $key_sub_uraian => $sub_uraian){
+							$html.= '<tr>';
+								$html .= '<td>'. $key_uraian.'</td>';
+								$html .= '<td></td>';
+							$html.= '</tr>';
+							$html.= '<tr>';
+								$html .= '<td>'. $key_sub_uraian.'</td>';
+								$html .= '<td>'. 'Rp. ' . number_format($sub_uraian).'</td>';
+							$html.= '</tr>';
+						}
+					}
+				}
+			}
+			$html .= '<tr><td><b> SHU TAHUN BUKU '. $tahun .' </b></td>
+			<td>Rp. '. number_format($shu).'</td></tr>';
 		}
-		$html .= '
-		<tr class="header_kolom">
-			<td colspan="2" class="h_tengah"><strong>Jumlah</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_konsumtif_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_berjangka_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang_pokok).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($jumlah_barang_jasa).'</strong></td>
-			<td class="h_kanan"><strong>'.number_format($total_jumlah).'</strong></td>
-		</tr>';
 		$html .= '</table>';
 		$pdf->nsi_html($html);
 		$pdf->Output('lap_simpan'.date('Ymd_His') . '.pdf', 'I');
