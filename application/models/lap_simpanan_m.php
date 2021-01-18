@@ -1693,8 +1693,8 @@
  		$kas_pengeluaran = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pengeluaran' AND YEAR(kas.tgl_catat) = $year");
  		$latest_kas_pemasukan = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pemasukan' AND YEAR(kas.tgl_catat) = $latest_year");
  		$latest_kas_pengeluaran = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pengeluaran' AND YEAR(kas.tgl_catat) = $latest_year");
- 		$latest_kas = 0;
-
+ 		$latest_kas = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLKas' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
+ 		
  		//BANK && GIRO
  		$pemasukan_bank = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 119 AND YEAR(kas.tgl_catat) = $year");
  		$pengeluaran_bank = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 119 AND YEAR(kas.tgl_catat) = $year");
@@ -1710,15 +1710,7 @@
  		$penerimaan_pinjaman_komsumtif = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 5 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_komsumtif = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 5 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_komsumtif = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 5
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_komsumtif = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 5 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_komsumtif = 0;
- 		$latest_saldo_pinjaman_komsumtif = $two_years_ago_komsumtif + $latest_pinjaman_komsumtif->result_array()[0]['nominal'] + $latest_jasa_pinjaman_komsumtif->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_komsumtif->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_komsumtif = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPK' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
 
  		//PINJAMAN BERJANGKA
@@ -1730,15 +1722,7 @@
  		$penerimaan_pinjaman_berjangka = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 1 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_berjangka = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 1 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_berjangka = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 1
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_berjangka = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 1 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_berjangka = 0;
- 		$latest_saldo_pinjaman_berjangka = $two_years_ago_berjangka + $latest_pinjaman_berjangka->result_array()[0]['nominal'] + $latest_jasa_pinjaman_berjangka->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_berjangka->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_berjangka = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPB' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
  		//PINJAMAN BARANG
  		$pinjaman_barang = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 4 AND YEAR(pinjaman.tgl_pinjam) = $year");
@@ -1749,15 +1733,7 @@
  		$penerimaan_pinjaman_barang = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 4 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_barang = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 4 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_barang = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 4
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_barang = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 4 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_barang = 0;
- 		$latest_saldo_pinjaman_barang = $two_years_ago_barang + $latest_pinjaman_barang->result_array()[0]['nominal'] + $latest_jasa_pinjaman_barang->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_barang->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_barang = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPBarang' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
 
  		$static_neraca_harta_lancar = array(
@@ -1806,7 +1782,7 @@
  		);
 
  		//PENYERTAAN PKPRI
- 		$latest_pkpri = 0;
+ 		$latest_pkpri = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'PKPRI' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_pkpri = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 120 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_pkpri = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 120 AND YEAR(kas.tgl_catat) = $year");
  		$type_neraca_penyertaan = array(
@@ -1826,9 +1802,10 @@
  			WHERE neraca.id_type_neraca = 3 AND neraca.tahun = $year");
 
  		//MODALHUTANGPENDEK
+ 		
  		//SIMPANAN SUKARELA
  		$simpanansukarela = $this->db->query("SELECT SUM(simpanan.jumlah) as nominal FROM tbl_trans_sp simpanan WHERE simpanan.jenis_id = 32 AND simpanan.akun = 'Setoran' AND YEAR(simpanan.tgl_transaksi) = $year");
- 		$latestsimpanansukarela = 0;
+ 		$latestsimpanansukarela = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HJPSS' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penarikansukarela = $this->db->query("SELECT SUM(simpanan.jumlah) as nominal FROM tbl_trans_sp simpanan WHERE simpanan.jenis_id = 32 AND simpanan.akun = 'Penarikan' AND YEAR(simpanan.tgl_transaksi) = $year");
 
  		//SHU
@@ -1898,13 +1875,13 @@
  		);
 
  		//HUTANG JANGKA PANJANG
- 		$latest_hjp = 0;
+ 		$latest_hjp = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HJP' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
 
  		$type_neraca_hutangjangkapanjang = array(
  			array(
- 				"title" => "hutangjangkapanjang",
+ 				"title" => "Saldo",
  				"type" => "hutangjangkapanjang",
  				"kode" => "HJP",
  				"tahun" => $year,
@@ -1914,15 +1891,15 @@
 
  		//MODALSENDIRI
 
- 		$latest_simpananpokok = 0;
+ 		$latest_simpananpokok = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSP' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpananpokok = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 40 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpananpokok = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 40 AND YEAR(kas.tgl_catat) = $year");
 
- 		$latest_simpananwajib = 0;
+ 		$latest_simpananwajib = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSW' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpananwajib = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 41 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpananwajib = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 41 AND YEAR(kas.tgl_catat) = $year");
 
- 		$latest_simpanankhusus = 0;
+ 		$latest_simpanankhusus = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSK' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpanankhusus = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 112 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpanankhusus = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 112 AND YEAR(kas.tgl_catat) = $year");
 
@@ -2000,8 +1977,8 @@
  		$kas_pengeluaran = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pengeluaran' AND YEAR(kas.tgl_catat) = $year");
  		$latest_kas_pemasukan = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pemasukan' AND YEAR(kas.tgl_catat) = $latest_year");
  		$latest_kas_pengeluaran = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE akun = 'Pengeluaran' AND YEAR(kas.tgl_catat) = $latest_year");
- 		$latest_kas = 0;
-
+ 		$latest_kas = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLKas' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
+ 		
  		//BANK && GIRO
  		$pemasukan_bank = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 119 AND YEAR(kas.tgl_catat) = $year");
  		$pengeluaran_bank = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 119 AND YEAR(kas.tgl_catat) = $year");
@@ -2017,15 +1994,7 @@
  		$penerimaan_pinjaman_komsumtif = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 5 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_komsumtif = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 5 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_komsumtif = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 5
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_komsumtif = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 5 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_komsumtif = 0;
- 		$latest_saldo_pinjaman_komsumtif = $two_years_ago_komsumtif + $latest_pinjaman_komsumtif->result_array()[0]['nominal'] + $latest_jasa_pinjaman_komsumtif->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_komsumtif->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_komsumtif = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPK' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
 
  		//PINJAMAN BERJANGKA
@@ -2037,15 +2006,7 @@
  		$penerimaan_pinjaman_berjangka = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 1 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_berjangka = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 1 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_berjangka = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 1
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_berjangka = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 1 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_berjangka = 0;
- 		$latest_saldo_pinjaman_berjangka = $two_years_ago_berjangka + $latest_pinjaman_berjangka->result_array()[0]['nominal'] + $latest_jasa_pinjaman_berjangka->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_berjangka->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_berjangka = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPB' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
  		//PINJAMAN BARANG
  		$pinjaman_barang = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 4 AND YEAR(pinjaman.tgl_pinjam) = $year");
@@ -2056,20 +2017,11 @@
  		$penerimaan_pinjaman_barang = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
  			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
  			WHERE pinjaman.barang_id = 4 AND YEAR(penerimaan.tgl_bayar) = $year");
- 		$latest_pinjaman_barang = $this->db->query("SELECT SUM(pinjaman.jumlah) as nominal FROM tbl_pinjaman_h pinjaman WHERE barang_id = 4 AND YEAR(pinjaman.tgl_pinjam) = $latest_year");
- 		$latest_jasa_pinjaman_barang = $this->db->query("SELECT FLOOR(sum(pinjaman.jumlah / pinjaman.lama_angsuran * FLOOR(pinjaman.bunga) / 100 + pinjaman.biaya_adm) * pinjaman.lama_angsuran) as nominal FROM tbl_pinjaman_h pinjaman 
- 			WHERE barang_id = 4
- 			AND YEAR(pinjaman.tgl_pinjam) = ".$latest_year."");
- 		$latest_penerimaan_pinjaman_barang = $this->db->query("SELECT SUM(penerimaan.jumlah_bayar) as nominal 
- 			FROM tbl_pinjaman_d penerimaan INNER JOIN tbl_pinjaman_h pinjaman ON pinjaman.id=penerimaan.pinjam_id
- 			WHERE pinjaman.barang_id = 4 AND YEAR(penerimaan.tgl_bayar) = $latest_year");
- 		$two_years_ago_barang = 0;
- 		$latest_saldo_pinjaman_barang = $two_years_ago_barang + $latest_pinjaman_barang->result_array()[0]['nominal'] + $latest_jasa_pinjaman_barang->result_array()[0]['nominal'] - $latest_penerimaan_pinjaman_barang->result_array()[0]['nominal'];
+ 		$latest_saldo_pinjaman_barang = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HLPPBarang' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
 
 
  		$static_neraca_harta_lancar = array(
  			"Kas" => array(
- 				// "kode" => "KHL",
  				"Kas Akhir Tahun $latest_year" => $latest_kas,
  				"Mutasi Pasa Tahun $year" => 0,
  				"Penerimaan Kas" => $kas_pemasukan->result_array()[0]['nominal'],
@@ -2120,7 +2072,7 @@
  		);
 
  		//PENYERTAAN PKPRI
- 		$latest_pkpri = 0;
+ 		$latest_pkpri = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'PKPRI' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_pkpri = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 120 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_pkpri = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 120 AND YEAR(kas.tgl_catat) = $year");
 
@@ -2141,7 +2093,7 @@
 
  		//SIMPANAN SUKARELA
  		$simpanansukarela = $this->db->query("SELECT SUM(simpanan.jumlah) as nominal FROM tbl_trans_sp simpanan WHERE simpanan.jenis_id = 32 AND simpanan.akun = 'Setoran' AND YEAR(simpanan.tgl_transaksi) = $year");
- 		$latestsimpanansukarela = 0;
+ 		$latestsimpanansukarela = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HJPSS' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penarikansukarela = $this->db->query("SELECT SUM(simpanan.jumlah) as nominal FROM tbl_trans_sp simpanan WHERE simpanan.jenis_id = 32 AND simpanan.akun = 'Penarikan' AND YEAR(simpanan.tgl_transaksi) = $year");
 
  		//SHU
@@ -2221,11 +2173,10 @@
 
 
 		//HUTANG JANGKA PANJANG
- 		$latest_hjp = 0;
+ 		$latest_hjp = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'HJP' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_hjp = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 36 AND YEAR(kas.tgl_catat) = $year");
  		$type_neraca_hutangjangkapanjang = array(
-			// "kode" => "HJP",
 			"Saldo Hutang Jangka Panjang Tahun $latest_year" => $latest_hjp,
 			"Penambahan" => $penambahan_hjp->result_array()[0]['nominal'],
 			"Jumlah" => $latest_hjp + $penambahan_hjp->result_array()[0]['nominal'],
@@ -2235,15 +2186,15 @@
 
  		//MODALSENDIRI
 
- 		$latest_simpananpokok = 0;
+ 		$latest_simpananpokok = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSP' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpananpokok = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 40 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpananpokok = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 40 AND YEAR(kas.tgl_catat) = $year");
 
- 		$latest_simpananwajib = 0;
+ 		$latest_simpananwajib = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSW' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpananwajib = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 41 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpananwajib = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 41 AND YEAR(kas.tgl_catat) = $year");
 
- 		$latest_simpanankhusus = 0;
+ 		$latest_simpanankhusus = $this->db->query("SELECT SUM(latestkas.nominal) as nominal FROM saldo_kas latestkas WHERE latestkas.type = 'MSSK' AND latestkas.tahun = $latest_year")->result_array()[0]['nominal'];
  		$penambahan_simpanankhusus = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pemasukan' AND kas.jns_trans = 112 AND YEAR(kas.tgl_catat) = $year");
  		$pengambilan_simpanankhusus = $this->db->query("SELECT SUM(kas.jumlah) as nominal FROM tbl_trans_kas kas WHERE kas.akun = 'Pengeluaran' AND kas.jns_trans = 112 AND YEAR(kas.tgl_catat) = $year");
 

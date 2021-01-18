@@ -33,7 +33,8 @@ class Lapb_keuangan_neraca extends OperatorController {
 		$this->update_saldo_kas();
 		$this->data['isi'] = $this->load->view('laporan/laporan_keuangan/neraca', $this->data, TRUE);
 		$this->load->view('themes/layout_utama_v', $this->data);
-
+		// print_r(json_encode($this->lap_simpanan_m->lap_neraca(5000000,5000000,2021)));
+		// exit();
 	}
 
 	function update_saldo_kas() {
