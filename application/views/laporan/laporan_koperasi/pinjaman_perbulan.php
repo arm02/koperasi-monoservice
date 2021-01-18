@@ -17,7 +17,11 @@
 	box-sizing: border-box;
 }
 .glyphicon	{font-family: "Glyphicons Halflings"}
-
+.select2-choices {
+		min-height: 150px;
+		max-height: 150px;
+		overflow-y: auto;
+	}
 .form-control {
 	height: 20px;
 	padding: 4px;
@@ -37,7 +41,7 @@ if(isset($_REQUEST['tahun']) && isset($_REQUEST['bulan'])) {
 
 <div class="box box-solid box-primary">
 	<div class="box-header">
-		<h3 class="box-title">Cetak Data Pinjaman Konsumtif</h3>
+		<h3 class="box-title">Laporan Data Pinjaman Perbulan</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-primary btn-sm" data-widget="collapse">
 				<i class="fa fa-minus"></i>
@@ -52,22 +56,31 @@ if(isset($_REQUEST['tahun']) && isset($_REQUEST['bulan'])) {
 				<table>
 					<tr>
 						<td>
-							<select id="bulan_cari" name="bulan" style="width:195px;" value="<?php echo $bulan; ?>">
-								<option value="" disabled selected>-- Pilih Bulan --</option>
-								<option value="1" > Januari </option>
-								<option value="2" > February </option>
-								<option value="3" > Maret </option>
-								<option value="4" > April </option>
-								<option value="5" > Mei </option>
-								<option value="6" > Juni </option>
-								<option value="7" > Juli </option>
-								<option value="8" > Agustus </option>
-								<option value="9" > September </option>
-								<option value="10" > Oktober </option>
-								<option value="11" > November </option>
-								<option value="12" > Desember </option>
-							</select>
-							<input type="number" name="tahun" id="tahun_cari" value="<?php echo $tahun; ?>" placeholder="Isi Tahun">
+							<div id="filter_tgl" class="input-group" style="display: inline;">
+								<!-- <select id="fr_status" name="fr_status" class="select2_jenis" style="display: inline-block; width: 150px; line-height: 20px; vertical-align: middle;">
+									<option value="0">Menunggu Konfirmasi</option>
+									<option value="1">Disetujui</option>
+									<option value="2">Ditolak</option>
+									<option value="3">Sudah Terlaksana</option>
+									<option value="4">Batal</option>
+								</select> -->
+								<select id="bulan_cari" name="bulan" style="display: inline-block; width: 150px; line-height: 20px; vertical-align: middle;" value="<?php echo $bulan; ?>">
+									<option value="" disabled selected>-- Pilih Bulan --</option>
+									<option value="1" > Januari </option>
+									<option value="2" > February </option>
+									<option value="3" > Maret </option>
+									<option value="4" > April </option>
+									<option value="5" > Mei </option>
+									<option value="6" > Juni </option>
+									<option value="7" > Juli </option>
+									<option value="8" > Agustus </option>
+									<option value="9" > September </option>
+									<option value="10" > Oktober </option>
+									<option value="11" > November </option>
+									<option value="12" > Desember </option>
+								</select>
+								<input type="number" name="tahun" id="tahun_cari" value="<?php echo $tahun; ?>" placeholder="Isi Tahun" style="display: inline-block; width: 150px; line-height: 20px; vertical-align: middle;">
+							</div>
 						</td>
 						<td>
 							<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="false" onclick="doSearch()">Cari</a>
@@ -87,12 +100,11 @@ if(isset($_REQUEST['tahun']) && isset($_REQUEST['bulan'])) {
 <table
 id="dg"
 class="easyui-datagrid"
-title="Data Pinjaman Konsumtif"
+title="Data Pinjaman Perbulan"
 style="width:auto; height: auto;"
 url="<?php echo site_url('lapb_koperasi_pinjaman_perbulan/ajax_list'); ?>"
 pagination="true" rownumbers="false"
 fitColumns="true" singleSelect="false" collapsible="true"
-toolbar="#tb"
 striped="true">
 	<thead>
 		<tr class="header_kolom">
@@ -100,7 +112,7 @@ striped="true">
 			<th data-options="field:'pokok',width:'17', halign:'center', align:'center'"> Pokok </th>
 			<th data-options="field:'jasa',width:'17', halign:'right', align:'right'"> Jasa  </th>
 			<th data-options="field:'jumlah_1',width:'17', halign:'right', align:'right'"> Jumlah  </th>
-			<th data-options="field:'uraian_2',width:'17', halign:'right', align:'right'"> Uraian  </th>
+			<th data-options="field:'uraian_2',width:'17', halign:'center', align:'center'"> Uraian  </th>
 			<th data-options="field:'jumlah_2',width:'17', halign:'right', align:'right'"> Jumlah  </th>
 		</tr>
 	</thead>

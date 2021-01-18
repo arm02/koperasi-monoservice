@@ -43,15 +43,35 @@ class Lapb_koperasi_pinjaman_perbulan extends OperatorController {
 		$bulan = isset($_POST['bulan']) ? $_POST['bulan'] : date("n");
 
 		$data   = $this->m_lap_koperasi_piutang->get_pinjaman_perbulan($bulan,$tahun);
-		// print_r(json_encode($data));
-		// exit();
+
+		$jumlah_pelunasan_berjangka = $data['pelunasan_berjangka'];
+		$jumlah_pelunasan_barang = $data['pelunasan_barang'];
+
+		$total_provisi = $data['total_provisi'];
+		$total_pelunasan_berjangka = $data['pelunasan_berjangka'] + $jumlah_pelunasan_berjangka;
+		$total_pelunasan_barang = $data['pelunasan_barang'] + $jumlah_pelunasan_barang;
+		$total_pokok = $data['tagihan_konsumtif'] + $data['tagihan_berjangka'] + $data['tagihan_barang'] + $data['pelunasan_berjangka'] + $data['pelunasan_barang'];
+		$total_jasa = $data['jasa_tagihan_konsumtif'] + $data['jasa_tagihan_berjangka'] + $data['jasa_tagihan_barang'];
+		$total_jumlah_1 = $data['jasa_saldo_bulan_sebelum'] + $data['dari_bendahara']
+							+ $data['tagihan_konsumtif'] + $data['jasa_tagihan_konsumtif']
+							+ $data['tagihan_berjangka'] + $data['jasa_tagihan_berjangka']
+							+ $data['tagihan_barang'] + $data['jasa_tagihan_barang']
+							+ $data['pelunasan_berjangka'] + $data['pelunasan_barang']
+							+ $data['total_provisi'];
+		$total_jumlah_2 = $data['pinjaman_konsumtif'] + $data['pinjaman_berjangka']
+		 					+ $data['pinjaman_barang'] + $total_pelunasan_berjangka + $total_pelunasan_barang + $total_provisi;
 		$rows   = array(
 			array(
 				'uraian_1' => 'Saldo Bulan '.ucfirst($bulan_txt[$data['month_before'] - 1]). ' ' . $data['year_before'],
-				'jasa'  => 'Rp. '. number_format($data['jasa_saldo_bulan_sebelum']),
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($data['jasa_saldo_bulan_sebelum']),
+				// 'jumlah_2' => 'Rp. 0',
 			),
 			array(
 				'uraian_1' => 'Terima Dari Bendahara',
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
 				'jumlah_1'  => 'Rp. '. number_format($data['dari_bendahara']),
 			),
 			array(
@@ -81,33 +101,42 @@ class Lapb_koperasi_pinjaman_perbulan extends OperatorController {
 			array(
 				'uraian_1' => 'Pelunasan Berjangka',
 				'pokok'  => 'Rp. '. number_format($data['pelunasan_berjangka']),
-				'jumlah_1'  => 'Rp. '. number_format($data['pelunasan_berjangka']),
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($jumlah_pelunasan_berjangka),
+				'jumlah_2'  => 'Rp. '. number_format($total_pelunasan_berjangka),
 			),
 			array(
 				'uraian_1' => 'Pelunasan Barang',
 				'pokok'  => 'Rp. '. number_format($data['pelunasan_barang']),
-				'jumlah_1'  => 'Rp. '. number_format($data['pelunasan_barang']),
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($jumlah_pelunasan_barang),
+				'jumlah_2'  => 'Rp. '. number_format($total_pelunasan_barang),
 			),
 			array(
 				'uraian_1' => 'Provisi',
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
 				'jumlah_1'  => 'Rp. '. number_format($data['total_provisi']),
+				'jumlah_2' => 'Rp. '. number_format($total_provisi),
 			),
 			array(
 				'uraian_1' => 'Total',
-				'pokok'  => 'Rp. '. number_format($data['total_pokok']),
-				'jasa' => 'Rp. '. number_format($data['total_jasa']),
-				'jumlah_1'  => 'Rp. '. number_format($data['total_pokok'] + $data['total_jasa']),
-				'uraian_2' => 'Total',
-				'jumlah_2'  => 'Rp. '. number_format($data['pinjaman_konsumtif'] + $data['pinjaman_berjangka'] + $data['pinjaman_barang']),
+				'pokok'  => 'Rp. '. number_format($total_pokok),
+				'jasa' => 'Rp. '. number_format($total_jasa),
+				'jumlah_1'  => 'Rp. '. number_format($total_jumlah_1),
+				'jumlah_2'  => 'Rp. '. number_format($total_jumlah_2),
 			),
 			array(
 				'uraian_1' => 'Saldo '.ucfirst($bulan_txt[$bulan - 1]). ' ' . $tahun,
-				'jumlah_1'  => 'Rp. '. number_format($data['saldo_bulan_sekarang']),
-				'jumlah_2'  => 'Rp. '. number_format($data['total_pinjaman']),
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($total_jumlah_1 - $total_jumlah_2),
+				'uraian_2' => 'Total',
+				'jumlah_2'  => 'Rp. '. number_format($total_jumlah_1 - $total_jumlah_2),
 			),
 		);
 		//keys total & rows wajib bagi jEasyUI
-		$result = array('rows'=>$rows);
+		$result = array('rows'=>$rows,'total' => 1);
 		echo json_encode($result); //return nya json
 	}
 
@@ -117,15 +146,36 @@ class Lapb_koperasi_pinjaman_perbulan extends OperatorController {
 		/*Default request pager params dari jeasyUI*/
 		$tahun = isset($_REQUEST['tahun']) ? $_REQUEST['tahun'] : date("Y");
 		$bulan = isset($_REQUEST['bulan']) ? $_REQUEST['bulan'] : date("n");
-
 		$data   = $this->m_lap_koperasi_piutang->get_pinjaman_perbulan($bulan,$tahun);
+		
+		$jumlah_pelunasan_berjangka = $data['pelunasan_berjangka'];
+		$jumlah_pelunasan_barang = $data['pelunasan_barang'];
+
+		$total_provisi = $data['total_provisi'];
+		$total_pelunasan_berjangka = $data['pelunasan_berjangka'] + $jumlah_pelunasan_berjangka;
+		$total_pelunasan_barang = $data['pelunasan_barang'] + $jumlah_pelunasan_barang;
+		$total_pokok = $data['tagihan_konsumtif'] + $data['tagihan_berjangka'] + $data['tagihan_barang'] + $data['pelunasan_berjangka'] + $data['pelunasan_barang'];
+		$total_jasa = $data['jasa_tagihan_konsumtif'] + $data['jasa_tagihan_berjangka'] + $data['jasa_tagihan_barang'];
+		$total_jumlah_1 = $data['jasa_saldo_bulan_sebelum'] + $data['dari_bendahara']
+							+ $data['tagihan_konsumtif'] + $data['jasa_tagihan_konsumtif']
+							+ $data['tagihan_berjangka'] + $data['jasa_tagihan_berjangka']
+							+ $data['tagihan_barang'] + $data['jasa_tagihan_barang']
+							+ $data['pelunasan_berjangka'] + $data['pelunasan_barang']
+							+ $data['total_provisi'];
+		$total_jumlah_2 = $data['pinjaman_konsumtif'] + $data['pinjaman_berjangka']
+		 					+ $data['pinjaman_barang'] + $total_pelunasan_berjangka + $total_pelunasan_barang + $total_provisi;
 		$rows   = array(
 			array(
 				'uraian_1' => 'Saldo Bulan '.ucfirst($bulan_txt[$data['month_before'] - 1]). ' ' . $data['year_before'],
-				'jasa'  => 'Rp. '. number_format($data['jasa_saldo_bulan_sebelum']),
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($data['jasa_saldo_bulan_sebelum']),
+				// 'jumlah_2' => 'Rp. 0',
 			),
 			array(
 				'uraian_1' => 'Terima Dari Bendahara',
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
 				'jumlah_1'  => 'Rp. '. number_format($data['dari_bendahara']),
 			),
 			array(
@@ -155,29 +205,38 @@ class Lapb_koperasi_pinjaman_perbulan extends OperatorController {
 			array(
 				'uraian_1' => 'Pelunasan Berjangka',
 				'pokok'  => 'Rp. '. number_format($data['pelunasan_berjangka']),
-				'jumlah_1'  => 'Rp. '. number_format($data['pelunasan_berjangka']),
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($jumlah_pelunasan_berjangka),
+				'jumlah_2'  => 'Rp. '. number_format($total_pelunasan_berjangka),
 			),
 			array(
 				'uraian_1' => 'Pelunasan Barang',
 				'pokok'  => 'Rp. '. number_format($data['pelunasan_barang']),
-				'jumlah_1'  => 'Rp. '. number_format($data['pelunasan_barang']),
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($jumlah_pelunasan_barang),
+				'jumlah_2'  => 'Rp. '. number_format($total_pelunasan_barang),
 			),
 			array(
 				'uraian_1' => 'Provisi',
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
 				'jumlah_1'  => 'Rp. '. number_format($data['total_provisi']),
+				'jumlah_2' => 'Rp. '. number_format($total_provisi),
 			),
 			array(
 				'uraian_1' => 'Total',
-				'pokok'  => 'Rp. '. number_format($data['total_pokok']),
-				'jasa' => 'Rp. '. number_format($data['total_jasa']),
-				'jumlah_1'  => 'Rp. '. number_format($data['total_pokok'] + $data['total_jasa']),
-				'uraian_2' => 'Total',
-				'jumlah_2'  => 'Rp. '. number_format($data['pinjaman_konsumtif'] + $data['pinjaman_berjangka'] + $data['pinjaman_barang']),
+				'pokok'  => 'Rp. '. number_format($total_pokok),
+				'jasa' => 'Rp. '. number_format($total_jasa),
+				'jumlah_1'  => 'Rp. '. number_format($total_jumlah_1),
+				'jumlah_2'  => 'Rp. '. number_format($total_jumlah_2),
 			),
 			array(
 				'uraian_1' => 'Saldo '.ucfirst($bulan_txt[$bulan - 1]). ' ' . $tahun,
-				'jumlah_1'  => 'Rp. '. number_format($data['saldo_bulan_sekarang']),
-				'jumlah_2'  => 'Rp. '. number_format($data['total_pinjaman']),
+				'pokok' => 'Rp. 0',
+				'jasa' => 'Rp. 0',
+				'jumlah_1'  => 'Rp. '. number_format($total_jumlah_1 - $total_jumlah_2),
+				'uraian_2' => 'Total',
+				'jumlah_2'  => 'Rp. '. number_format($total_jumlah_1 - $total_jumlah_2),
 			),
 		);
 
@@ -212,9 +271,9 @@ class Lapb_koperasi_pinjaman_perbulan extends OperatorController {
 
 		foreach ($rows as $value) {
 			$uraian_1 = isset($value['uraian_1']) ? $value['uraian_1'] : '';
-			$pokok = isset($value['pokok']) ? $value['pokok'] : '';
-			$jasa = isset($value['jasa']) ? $value['jasa'] : '';
-			$jumlah_1 = isset($value['jumlah_1']) ? $value['jumlah_1'] : '';
+			$pokok = isset($value['pokok']) ? $value['pokok'] : 'Rp. 0';
+			$jasa = isset($value['jasa']) ? $value['jasa'] : 'Rp. 0';
+			$jumlah_1 = isset($value['jumlah_1']) ? $value['jumlah_1'] : 'Rp. 0';
 			$uraian_2 = isset($value['uraian_2']) ? $value['uraian_2'] : '';
 			$jumlah_2 = isset($value['jumlah_2']) ? $value['jumlah_2'] : '';
 			// print_r(json_encode($pokok));
