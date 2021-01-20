@@ -251,10 +251,10 @@
 	function aksi_ft(value, row, index) {
 		var nsi_out = '';
 		<?php if($this->session->userdata('level') != 'operator') { ?>
-			var link_diterima = '<a data-data_aksi="Setuju" data-data_id="'+row.id+'" class="a_diterima btn btn-sm btn-success" href="javascript:void(0);"><i class="fa fa-check-circle"></i> Setujui</a>';
-			var link_ditolak = '<a data-data_aksi="Tolak" data-data_id="'+row.id+'" class="a_ditolak btn btn-sm btn-warning" href="javascript:void(0);"><i class="fa fa-times-circle"></i> Tolak</a>';
-			var link_pending = '<a data-data_aksi="Pending" data-data_id="'+row.id+'" class="a_dipending btn btn-sm btn-primary" href="javascript:void(0);"><i class="fa fa-question-circle"></i> Pending</a>';
-			var link_batal = '<a data-data_aksi="Batal" data-data_id="'+row.id+'" class="a_dibatal btn btn-sm btn-danger" href="javascript:void(0);"><i class="fa fa-trash-o"></i> Batal</a>';
+			var link_diterima = '<a data-data_aksi="Setuju" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_diterima btn btn-sm btn-success" href="javascript:void(0);"><i class="fa fa-check-circle"></i> Setujui</a>';
+			var link_ditolak = '<a data-data_aksi="Tolak" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_ditolak btn btn-sm btn-warning" href="javascript:void(0);"><i class="fa fa-times-circle"></i> Tolak</a>';
+			var link_pending = '<a data-data_aksi="Pending" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_dipending btn btn-sm btn-primary" href="javascript:void(0);"><i class="fa fa-question-circle"></i> Pending</a>';
+			var link_batal = '<a data-data_aksi="Batal" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_dibatal btn btn-sm btn-danger" href="javascript:void(0);"><i class="fa fa-trash-o"></i> Batal</a>';
 
 			if(row.status == 0) {
 				nsi_out += link_diterima + ' ' + link_ditolak;
@@ -271,7 +271,7 @@
 		<?php } ?>
 		<?php if($this->session->userdata('level') != 'pinjaman') { ?>
 			var link_terlaksana = ' <a data-data_aksi="Terlaksana" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_dilaksanakan btn btn-sm btn-info" href="javascript:void(0);"><i class="fa fa-rocket"></i> Sudah Dilaksanakan</a>';
-			var link_belum = ' <a data-data_aksi="Belum" data-data_id="'+row.id+'" class="a_belum btn btn-sm btn-default" href="javascript:void(0);"><i class="fa fa-rocket"></i> Belum Dilaksanakan</a>';
+			var link_belum = ' <a data-data_aksi="Belum" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_belum btn btn-sm btn-default" href="javascript:void(0);"><i class="fa fa-rocket"></i> Belum Dilaksanakan</a>';
 			if(row.status == 1) {
 				nsi_out += link_terlaksana;
 			}
@@ -280,15 +280,14 @@
 			}
 		<?php } ?>
 		<?php if($this->session->userdata('level') == 'admin') { ?>
-			nsi_out += ' <a data-data_aksi="Hapus" data-data_id="'+row.id+'" class="a_hapus btn btn-sm btn-danger" href="javascript:void(0);"><i class="fa fa-times-circle"></i> Hapus</a>';
+			nsi_out += ' <a data-data_aksi="Hapus" data-data_id="'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" class="a_hapus btn btn-sm btn-danger" href="javascript:void(0);"><i class="fa fa-times-circle"></i> Hapus</a>';
 		<?php } ?>
-		nsi_out += ' <a href="<?php echo site_url('cetak_pengajuan/cetak');?>/'+row.id+'" target="_blank" class="btn btn-success-sm"><i class="fa fa-print"></i> Cetak</a>';
+		nsi_out += ' <a href="<?php echo site_url('cetak_pengajuan/cetak');?>/'+row.id+'" data-data_tgl_input="'+row.tgl_input+'" data-data_anggota_id="'+row.anggota_id+'" data-data_jenis_id="'+row.jenis_id+'" data-data_nominal="'+row.nominal+'" data-data_lama_ags="'+row.lama_ags+'" target="_blank" class="btn btn-success-sm"><i class="fa fa-print"></i> Cetak</a>';
 		return  nsi_out;
 	}
 
 
 	$(function() {
-
 		$('#fr_bulan').datepicker({
 			format: "yyyy-mm",
 			weekStart: 1,
