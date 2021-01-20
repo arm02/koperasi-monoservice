@@ -93,7 +93,7 @@
  		return $data;
  	}
 
- 	function lap_rekap_anggota_pokok($limit = null, $offset = null,$q = "") {
+ 	function lap_rekap_anggota_pokok($offset = null, $limit = null,$q = "") {
  		$sql = "SELECT anggota.id as anggota_id,anggota.nama as nama FROM tbl_anggota anggota 
  		GROUP BY anggota.id
  		ORDER BY anggota.nama asc";
